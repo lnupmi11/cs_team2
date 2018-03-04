@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using xManik.Models;
 
 namespace WebApplication1.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [Required(ErrorMessage = "Необіхдно ввести і'мя")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Мінімум 3 символи")]
+        [Display(Name = "Ім'я користувача")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -23,5 +29,9 @@ namespace WebApplication1.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Виберіть статус профілю")]
+        [Display(Name ="Роль користувача")]
+        public UserRole Role { get; set; }
     }
 }

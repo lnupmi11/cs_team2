@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication1.Data
 {
+
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -15,10 +18,8 @@ namespace WebApplication1.Data
         {
         }
 
-        public ApplicationDbContext() 
-            : base()
-        {
-        }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Provider> Providers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

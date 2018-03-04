@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using WebApplication1.Models;
 using WebApplication1.Models.AccountViewModels;
 using WebApplication1.Services;
+using System.Security.Principal;
 
 namespace WebApplication1.Controllers
 {
@@ -24,6 +25,7 @@ namespace WebApplication1.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+       
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -61,7 +63,9 @@ namespace WebApplication1.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByEmailAsync(model.Email);
+               
+                var result = user != null ? await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false) : Microsoft.AspNetCore.Identity.SignInResult.Failed;
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -220,7 +224,8 @@ namespace WebApplication1.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email , Role = model.Role, LoggedIn = new LoggedIn() };
+               
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -343,9 +348,8 @@ namespace WebApplication1.Controllers
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
 
-
             // determine which role register
-            await _userManager.AddToRoleAsync(user, "Client");
+            await _userManager.AddToRoleAsync(user, user.Role.ToString());
             //
             await _signInManager.SignInAsync(user, isPersistent: false);
 

@@ -12,6 +12,7 @@ using WebApplication1.Data;
 using WebApplication1.Models;
 using WebApplication1.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApplication1
 {
@@ -22,7 +23,7 @@ namespace WebApplication1
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get;}
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public async void ConfigureServices(IServiceCollection services)
@@ -36,13 +37,14 @@ namespace WebApplication1
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
             services.AddMvc();
 
             await CreateRolesandUsersAsync(services.BuildServiceProvider());
-
 
         }
 

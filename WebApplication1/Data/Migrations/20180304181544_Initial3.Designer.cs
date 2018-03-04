@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using WebApplication1.Data;
 using xManik.Models;
@@ -13,9 +12,10 @@ using xManik.Models;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180304181544_Initial3")]
+    partial class Initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,36 +192,9 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
                     b.ToTable("LoggedIn");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("LoggedIn");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Client", b =>
-                {
-                    b.HasBaseType("WebApplication1.Models.LoggedIn");
-
-                    b.Property<string>("ClientProperty");
-
-                    b.ToTable("Client");
-
-                    b.HasDiscriminator().HasValue("Client");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Provider", b =>
-                {
-                    b.HasBaseType("WebApplication1.Models.LoggedIn");
-
-                    b.Property<string>("ProviderProperty");
-
-                    b.ToTable("Provider");
-
-                    b.HasDiscriminator().HasValue("Provider");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
