@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models.ManageViewModels
 {
+
     public class IndexViewModel
     {
         public string Username { get; set; }

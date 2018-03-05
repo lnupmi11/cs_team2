@@ -10,4 +10,9 @@ namespace WebApplication1.Models
     public class ApplicationUser : IdentityUser
     {
     }
+
+    public class ApplicationRole : IdentityRole
+    {
+
+    }
 }
