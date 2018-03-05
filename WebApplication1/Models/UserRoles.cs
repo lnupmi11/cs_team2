@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace xManik.Models
 {
-    public enum UserRole : int { Admin, Client, Provider };
+    public enum UserRole : int { Client, Provider };
 }

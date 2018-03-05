@@ -69,11 +69,12 @@ namespace WebApplication1
 
                 var user = new ApplicationUser
                 {
-                    UserName = Configuration.GetSection("UserSettings")["UserEmail"],
-                    Email = Configuration.GetSection("UserSettings")["UserEmail"]
+                    UserName = Configuration.GetSection("UserSettings")["UserName"],
+                    Email = Configuration.GetSection("UserSettings")["UserEmail"],
+                    EmailConfirmed = true            
                 };
 
-                string userPWD = "Asdfgh@77";
+                string userPWD = Configuration.GetSection("UserSettings")["Password"];
 
                 var chkUser = await userManager.CreateAsync(user, userPWD);
                 if (chkUser.Succeeded)
@@ -105,8 +106,6 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
