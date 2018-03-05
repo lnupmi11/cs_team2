@@ -37,7 +37,7 @@ namespace WebApplication1
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+           // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -48,6 +48,7 @@ namespace WebApplication1
 
         }
 
+        
         private async Task CreateRolesandUsersAsync(IServiceProvider serviceProvider)
         {
 
@@ -61,7 +62,8 @@ namespace WebApplication1
             {
                 var role = new IdentityRole
                 {
-                    Name = "Admin"
+                    Name = "Admin",
+                   
                 };
                 await roleManager.CreateAsync(role);
 

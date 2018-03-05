@@ -27,6 +27,15 @@ namespace WebApplication1.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+            builder.Entity<ApplicationUser>()
+        .HasOne(a => a.Client)
+        .WithOne(b => b.User)
+        .HasForeignKey<Client>(b => b.Id);
+
+            builder.Entity<ApplicationUser>()
+       .HasOne(a => a.Provider)
+       .WithOne(b => b.User)
+       .HasForeignKey<Provider>(b => b.Id);
         }
     }
 }

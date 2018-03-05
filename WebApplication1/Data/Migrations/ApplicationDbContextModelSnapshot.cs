@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using WebApplication1.Data;
 using xManik.Models;
@@ -149,8 +148,6 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<int?>("LoggedInId");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -174,8 +171,6 @@ namespace WebApplication1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LoggedInId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -187,41 +182,26 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.LoggedIn", b =>
+            modelBuilder.Entity("WebApplication1.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
+                    b.Property<string>("CustomerProperty");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoggedIn");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("LoggedIn");
+                    b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Client", b =>
+            modelBuilder.Entity("WebApplication1.Models.Supplier", b =>
                 {
-                    b.HasBaseType("WebApplication1.Models.LoggedIn");
+                    b.Property<string>("Id");
 
-                    b.Property<string>("ClientProperty");
+                    b.Property<string>("SupplierProperty");
 
-                    b.ToTable("Client");
+                    b.HasKey("Id");
 
-                    b.HasDiscriminator().HasValue("Client");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Provider", b =>
-                {
-                    b.HasBaseType("WebApplication1.Models.LoggedIn");
-
-                    b.Property<string>("ProviderProperty");
-
-                    b.ToTable("Provider");
-
-                    b.HasDiscriminator().HasValue("Provider");
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -269,11 +249,20 @@ namespace WebApplication1.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
+            modelBuilder.Entity("WebApplication1.Models.Customer", b =>
                 {
-                    b.HasOne("WebApplication1.Models.LoggedIn", "LoggedIn")
-                        .WithMany()
-                        .HasForeignKey("LoggedInId");
+                    b.HasOne("WebApplication1.Models.ApplicationUser", "User")
+                        .WithOne("Customer")
+                        .HasForeignKey("WebApplication1.Models.Customer", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Supplier", b =>
+                {
+                    b.HasOne("WebApplication1.Models.ApplicationUser", "User")
+                        .WithOne("Supplier")
+                        .HasForeignKey("WebApplication1.Models.Supplier", "Id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -18,15 +18,24 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
 
+        private readonly ApplicationDbContext _context;
+
+        //public HomeController(ApplicationDbContext context)
+        //{
+           
+        //}
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public HomeController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -40,13 +49,7 @@ namespace WebApplication1.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                Client cl = new Client { ClientProperty = "hell3333o" };
-                user.LoggedIn = cl;
-
-                //var l = context.Users.FirstOrDefault();
-
-                ViewBag.na = user.UserName;
+                var cust = await _context.Customers.FindAsync(user.Id);
             }
             return View();
         }

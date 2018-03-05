@@ -25,7 +25,7 @@ namespace WebApplication1.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-       
+
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -64,7 +64,7 @@ namespace WebApplication1.Controllers
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByEmailAsync(model.Email);
-               
+
                 var result = user != null ? await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false) : Microsoft.AspNetCore.Identity.SignInResult.Failed;
                 if (result.Succeeded)
                 {
@@ -224,8 +224,9 @@ namespace WebApplication1.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email , Role = model.Role, LoggedIn = new LoggedIn() };
-               
+
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -342,15 +343,20 @@ namespace WebApplication1.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
             var user = await _userManager.FindByIdAsync(userId);
+
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            
+            //TODO : add switch to check roles(client/provider)
 
-            // determine which role register
+            Client c = new Client() { ClientProperty = "hello custom prop" };
+            user.Client = c;
+
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
             await _userManager.AddToRoleAsync(user, user.Role.ToString());
-            //
             await _signInManager.SignInAsync(user, isPersistent: false);
 
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
