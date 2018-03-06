@@ -14,6 +14,7 @@ using WebApplication1.Models;
 using WebApplication1.Models.AccountViewModels;
 using WebApplication1.Services;
 using System.Security.Principal;
+using xManik.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -348,11 +349,23 @@ namespace WebApplication1.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
-            
-            //TODO : add switch to check roles(client/provider)
 
-            Client c = new Client() { ClientProperty = "hello custom prop" };
-            user.Client = c;
+            //TODO : add switch to check roles(client/provider)
+            user.DateRegistered = DateTime.Now.Date;
+
+            switch (user.Role)
+            {
+                case UserRole.Client:
+                    {
+                        user.Client = new Client();
+                    }
+                    break;
+                case UserRole.Provider:
+                    {
+                        user.Provider = new Provider();
+                    }
+                    break;
+            }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             await _userManager.AddToRoleAsync(user, user.Role.ToString());

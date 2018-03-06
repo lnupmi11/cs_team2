@@ -51,7 +51,6 @@ namespace WebApplication1
         
         private async Task CreateRolesandUsersAsync(IServiceProvider serviceProvider)
         {
-
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
             context.Database.EnsureCreated();
 
@@ -71,10 +70,11 @@ namespace WebApplication1
                 {
                     UserName = Configuration.GetSection("UserSettings")["UserName"],
                     Email = Configuration.GetSection("UserSettings")["UserEmail"],
-                    EmailConfirmed = true            
+                    EmailConfirmed = true,
+                    DateRegistered = DateTime.Now
                 };
 
-                string userPWD = Configuration.GetSection("UserSettings")["Password"];
+                string userPWD = Configuration.GetSection("UserSettings")["UserPassword"];
 
                 var chkUser = await userManager.CreateAsync(user, userPWD);
                 if (chkUser.Succeeded)

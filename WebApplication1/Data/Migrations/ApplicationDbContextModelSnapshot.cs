@@ -162,6 +162,8 @@ namespace xManik.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<byte[]>("ProfileImage");
+
                     b.Property<int>("Role");
 
                     b.Property<string>("SecurityStamp");
@@ -190,11 +192,7 @@ namespace xManik.Migrations
 
                     b.Property<string>("ClientProperty");
 
-                    b.Property<int?>("ProfileImageID");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProfileImageID");
 
                     b.ToTable("Clients");
                 });
@@ -207,8 +205,6 @@ namespace xManik.Migrations
 
                     b.Property<int?>("MarkerId");
 
-                    b.Property<int?>("ProfileImageID");
-
                     b.Property<string>("ProviderProperty");
 
                     b.Property<double>("Rate");
@@ -216,8 +212,6 @@ namespace xManik.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MarkerId");
-
-                    b.HasIndex("ProfileImageID");
 
                     b.ToTable("Providers");
                 });
@@ -229,7 +223,7 @@ namespace xManik.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("Path");
+                    b.Property<byte[]>("Image");
 
                     b.Property<string>("ProviderId");
 
@@ -238,28 +232,6 @@ namespace xManik.Migrations
                     b.HasIndex("ProviderId");
 
                     b.ToTable("Artworks");
-                });
-
-            modelBuilder.Entity("xManik.Models.Comment", b =>
-                {
-                    b.Property<int>("CommentId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AuthorId");
-
-                    b.Property<DateTime>("DatePosted");
-
-                    b.Property<string>("Message");
-
-                    b.Property<string>("RecipientId");
-
-                    b.HasKey("CommentId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("RecipientId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("xManik.Models.Marker", b =>
@@ -276,6 +248,28 @@ namespace xManik.Migrations
                     b.HasKey("MarkerId");
 
                     b.ToTable("Marker");
+                });
+
+            modelBuilder.Entity("xManik.Models.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<DateTime>("DatePosted");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("RecipientId");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("xManik.Models.Service", b =>
@@ -349,10 +343,6 @@ namespace xManik.Migrations
                         .WithOne("Client")
                         .HasForeignKey("WebApplication1.Models.Client", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("xManik.Models.Artwork", "ProfileImage")
-                        .WithMany()
-                        .HasForeignKey("ProfileImageID");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Provider", b =>
@@ -365,10 +355,6 @@ namespace xManik.Migrations
                     b.HasOne("xManik.Models.Marker", "Marker")
                         .WithMany()
                         .HasForeignKey("MarkerId");
-
-                    b.HasOne("xManik.Models.Artwork", "ProfileImage")
-                        .WithMany()
-                        .HasForeignKey("ProfileImageID");
                 });
 
             modelBuilder.Entity("xManik.Models.Artwork", b =>
@@ -378,14 +364,14 @@ namespace xManik.Migrations
                         .HasForeignKey("ProviderId");
                 });
 
-            modelBuilder.Entity("xManik.Models.Comment", b =>
+            modelBuilder.Entity("xManik.Models.Review", b =>
                 {
                     b.HasOne("WebApplication1.Models.Client", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
                     b.HasOne("WebApplication1.Models.Provider", "Recipient")
-                        .WithMany("Comments")
+                        .WithMany("Reviews")
                         .HasForeignKey("RecipientId");
                 });
 

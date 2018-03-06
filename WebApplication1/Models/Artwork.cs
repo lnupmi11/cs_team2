@@ -10,7 +10,7 @@ namespace xManik.Models
     {
         [Key]
         public int ID { get; set; }
-        public string Path { get; set; }
+        public byte[] Image { get; set; }
         public string Description { get; set; }
     }
 }

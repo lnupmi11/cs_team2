@@ -13,7 +13,10 @@ using Microsoft.Extensions.Options;
 using WebApplication1.Models;
 using WebApplication1.Models.ManageViewModels;
 using WebApplication1.Services;
-
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting.Internal;
+using System.IO;
 namespace WebApplication1.Controllers
 {
     [Authorize]
@@ -60,7 +63,8 @@ namespace WebApplication1.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                ProfileImage = user.ProfileImage
             };
 
             return View(model);
@@ -68,7 +72,7 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model)
+        public async Task<IActionResult> Index(IndexViewModel model, IFormFile file)
         {
             if (!ModelState.IsValid)
             {
@@ -101,6 +105,15 @@ namespace WebApplication1.Controllers
                 }
             }
 
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    user.ProfileImage = memoryStream.ToArray();
+                    await _userManager.UpdateAsync(user);
+                }
+            }
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }

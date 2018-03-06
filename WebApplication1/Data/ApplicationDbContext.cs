@@ -20,7 +20,7 @@ namespace WebApplication1.Data
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Provider> Providers { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Artwork> Artworks { get; set; }
 
