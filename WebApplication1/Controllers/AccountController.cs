@@ -362,7 +362,7 @@ namespace WebApplication1.Controllers
                     break;
                 case UserRole.Provider:
                     {
-                        user.Provider = new Provider();
+                        user.Provider = new Provider {Description = "Very talented and high professional nail artist", Rate = 5.0, Marker = new Marker { Adress = "Somet street", Latitude = "46.2", Longtitude= "53.35"} };
                     }
                     break;
             }

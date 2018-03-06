@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using WebApplication1.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers
 {
@@ -48,6 +49,15 @@ namespace WebApplication1.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Client")]
+        public IActionResult Artists()
+        {
+            List<Provider> artists = _context.Providers.ToList<Provider>();
+
+            return View(artists);
         }
 
         public IActionResult Contact()
