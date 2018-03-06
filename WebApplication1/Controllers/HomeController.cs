@@ -19,12 +19,6 @@ namespace WebApplication1.Controllers
     {
 
         private readonly ApplicationDbContext _context;
-
-        //public HomeController(ApplicationDbContext context)
-        //{
-           
-        //}
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -49,7 +43,7 @@ namespace WebApplication1.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var cust = await _context.Customers.FindAsync(user.Id);
+                var cust = await _context.Clients.FindAsync(user.Id);
             }
             return View();
         }

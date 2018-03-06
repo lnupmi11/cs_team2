@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using Microsoft.AspNetCore.Identity;
+using xManik.Models;
 
 namespace WebApplication1.Data
 {
@@ -20,6 +21,9 @@ namespace WebApplication1.Data
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Provider> Providers { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<Artwork> Artworks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
