@@ -42,9 +42,11 @@ namespace WebApplication1.Controllers
             ViewData["Message"] = "Your application description page.";
             if (User.Identity.IsAuthenticated)
             {
+               
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var cust = await _context.Clients.FindAsync(user.Id);
             }
+
             return View();
         }
 

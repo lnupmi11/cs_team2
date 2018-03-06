@@ -354,7 +354,6 @@ namespace WebApplication1.Controllers
             Client c = new Client() { ClientProperty = "hello custom prop" };
             user.Client = c;
 
-
             var result = await _userManager.ConfirmEmailAsync(user, code);
             await _userManager.AddToRoleAsync(user, user.Role.ToString());
             await _signInManager.SignInAsync(user, isPersistent: false);
