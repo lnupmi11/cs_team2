@@ -52,15 +52,15 @@ namespace xManik.Controllers
         public string StatusMessage { get; set; }
 
         [HttpGet]
-        [Authorize(Roles ="Provider")]
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Portfolio()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var provider = await _context.Providers.Include(p=>p.User).Include(p=>p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
 
             if (provider == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
 
             var model = new PortfolioViewModel
@@ -88,7 +88,7 @@ namespace xManik.Controllers
 
             if (provider == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
 
             if (file != null)
@@ -96,12 +96,12 @@ namespace xManik.Controllers
                 using (var memoryStream = new MemoryStream())
                 {
                     await file.CopyToAsync(memoryStream);
-                    Artwork a = new Artwork
+                    Artwork item = new Artwork
                     {
-                        Description = model.Descriprion,
+                        Description = model.Description,
                         Image = memoryStream.ToArray()
                     };
-                    provider.Portfolio.Add(a);
+                    provider.Portfolio.Add(item);
                     _context.Update(provider);
                     await _context.SaveChangesAsync();
                 }
@@ -109,6 +109,56 @@ namespace xManik.Controllers
 
 
             StatusMessage = "Your profile has been updated";
+            return RedirectToAction(nameof(Portfolio));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> EditPortfolioItem(string id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+            if (image.Provider.Id != userId)
+            {
+                return NotFound();
+            }
+
+            return View(image);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> EditPortfolioItem(Artwork model, IFormFile file)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);         
+
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    model.Image = memoryStream.ToArray();
+                }
+            }
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Portfolio));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> RemovePortfolioImage(string id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+            if (image.Provider.Id != userId)
+            {
+                return NotFound();
+            }
+            _context.Remove(image);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Portfolio));
         }
 
@@ -131,7 +181,7 @@ namespace xManik.Controllers
                 StatusMessage = StatusMessage,
                 ProfileImage = user.ProfileImage,
             };
-                     
+
             return View(model);
         }
 

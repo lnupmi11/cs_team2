@@ -13,6 +13,6 @@ namespace xManik.Models.ManageViewModels
         public ICollection<Artwork> Images{ get; set; }
 
         [Display(Name = "Додайте короткий опис")]
-        public string Descriprion { get; set; }
+        public string Description { get; set; }
     }
 }

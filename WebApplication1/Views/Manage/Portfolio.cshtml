@@ -3,13 +3,13 @@
 @{
     ViewData["Title"] = "Portfolio";
     ViewData.AddActivePage(ManageNavPages.Portfolio);
-    List<Tuple<string,string>> images = new List<Tuple<string,string>>();
+    List<Tuple<string, string, string>> images = new List<Tuple<string, string, string>>();
     if (Model.Images != null)
     {
         foreach (var item in Model.Images)
         {
             var base64 = Convert.ToBase64String(item.Image);
-            images.Add(Tuple.Create(String.Format("data:image/gif;base64,{0}", base64),item.Description));
+            images.Add(Tuple.Create(String.Format("data:image/jpeg;base64,{0}", base64), item.Description, item.Id));
         }
     }
 }
@@ -21,39 +21,52 @@
     <div class="col-md-6">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-
             <div class="form-group">
-                <label asp-for="Descriprion"></label>
-                <input asp-for="Descriprion" class="form-control" />
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
             </div>
-
             <div class="form-group">
                 <input type="file" name="file" />
             </div>
-
             <button type="submit" class="btn btn-default">Save</button>
         </form>
     </div>
 </div>
 
-<hr>
 
-<div class="row">
-    @foreach (var item in images)
-    {
-        <div class="col-md-4">
-            <div class="thumbnail">
-                <a href="/w3images/lights.jpg" target="_blank">
+<hr>
+<p>Об'єкти у вашому портфоліо</p>
+@if (Model.Images == null)
+{
+    <p> Немає обєктів. Завантажте фото та додайте опис</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in images)
+        {
+            <div class="col-md-4">
+                <a asp-action="RemovePortfolioImage" asp-route-id="@item.Item3">
+                    <i class="fa fa-remove" style="font-size:16px;float:right;"></i>
+                </a>
+                <div class="thumbnail">
                     <img src="@item.Item1" />
                     <div class="caption">
+                        <a asp-action="EditPortfolioItem" asp-route-id="@item.Item3">
+                            <i class="fa fa-edit" style="font-size:20px;float:right"></i>
+                        </a>
                         <p>@item.Item2</p>
                     </div>
-                </a>
+                </div>
             </div>
-        </div>
-    }
-</div>
-
+        }
+    </div>
+}
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+

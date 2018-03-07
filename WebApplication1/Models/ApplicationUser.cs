@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using xManik.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace xManik.Models
