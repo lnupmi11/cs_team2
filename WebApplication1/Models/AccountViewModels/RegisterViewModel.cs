@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using xManik.Models;
 
-namespace WebApplication1.Models.AccountViewModels
+namespace xManik.Models.AccountViewModels
 {
     public class RegisterViewModel
     {

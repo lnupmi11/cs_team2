@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -9,17 +8,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using WebApplication1.Models;
-using WebApplication1.Models.ManageViewModels;
-using WebApplication1.Services;
-using Microsoft.AspNetCore.Http.Internal;
+using xManik.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting.Internal;
 using System.IO;
-using WebApplication1.Data;
+using xManik.Models;
+using xManik.Models.ManageViewModels;
+using xManik.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
-namespace WebApplication1.Controllers
+namespace xManik.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -30,6 +28,7 @@ namespace WebApplication1.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -38,17 +37,81 @@ namespace WebApplication1.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        [HttpGet]
+        [Authorize(Roles ="Provider")]
+        public async Task<IActionResult> Portfolio()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var provider = await _context.Providers.Include(p=>p.User).Include(p=>p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+
+            if (provider == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new PortfolioViewModel
+            {
+                StatusMessage = StatusMessage,
+                Images = provider.Portfolio
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Portfolio(PortfolioViewModel model, IFormFile file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+
+            if (provider == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    Artwork a = new Artwork
+                    {
+                        Description = model.Descriprion,
+                        Image = memoryStream.ToArray()
+                    };
+                    provider.Portfolio.Add(a);
+                    _context.Update(provider);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+
+            StatusMessage = "Your profile has been updated";
+            return RedirectToAction(nameof(Portfolio));
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -512,7 +575,7 @@ namespace WebApplication1.Controllers
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("WebApplication1"),
+                _urlEncoder.Encode("xManik"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

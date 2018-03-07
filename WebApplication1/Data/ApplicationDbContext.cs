@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Models;
+using xManik.Models;
 using Microsoft.AspNetCore.Identity;
 using xManik.Models;
 
-namespace WebApplication1.Data
+namespace xManik.Data
 {
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -45,6 +45,6 @@ namespace WebApplication1.Data
        .HasForeignKey<Provider>(b => b.Id);
         }
 
-        public DbSet<WebApplication1.Models.ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<xManik.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }

@@ -4,17 +4,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Models;
+using xManik.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using WebApplication1.Data;
+using xManik.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using WebApplication1.Services;
+using xManik.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
-namespace WebApplication1.Controllers
+namespace xManik.Controllers
 {
     public class HomeController : Controller
     {

@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApplication1": {
+    "xManik": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

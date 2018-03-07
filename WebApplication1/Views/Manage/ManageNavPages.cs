@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace WebApplication1.Views.Manage
+namespace xManik.Views.Manage
 {
     public static class ManageNavPages
     {
         public static string ActivePageKey => "ActivePage";
 
         public static string Index => "Index";
+
+        public static string Portfolio => "Portfolio";
 
         public static string ChangePassword => "ChangePassword";
 
@@ -20,6 +22,8 @@ namespace WebApplication1.Views.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string IndexPortfolioNavClass(ViewContext viewContext) => PageNavClass(viewContext, Portfolio);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 

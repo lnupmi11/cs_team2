@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using xManik.Models;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models
+namespace xManik.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
@@ -36,7 +33,7 @@ namespace WebApplication1.Models
         public string Description { get; set; }
         public double Rate { get; set; }
         public virtual ICollection<Service> Services { get; set; }
-        //public virtual ICollection<Artwork> Portfolio { get; set; }
+        public virtual ICollection<Artwork> Portfolio { get; set; }
         //public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ApplicationUser User { get; set; }

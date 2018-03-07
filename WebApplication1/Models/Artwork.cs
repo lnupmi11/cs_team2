@@ -8,8 +8,7 @@ namespace xManik.Models
 {
     public class Artwork
     {
-        [Key]
-        public int ID { get; set; }
+        public string Id { get; set; }
         public byte[] Image { get; set; }
         public string Description { get; set; }
     }

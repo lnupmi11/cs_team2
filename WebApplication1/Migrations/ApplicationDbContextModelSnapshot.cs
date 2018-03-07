@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using WebApplication1.Data;
+using xManik.Data;
 using xManik.Models;
 
 namespace xManik.Migrations
@@ -129,7 +129,7 @@ namespace xManik.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
+            modelBuilder.Entity("xManik.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -186,7 +186,7 @@ namespace xManik.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Client", b =>
+            modelBuilder.Entity("xManik.Models.Client", b =>
                 {
                     b.Property<string>("Id");
 
@@ -197,7 +197,7 @@ namespace xManik.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Provider", b =>
+            modelBuilder.Entity("xManik.Models.Provider", b =>
                 {
                     b.Property<string>("Id");
 
@@ -298,7 +298,7 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -306,7 +306,7 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -319,7 +319,7 @@ namespace xManik.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WebApplication1.Models.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -327,25 +327,25 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Client", b =>
+            modelBuilder.Entity("xManik.Models.Client", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser", "User")
+                    b.HasOne("xManik.Models.ApplicationUser", "User")
                         .WithOne("Client")
-                        .HasForeignKey("WebApplication1.Models.Client", "Id")
+                        .HasForeignKey("xManik.Models.Client", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Provider", b =>
+            modelBuilder.Entity("xManik.Models.Provider", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser", "User")
+                    b.HasOne("xManik.Models.ApplicationUser", "User")
                         .WithOne("Provider")
-                        .HasForeignKey("WebApplication1.Models.Provider", "Id")
+                        .HasForeignKey("xManik.Models.Provider", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("xManik.Models.Marker", "Marker")
@@ -355,18 +355,18 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Review", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Client", "Author")
+                    b.HasOne("xManik.Models.Client", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("WebApplication1.Models.Provider", "Recipient")
+                    b.HasOne("xManik.Models.Provider", "Recipient")
                         .WithMany()
                         .HasForeignKey("RecipientId");
                 });
 
             modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Provider", "Provider")
+                    b.HasOne("xManik.Models.Provider", "Provider")
                         .WithMany("Services")
                         .HasForeignKey("ProviderId");
                 });
