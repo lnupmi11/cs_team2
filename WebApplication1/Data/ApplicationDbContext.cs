@@ -44,5 +44,7 @@ namespace WebApplication1.Data
        .WithOne(b => b.User)
        .HasForeignKey<Provider>(b => b.Id);
         }
+
+        public DbSet<WebApplication1.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
