@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
+using xManik.Data;
 using xManik.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using WebApplication1.Models;
 
 namespace xManik.Controllers
 {

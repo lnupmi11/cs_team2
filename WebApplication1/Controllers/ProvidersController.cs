@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Models;
+using xManik.Data;
+using xManik.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace xManik.Controllers
 {
-   // [Authorize(Roles ="Admin")]
+   
     public class ProvidersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,31 +46,7 @@ namespace xManik.Controllers
 
             return View(provider);
         }
-
-        //// GET: Providers/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["Id"] = new SelectList(_context.Users, "Id", "Id");
-        //    return View();
-        //}
-
-        //// POST: Providers/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Description,Rate,ProviderProperty")] Provider provider)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(provider);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", provider.Id);
-        //    return View(provider);
-        //}
-
+      
         // GET: Providers/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -125,6 +101,7 @@ namespace xManik.Controllers
         }
 
         // GET: Providers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -146,6 +123,7 @@ namespace xManik.Controllers
         // POST: Providers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var provider = await _context.Providers.SingleOrDefaultAsync(m => m.Id == id);

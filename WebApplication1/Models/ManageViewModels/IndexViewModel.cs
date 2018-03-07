@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using xManik.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Models.ManageViewModels
+namespace xManik.Models.ManageViewModels
 {
     public class IndexViewModel
     {
