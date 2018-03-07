@@ -1,53 +1,42 @@
 ﻿@model IEnumerable<xManik.Models.Provider>
-
+@using xManik.Extensions;
 @{
     ViewData["Title"] = "Index";
+    bool isAdmin = User.IsInRole("Admin");
 }
 
 <h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Rate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProviderProperty)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProviderProperty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-8">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <img src="@Utils.ConvertByteToString(item.User.ProfileImage)" alt="" class="img-rounded img-responsive" />
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4>
+                            @item.User.UserName
+                        </h4>
+                        <small>
+                            <cite title="San Francisco, USA">
+                                San Francisco, USA <i class="glyphicon glyphicon-map-marker">
+                                </i>
+                            </cite>
+                        </small>
+                        <p>
+                            <i class="glyphicon glyphicon-envelope"></i>@item.User.Email
+                            <br />
+                            <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
+                            <br />
+                            <i class="glyphicon glyphicon-gift"></i>@item.User.DateRegistered
+                        </p>
+                        <a  asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-lg">Дізнатися більше</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-    </tbody>
-</table>

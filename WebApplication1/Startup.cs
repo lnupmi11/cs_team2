@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using xManik.Data;
 using xManik.Models;
 using xManik.Services;
-
 
 namespace xManik
 {
@@ -107,7 +104,7 @@ namespace xManik
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        {          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

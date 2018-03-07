@@ -107,7 +107,6 @@ namespace xManik.Controllers
                 }
             }
 
-
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Portfolio));
         }
@@ -229,7 +228,6 @@ namespace xManik.Controllers
                     await _userManager.UpdateAsync(user);
                 }
             }
-
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));

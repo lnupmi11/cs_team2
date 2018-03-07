@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using xManik.Data;
-using xManik.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace xManik.Controllers
 {
-   
     public class ProvidersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -37,7 +32,7 @@ namespace xManik.Controllers
             }
 
             var provider = await _context.Providers
-                .Include(p => p.User)
+                .Include(p => p.User).Include(p=>p.Portfolio).Include(p=>p.Services)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (provider == null)
             {
@@ -45,60 +40,7 @@ namespace xManik.Controllers
             }
 
             return View(provider);
-        }
-      
-        // GET: Providers/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var provider = await _context.Providers.SingleOrDefaultAsync(m => m.Id == id);
-            if (provider == null)
-            {
-                return NotFound();
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", provider.Id);
-            return View(provider);
-        }
-
-        // POST: Providers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Description,Rate,ProviderProperty")] Provider provider)
-        {
-            if (id != provider.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(provider);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProviderExists(provider.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", provider.Id);
-            return View(provider);
-        }
+        }    
 
         // GET: Providers/Delete/5
         [Authorize(Roles = "Admin")]

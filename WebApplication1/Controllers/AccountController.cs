@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using xManik.Models;
 using xManik.Models.AccountViewModels;
 using xManik.Services;
-using System.Security.Principal;
-using xManik.Models;
 
 namespace xManik.Controllers
 {
@@ -226,7 +220,7 @@ namespace xManik.Controllers
             if (ModelState.IsValid)
             {
 
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = xManik.Extensions.Utils.imageBytes };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -318,7 +312,7 @@ namespace xManik.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = xManik.Extensions.Utils.imageBytes };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -354,7 +348,6 @@ namespace xManik.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
 
-            //TODO : add switch to check roles(client/provider)
             user.DateRegistered = DateTime.Now.Date;
 
             switch (user.Role)
