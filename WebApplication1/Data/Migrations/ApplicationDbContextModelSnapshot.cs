@@ -225,11 +225,7 @@ namespace xManik.Migrations
 
                     b.Property<byte[]>("Image");
 
-                    b.Property<string>("ProviderId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("ProviderId");
 
                     b.ToTable("Artworks");
                 });
@@ -274,7 +270,7 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.Property<int>("ServiceId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
@@ -285,7 +281,7 @@ namespace xManik.Migrations
 
                     b.Property<string>("ProviderId");
 
-                    b.HasKey("ServiceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
 
@@ -357,13 +353,6 @@ namespace xManik.Migrations
                         .HasForeignKey("MarkerId");
                 });
 
-            modelBuilder.Entity("xManik.Models.Artwork", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Provider")
-                        .WithMany("Portfolio")
-                        .HasForeignKey("ProviderId");
-                });
-
             modelBuilder.Entity("xManik.Models.Review", b =>
                 {
                     b.HasOne("WebApplication1.Models.Client", "Author")
@@ -371,7 +360,7 @@ namespace xManik.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.HasOne("WebApplication1.Models.Provider", "Recipient")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("RecipientId");
                 });
 

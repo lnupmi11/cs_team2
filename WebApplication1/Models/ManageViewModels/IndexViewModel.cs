@@ -25,5 +25,8 @@ namespace WebApplication1.Models.ManageViewModels
         public string StatusMessage { get; set; }
 
         public byte[] ProfileImage { get; set; }
+
+        [Display(Name = "Розкажіть про себе")]
+        public string Descriprion { get; set; }
     }
 }

@@ -9,11 +9,11 @@ using System;
 using WebApplication1.Data;
 using xManik.Models;
 
-namespace WebApplication1.Data.Migrations
+namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180306121155_Initial11")]
-    partial class Initial11
+    [Migration("20180307075949_Initial9")]
+    partial class Initial9
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,11 +226,7 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<byte[]>("Image");
 
-                    b.Property<string>("ProviderId");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("ProviderId");
 
                     b.ToTable("Artworks");
                 });
@@ -275,7 +271,7 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.Property<int>("ServiceId")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
@@ -286,7 +282,7 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ProviderId");
 
-                    b.HasKey("ServiceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
 
@@ -358,13 +354,6 @@ namespace WebApplication1.Data.Migrations
                         .HasForeignKey("MarkerId");
                 });
 
-            modelBuilder.Entity("xManik.Models.Artwork", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Provider")
-                        .WithMany("Portfolio")
-                        .HasForeignKey("ProviderId");
-                });
-
             modelBuilder.Entity("xManik.Models.Review", b =>
                 {
                     b.HasOne("WebApplication1.Models.Client", "Author")
@@ -372,7 +361,7 @@ namespace WebApplication1.Data.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.HasOne("WebApplication1.Models.Provider", "Recipient")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("RecipientId");
                 });
 

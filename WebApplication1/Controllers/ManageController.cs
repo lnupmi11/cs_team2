@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting.Internal;
 using System.IO;
+using WebApplication1.Data;
+
 namespace WebApplication1.Controllers
 {
     [Authorize]
@@ -64,9 +66,9 @@ namespace WebApplication1.Controllers
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
-                ProfileImage = user.ProfileImage
+                ProfileImage = user.ProfileImage,
             };
-
+                     
             return View(model);
         }
 
@@ -114,6 +116,8 @@ namespace WebApplication1.Controllers
                     await _userManager.UpdateAsync(user);
                 }
             }
+
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }

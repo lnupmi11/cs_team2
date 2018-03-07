@@ -28,22 +28,16 @@ namespace WebApplication1.Models
     }
 
     public class Provider
-    {
-        public Provider()
-        {
-            Services = new List<Service>();
-            Portfolio = new List<Artwork>();
-            Reviews = new List<Review>();
-        }
-
+    { 
         public string Id { get; set; }
         public virtual Marker Marker { get; set; }
         //Credit card info
+        [Display(Name = "Додайте інформацію про себе")]
         public string Description { get; set; }
         public double Rate { get; set; }
         public virtual ICollection<Service> Services { get; set; }
-        public virtual ICollection<Artwork> Portfolio { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+        //public virtual ICollection<Artwork> Portfolio { get; set; }
+        //public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ApplicationUser User { get; set; }
         public string ProviderProperty { get; set; }

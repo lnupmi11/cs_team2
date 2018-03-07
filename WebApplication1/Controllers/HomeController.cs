@@ -45,6 +45,7 @@ namespace WebApplication1.Controllers
                
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var cust = await _context.Clients.FindAsync(user.Id);
+                var custp = await _context.Providers.FindAsync(user.Id);
             }
 
             return View();
