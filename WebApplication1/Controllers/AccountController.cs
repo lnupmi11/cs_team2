@@ -299,14 +299,16 @@ namespace xManik.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var userName = name.Replace(" ", "");
+                return View("ExternalLogin", new ExternalLoginViewModel { Email = email, UserName = userName });
             }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> ExternalLoginConfirmation([Bind] ExternalLoginViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -316,14 +318,16 @@ namespace xManik.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        await ConfirmEmail(user.Id, code);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
                     }
@@ -362,7 +366,7 @@ namespace xManik.Controllers
                     break;
                 case UserRole.Provider:
                     {
-                        user.Provider = new Provider {Description = "Very talented and high professional nail artist", Rate = 5.0, Marker = new Marker { Adress = "Somet street", Latitude = "46.2", Longtitude= "53.35"} };
+                        user.Provider = new Provider();
                     }
                     break;
             }
