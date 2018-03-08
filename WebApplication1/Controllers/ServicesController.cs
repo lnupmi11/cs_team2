@@ -34,6 +34,46 @@ namespace xManik.Controllers
             return View(_user.Services.ToList());
         }
 
+        public async Task<IActionResult> AllServices(string sortOrder, string searchString)
+        {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewData["RateSortParm"] = sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
+            ViewData["DurationSortParam"] = sortOrder == "duration_desc" ? "duration_asc" : "duration_desc";
+            ViewData["CurrentFilter"] = searchString;
+
+            var services = await _context.Services
+                .Include(s => s.Provider).ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                services = services.Where(s => s.Description.Contains(searchString)).ToList();
+            }
+
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    services = services.OrderByDescending(p => p.Price).ToList();
+                    break;
+                case "rate_asc":
+                    services = services.OrderBy(s => s.Provider.Rate).ToList();
+                    break;
+                case "rate_desc":
+                    services = services.OrderByDescending(s => s.Provider.Rate).ToList();
+                    break;
+                case "duration_desc":
+                    services = services.OrderByDescending(s => s.Duration).ToList();
+                    break;
+                case "duration_asc":
+                    services = services.OrderBy(s => s.Duration).ToList();
+                    break;
+                default:
+                    services = services.OrderBy(s => s.Price).ToList();
+                    break;
+            }
+
+            return View(services);
+        }
+
         // GET: Services/Details/5
         public async Task<IActionResult> Details(string id)
         {
