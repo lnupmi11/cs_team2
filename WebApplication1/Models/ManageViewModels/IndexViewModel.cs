@@ -19,8 +19,5 @@ namespace xManik.Models.ManageViewModels
         public string StatusMessage { get; set; }
 
         public byte[] ProfileImage { get; set; }
-
-        [Display(Name = "Розкажіть про себе")]
-        public string Description { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace xManik.Views.Manage
 
         public static string Portfolio => "Portfolio";
 
+        public static string ProfileDescription => "ProfileDescription";
+
         public static string ChangePassword => "ChangePassword";
 
         public static string ExternalLogins => "ExternalLogins";
@@ -24,6 +26,8 @@ namespace xManik.Views.Manage
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string IndexPortfolioNavClass(ViewContext viewContext) => PageNavClass(viewContext, Portfolio);
+
+        public static string ProfileDescriptionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ProfileDescription);
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 

@@ -129,7 +129,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> EditPortfolioItem(Artwork model, IFormFile file)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);         
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (file != null)
             {
@@ -163,6 +163,42 @@ namespace xManik.Controllers
 
 
         [HttpGet]
+        public async Task<IActionResult> ProfileDescription()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Providers.Where(p => p.Id == userId).FirstOrDefaultAsync();
+
+            if(user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            DescriptionViewModel model = new DescriptionViewModel()
+            {
+                StatusMessage = StatusMessage,
+                Description = user.Description
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> ProfileDescription(DescriptionViewModel model)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Providers.Where(p => p.Id == userId).FirstOrDefaultAsync();
+            user.Description = model.Description;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+            StatusMessage = "Your profile has been updated";
+            return RedirectToAction(nameof(ProfileDescription));
+        }
+
+
+
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -183,6 +219,7 @@ namespace xManik.Controllers
 
             return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

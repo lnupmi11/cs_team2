@@ -61,16 +61,6 @@
         {
             <p>None</p>
         }
-
-        @if (User.IsInRole("Provider"))
-        {
-            <div class="form-group">
-                <p>Додайте інформацію про себе яка могла б бути цікава потенційним клієнтами(Досвід,навички,особисті якості)</p>
-                <label asp-for="Description"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-            </div>
-        }
-
     </div>
 </div>
 

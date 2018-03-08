@@ -6,30 +6,30 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>Service</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Duration)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Duration)
-        </dd>
-    </dl>
+
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    </div>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Product Name</h3>
+                <h4>@Model.Price $</h4>
+                <p class="card-text">@Model.Description</p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <a asp-controller="Providers" asp-action="Details" asp-route-id="@Model.Provider.Id">Author Profile</a> |
+                    </small>
+                </p>
+                <p class="card-text"><small class="text-muted">Last updated: @Model.DatePublished</small></p>
+                <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                4.0 stars
+            </div>
+        </div>
+    </div>
 </div>
+
+<br /><br />
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -42,8 +42,8 @@ namespace xManik.Controllers
                 return NotFound();
             }
             await InitUser();
-            var service = await _context.Services
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+
             if (service == null)
             {
                 return NotFound();

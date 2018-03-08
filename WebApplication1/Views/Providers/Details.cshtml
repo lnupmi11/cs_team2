@@ -11,18 +11,11 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-6 col-sm-8 col-md-9">
-        <h1 class="">@Model.User.UserName</h1>
-        <button type="button" class="btn btn-success">Book me!</button>
-    </div>
-    <div class="col-xs-6 col-sm-4 col-md-3 ">
-        <a href="/users"><img title="profile image" class="img-thumbnail" src="@Utils.ConvertByteToString(Model.User.ProfileImage)"></a>
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-sm-3">
-        <!--left col-->
+    <div class="col-xs-6 col-sm-3 col-md-3">
+        <br />
+        <h3>@Model.User.UserName</h3>
+        <button type="button" class="btn btn-success small">Book me!</button>
+        <br/><br />
         <ul class="list-group">
             <li class="list-group-item text-muted" contenteditable="false">Profile</li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span>@Model.User.DateRegistered</li>
@@ -35,7 +28,15 @@
                 <span class="pull-left"><strong class="">Role: </strong></span> @Model.User.Role
             </li>
         </ul>
- 
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 ">
+        <a href="/users"><img title="profile image" class="img-thumbnail" src="@Utils.ConvertByteToString(Model.User.ProfileImage)"></a>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-3">
+        <!--left col-->
         <div class="panel panel-default">
             <div class="panel-heading">
                 Website <i class="fa fa-link fa-1x"></i>
@@ -57,8 +58,11 @@
         <div class="panel panel-default">
             <div class="panel-heading">Social Media</div>
             <div class="panel-body">
-                <i class="fa fa-facebook fa-2x"></i>  <i class="fa fa-github fa-2x"></i>
-                <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i>  <i class="fa fa-google-plus fa-2x"></i>
+                <i class="fa fa-facebook fa-2x"></i>
+                <i class="fa fa-github fa-2x"></i>
+                <i class="fa fa-twitter fa-2x"></i>
+                <i class="fa fa-pinterest fa-2x"></i>
+                <i class="fa fa-google-plus fa-2x"></i>
             </div>
         </div>
     </div>
