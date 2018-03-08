@@ -7,6 +7,7 @@ using xManik.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System;
+using xManik.Extensions;
 
 namespace xManik.Controllers
 {
@@ -34,11 +35,23 @@ namespace xManik.Controllers
             return View(_user.Services.ToList());
         }
 
-        public async Task<IActionResult> AllServices(string sortOrder, string searchString)
+        public async Task<IActionResult> AllServices(string sortOrder,string currentFilter,string searchString,int? page)
         {
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewData["RateSortParm"] = sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["DurationSortParam"] = sortOrder == "duration_desc" ? "duration_asc" : "duration_desc";
+            ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
             ViewData["CurrentFilter"] = searchString;
 
             var services = await _context.Services
@@ -71,7 +84,8 @@ namespace xManik.Controllers
                     break;
             }
 
-            return View(services);
+            int pageSize = 3;
+            return View(await PaginatedList<Service>.CreateAsync(services, page ?? 1, pageSize));
         }
 
         // GET: Services/Details/5

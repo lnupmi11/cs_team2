@@ -1,4 +1,4 @@
-﻿@model IEnumerable<xManik.Models.Service>
+﻿@model xManik.Extensions.PaginatedList<xManik.Models.Service>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,13 +15,13 @@
         <ul class="list-group">
             <li class="list-group-item text-muted" contenteditable="false">Filters</li>
             <li class="list-group-item text-center">
-                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Price)</a>
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Price)</a>
             </li>
             <li class="list-group-item text-center">
-                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["RateSortParm"]">@Html.DisplayNameFor(model => model.Provider.Rate)</a>
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["RateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Provider.Rate)</a>
             </li>
             <li class="list-group-item text-center">
-                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["DurationSortParam"]">@Html.DisplayNameFor(model => model.Duration)</a>
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["DurationSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Duration)</a>
             </li>
             <li class="list-group-item text-center">
                 <form asp-action="AllServices" method="get">
@@ -53,4 +53,25 @@
             </div>
         }
     </div>
+</div>
+<div class="col-xs-9 col-sm-9 col-md-9  col-lg-9">
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="AllServices"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-page="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="AllServices"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-page="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 </div>
