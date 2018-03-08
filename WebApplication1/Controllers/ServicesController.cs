@@ -6,6 +6,7 @@ using xManik.Data;
 using xManik.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System;
 
 namespace xManik.Controllers
 {
@@ -69,6 +70,7 @@ namespace xManik.Controllers
                 await InitUser();
                 if (_user != null)
                 {
+                    service.DatePublished = DateTime.Now;
                     _user.Services.Add(service);
                     await _context.SaveChangesAsync();
                 }

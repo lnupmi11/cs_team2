@@ -19,8 +19,8 @@ namespace xManik.Controllers
         // GET: Providers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Providers.Include(p => p.User);
-            return View(await applicationDbContext.ToListAsync());
+            var providers = _context.Providers.Include(p => p.User);
+            return View(await providers.ToListAsync());
         }
 
         // GET: Providers/Details/5
