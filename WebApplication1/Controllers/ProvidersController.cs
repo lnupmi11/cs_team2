@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xManik.Data;
 using Microsoft.AspNetCore.Authorization;
+using xManik.Extensions;
+using xManik.Models;
 
 namespace xManik.Controllers
 {
@@ -17,10 +19,11 @@ namespace xManik.Controllers
         }
 
         // GET: Providers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+            int pageSize = 3;
             var providers = _context.Providers.Include(p => p.User);
-            return View(await providers.ToListAsync());
+            return View(await PaginatedList<Provider>.CreateAsync(providers, page ?? 1, pageSize));
         }
 
         // GET: Providers/Details/5

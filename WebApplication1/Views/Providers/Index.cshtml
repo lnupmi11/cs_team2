@@ -1,4 +1,4 @@
-﻿@model IEnumerable<xManik.Models.Provider>
+﻿@model xManik.Extensions.PaginatedList<xManik.Models.Provider>
 @using xManik.Extensions;
 @{
     ViewData["Title"] = "Index";
@@ -33,10 +33,28 @@
                             <br />
                             <i class="glyphicon glyphicon-gift"></i>@item.User.DateRegistered
                         </p>
-                        <a  asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-lg">Дізнатися більше</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-lg">Дізнатися більше</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 }
+
+<div>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>

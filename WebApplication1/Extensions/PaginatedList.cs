@@ -33,8 +33,10 @@ namespace xManik.Extensions
                 return (PageIndex < TotalPages);
             }
         }
-
-        public static async Task<PaginatedList<T>> CreateAsync(IEnumerable<T> source, int pageIndex, int pageSize)
+        
+        //TODO:
+        //resolve this async problem
+        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
