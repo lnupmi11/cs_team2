@@ -28,7 +28,11 @@ namespace xManik
                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
-                config => config.SignIn.RequireConfirmedEmail = true)
+                config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                    config.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

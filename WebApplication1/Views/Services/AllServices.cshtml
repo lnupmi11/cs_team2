@@ -1,0 +1,88 @@
+﻿@model xManik.Extensions.PaginatedList<xManik.Models.Service>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Services</h2>
+
+
+<div class="row">
+    <div class="col-sm-3">
+        <!--left col-->
+        <ul class="list-group">
+            <li class="list-group-item text-muted" contenteditable="false">Filters</li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Price)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["RateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Provider.Rate)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["DurationSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Duration)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().DatePublished)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <form asp-action="AllServices" method="get">
+                    <div class="form-actions no-color">
+                        <p>
+                            Find by description:
+                            <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                            <input type="submit" value="Search" class="btn btn-default" /> |
+                            <a asp-action="AllServices">Back to Full List</a>
+                        </p>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <div class="col-xs-3 cols-sm-3 col-md-2 col-lg-2">
+    </div>
+    <div class="col-xs-9 col-sm-9 col-md-9  col-lg-9">
+        @if (Model.Count == 0)
+        {
+            <h1>Sorry, no services with that description:</h1>
+            <h2><i>@ViewData["CurrentFilter"]</i></h2>
+        }
+        @foreach (var item in Model)
+        {
+            <div class="card-block" style="margin: 30px 10px">
+                <h4 class="card-title">@item.Provider.User.UserName</h4>
+                <div class="card-body">
+                    <h5><strong>@Html.DisplayNameFor(model => item.Price):</strong></h5>
+                    <p class="card-text">@item.Price</p>
+                    <h5><strong>@Html.DisplayNameFor(model => item.Description):</strong></h5>
+                    <p class="card-text">@item.Description</p>
+                    <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                    @item.Provider.Rate stars
+                </div>
+                <a asp-action="Information"
+                    asp-route-id="@item.Id"
+                   class="btn btn-primary" style="margin:5px 0px">Read More</a>
+            </div>
+}
+    </div>
+</div>
+<div class="col-xs-9 col-sm-9 col-md-9  col-lg-9">
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="AllServices"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-page="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="AllServices"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-page="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>

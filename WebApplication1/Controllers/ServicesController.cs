@@ -7,6 +7,7 @@ using xManik.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System;
+using xManik.Extensions;
 
 namespace xManik.Controllers
 {
@@ -57,6 +58,86 @@ namespace xManik.Controllers
         {
             await InitUser();
             return View(_user.Services.ToList());
+        }
+
+        public async Task<IActionResult> AllServices(string sortOrder,string currentFilter,string searchString,int? page)
+        {
+            int pageSize = 3;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewData["RateSortParm"] = sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
+            ViewData["DateSortParm"] = sortOrder == "date_desc" ? "date_asc" : "date_desc";
+            ViewData["DurationSortParam"] = sortOrder == "duration_desc" ? "duration_asc" : "duration_desc";
+            ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var services = _context.Services
+                .Include(s => s.Provider).Include(s => s.Provider.User).AsQueryable();
+
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.Trim().ToLower();
+                services = services.Where(s => s.Description.ToLower().Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    services = services.OrderByDescending(p => p.Price);
+                    break;
+                case "rate_asc":
+                    services = services.OrderBy(s => s.Provider.Rate);
+                    break;
+                case "rate_desc":
+                    services = services.OrderByDescending(s => s.Provider.Rate);
+                    break;
+                case "date_asc":
+                    services = services.OrderBy(s => s.DatePublished);
+                    break;
+                case "date_desc":
+                    services = services.OrderByDescending(s => s.DatePublished);
+                    break;
+                case "duration_desc":
+                    services = services.OrderByDescending(s => s.Duration);
+                    break;
+                case "duration_asc":
+                    services = services.OrderBy(s => s.Duration);
+                    break;
+                default:
+                    services = services.OrderBy(s => s.Price);
+                    break;
+            }
+
+            return View(await PaginatedList<Service>.CreateAsync(services, page ?? 1, pageSize));
+        }
+
+        public async Task<IActionResult> Information(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            if (service == null)
+            {
+                return NotFound();
+            }
+
+            return View(service);
         }
 
         // GET: Services/Details/5
