@@ -1,8 +1,7 @@
-﻿@model xManik.Extensions.PaginatedList<xManik.Models.Provider>
+﻿@model PaginatedList<Provider>
 @using xManik.Extensions;
 @{
     ViewData["Title"] = "Index";
-    bool isAdmin = User.IsInRole("Admin");
 }
 
 <h2>Index</h2>

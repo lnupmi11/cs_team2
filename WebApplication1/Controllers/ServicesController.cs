@@ -11,7 +11,6 @@ using xManik.Extensions;
 
 namespace xManik.Controllers
 {
-
     public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,40 +23,15 @@ namespace xManik.Controllers
 
         private async Task InitUser()
         {
-            string _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _user = _user ?? await _context.Providers.Include(p => p.Services).Where(p => p.Id == _userId).FirstOrDefaultAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _user = _user ?? await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
         }
 
-        public async Task<IActionResult> Information(string id)
+        public IActionResult AllServices(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
-
-            if (service == null)
-            {
-                return NotFound();
-            }
-
-            return View(service);
-        }
-
-        // GET: Services
-        [Authorize(Roles = "Provider")]
-        public async Task<IActionResult> Index()
-        {
-            await InitUser();
-            return View(_user.Services.ToList());
-        }
-
-        public async Task<IActionResult> AllServices(string sortOrder,string currentFilter,string searchString,int? page)
-        {
-            int pageSize = 3;
+            const int pageSize = 3;
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewData["RateSortParm"] = sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["DateSortParm"] = sortOrder == "date_desc" ? "date_asc" : "date_desc";
             ViewData["DurationSortParam"] = sortOrder == "duration_desc" ? "duration_asc" : "duration_desc";
@@ -75,11 +49,9 @@ namespace xManik.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var services = _context.Services
-                .Include(s => s.Provider).Include(s => s.Provider.User).AsQueryable();
+                .Include(s => s.Provider).AsQueryable();
 
-
-
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.Trim().ToLower();
                 services = services.Where(s => s.Description.ToLower().Contains(searchString));
@@ -113,9 +85,33 @@ namespace xManik.Controllers
                     break;
             }
 
-            return View(await PaginatedList<Service>.CreateAsync(services, page ?? 1, pageSize));
+            return View(PaginatedList<Service>.Create(services, page ?? 1, pageSize));
         }
 
+        public async Task<IActionResult> Information(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            if (service == null)
+            {
+                return NotFound();
+            }
+
+            return View(service);
+        }
+
+        // GET: Services
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Index()
+        {
+            await InitUser();
+            return View(_user.Services.ToList());
+        }
 
         // GET: Services/Details/5
         [Authorize(Roles = "Provider")]
@@ -154,17 +150,26 @@ namespace xManik.Controllers
             if (ModelState.IsValid)
             {
                 await InitUser();
-                if (_user != null)
+                if (_user == null)
                 {
-                    service.DatePublished = DateTime.Now;
-                    _user.Services.Add(service);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
+
+                service.DatePublished = DateTime.Now;
+                _user.Services.Add(service);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
+
+            if (service == null)
+            {
+                return NotFound();
+            }
+
             return View(service);
         }
+
 
         // GET: Services/Edit/5
         [Authorize(Roles = "Provider")]
@@ -180,6 +185,7 @@ namespace xManik.Controllers
             {
                 return NotFound();
             }
+
             return View(service);
         }
 
@@ -217,6 +223,7 @@ namespace xManik.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(service);
         }
 
@@ -247,7 +254,11 @@ namespace xManik.Controllers
         {
             await InitUser();
             var service = _user.Services.SingleOrDefault(p => p.Id == id);
-            _context.Services.Remove(service);
+            if (service != null)
+            {
+                _context.Services.Remove(service);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

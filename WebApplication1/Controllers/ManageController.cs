@@ -16,6 +16,7 @@ using xManik.Models.ManageViewModels;
 using xManik.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using xManik.Extensions;
 
 namespace xManik.Controllers
 {
@@ -55,7 +56,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Portfolio()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
 
             if (provider == null)
@@ -83,7 +84,7 @@ namespace xManik.Controllers
                 return View(model);
             }
 
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
 
             if (provider == null)
@@ -96,7 +97,7 @@ namespace xManik.Controllers
                 using (var memoryStream = new MemoryStream())
                 {
                     await file.CopyToAsync(memoryStream);
-                    Artwork item = new Artwork
+                    var item = new Artwork
                     {
                         Description = model.Description,
                         Image = memoryStream.ToArray()
@@ -108,6 +109,7 @@ namespace xManik.Controllers
             }
 
             StatusMessage = "Your profile has been updated";
+
             return RedirectToAction(nameof(Portfolio));
         }
 
@@ -115,7 +117,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> EditPortfolioItem(string id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
             if (image.Provider.Id != userId)
             {
@@ -129,8 +131,6 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> EditPortfolioItem(Artwork model, IFormFile file)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             if (file != null)
             {
                 using (var memoryStream = new MemoryStream())
@@ -165,10 +165,10 @@ namespace xManik.Controllers
         [HttpGet]
         public async Task<IActionResult> ProfileDescription()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _context.Providers.Where(p => p.Id == userId).FirstOrDefaultAsync();
 
-            if(user == null)
+            if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
@@ -483,7 +483,7 @@ namespace xManik.Controllers
             var model = new TwoFactorAuthenticationViewModel
             {
                 HasAuthenticator = await _userManager.GetAuthenticatorKeyAsync(user) != null,
-                Is2faEnabled = user.TwoFactorEnabled,
+                Is2FaEnabled = user.TwoFactorEnabled,
                 RecoveryCodesLeft = await _userManager.CountRecoveryCodesAsync(user),
             };
 
@@ -491,7 +491,7 @@ namespace xManik.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Disable2faWarning()
+        public async Task<IActionResult> Disable2FaWarning()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -504,12 +504,12 @@ namespace xManik.Controllers
                 throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.");
             }
 
-            return View(nameof(Disable2fa));
+            return View(nameof(Disable2Fa));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Disable2fa()
+        public async Task<IActionResult> Disable2Fa()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -517,8 +517,8 @@ namespace xManik.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
-            if (!disable2faResult.Succeeded)
+            var disable2FaResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
+            if (!disable2FaResult.Succeeded)
             {
                 throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.");
             }
@@ -570,10 +570,10 @@ namespace xManik.Controllers
             // Strip spaces and hypens
             var verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-            var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
+            var is2FaTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
                 user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
-            if (!is2faTokenValid)
+            if (!is2FaTokenValid)
             {
                 ModelState.AddModelError("model.Code", "Verification code is invalid.");
                 return View(model);

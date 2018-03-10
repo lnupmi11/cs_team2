@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using xManik.Models;
-using Microsoft.AspNetCore.Identity;
 using xManik.Models;
 
 namespace xManik.Data
@@ -45,6 +39,6 @@ namespace xManik.Data
        .HasForeignKey<Provider>(b => b.Id);
         }
 
-        public DbSet<xManik.Models.ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }

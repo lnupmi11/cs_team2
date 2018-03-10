@@ -5,7 +5,7 @@
 }
 
 <h4>@ViewData["Title"]</h4>
-@if (Model.Is2faEnabled)
+@if (Model.Is2FaEnabled)
 {
     if (Model.RecoveryCodesLeft == 0)
     {
@@ -29,7 +29,7 @@
         </div>
     }
 
-    <a asp-action="Disable2faWarning" class="btn btn-default">Disable 2FA</a>
+    <a asp-action="Disable2FaWarning" class="btn btn-default">Disable 2FA</a>
     <a asp-action="GenerateRecoveryCodes" class="btn btn-default">Reset recovery codes</a>
 }
 

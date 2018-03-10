@@ -3,14 +3,12 @@
 @{
     ViewData["Title"] = "Portfolio";
     ViewData.AddActivePage(ManageNavPages.Portfolio);
-    List<Tuple<string, string, string>> images = new List<Tuple<string, string, string>>();
+    var images = new List<Tuple<string, string, string>>();
     if (Model.Images != null)
     {
-        foreach (var item in Model.Images)
-        {
-            var base64 = Convert.ToBase64String(item.Image);
-            images.Add(Tuple.Create(String.Format("data:image/jpeg;base64,{0}", base64), item.Description, item.Id));
-        }
+        images.AddRange(from item in Model.Images
+            let base64 = Convert.ToBase64String(item.Image)
+            select Tuple.Create(string.Format("data:image/jpeg;base64,{0}", base64), item.Description, item.Id));
     }
 }
 

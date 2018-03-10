@@ -19,11 +19,11 @@ namespace xManik.Controllers
         }
 
         // GET: Providers
-        public async Task<IActionResult> Index(int? page)
+        public IActionResult Index(int? page)
         {
-            int pageSize = 3;
+            var pageSize = 3;
             var providers = _context.Providers.Include(p => p.User);
-            return View(await PaginatedList<Provider>.CreateAsync(providers, page ?? 1, pageSize));
+            return View(PaginatedList<Provider>.Create(providers, page ?? 1, pageSize));
         }
 
         // GET: Providers/Details/5

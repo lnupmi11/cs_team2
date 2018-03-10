@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace xManik.Models
+﻿namespace xManik.Models
 {
-    public enum UserRole : int {Admin , Client, Provider };
+    public enum UserRole { Admin, Client, Provider };
 }

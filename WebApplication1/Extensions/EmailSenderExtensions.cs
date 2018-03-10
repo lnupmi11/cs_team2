@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using xManik.Services;
 
-namespace xManik.Services
+namespace xManik.Extensions
 {
     public static class EmailSenderExtensions
     {

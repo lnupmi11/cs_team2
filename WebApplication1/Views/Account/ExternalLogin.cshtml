@@ -1,5 +1,4 @@
 ﻿@model ExternalLoginViewModel
-@using xManik.Models;
 @{
     ViewData["Title"] = "Register"; 
 }
@@ -21,11 +20,11 @@
             <div class="form-group">
                 <label asp-for="Role"></label>
                 <div class="col-md-10">
-                    <input asp-for="Email" type="hidden" value=@Model.Email/>
-                    <input asp-for="UserName" type="hidden" value=@Model.UserName/>
-                    <input asp-for="Role" type="radio" value=@UserRole.Admin /> Admin
-                    <input asp-for="Role" type="radio" value=@UserRole.Client /> Client
-                    <input asp-for="Role" type="radio" value=@UserRole.Provider /> Provider
+                    <input asp-for="Email" type="hidden" value="@Model.Email"/>
+                    <input asp-for="UserName" type="hidden" value="@Model.UserName"/>
+                    <input asp-for="Role" type="radio" value="@UserRole.Admin" /> Admin
+                    <input asp-for="Role" type="radio" value="@UserRole.Client" /> Client
+                    <input asp-for="Role" type="radio" value="@UserRole.Provider" /> Provider
                 </div>
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>

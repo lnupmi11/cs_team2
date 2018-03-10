@@ -77,9 +77,9 @@ namespace xManik
                     DateRegistered = DateTime.Now
                 };
 
-                string userPWD = Configuration.GetSection("UserSettings")["UserPassword"];
+                var userPassword = Configuration.GetSection("UserSettings")["UserPassword"];
 
-                var chkUser = await userManager.CreateAsync(user, userPWD);
+                var chkUser = await userManager.CreateAsync(user, userPassword);
                 if (chkUser.Succeeded)
                 {
                     var result1 = await userManager.AddToRoleAsync(user, "Admin");

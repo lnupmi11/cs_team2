@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using xManik.Extensions;
 using xManik.Models;
 using xManik.Models.AccountViewModels;
 using xManik.Services;
@@ -33,9 +34,6 @@ namespace xManik.Controllers
             _emailSender = emailSender;
             _logger = logger;
         }
-
-        [TempData]
-        public string ErrorMessage { get; set; }
 
         [HttpGet]
         [AllowAnonymous]
@@ -68,7 +66,7 @@ namespace xManik.Controllers
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+                    return RedirectToAction(nameof(LoginWith2Fa), new { returnUrl, model.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
@@ -88,17 +86,17 @@ namespace xManik.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
+        public async Task<IActionResult> LoginWith2Fa(bool rememberMe, string returnUrl = null)
         {
             // Ensure the user has gone through the username & password screen first
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException("Unable to load two-factor authentication user.");
             }
 
-            var model = new LoginWith2faViewModel { RememberMe = rememberMe };
+            var model = new LoginWith2FaViewModel { RememberMe = rememberMe };
             ViewData["ReturnUrl"] = returnUrl;
 
             return View(model);
@@ -107,7 +105,7 @@ namespace xManik.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
+        public async Task<IActionResult> LoginWith2Fa(LoginWith2FaViewModel model, bool rememberMe, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -150,7 +148,7 @@ namespace xManik.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException("Unable to load two-factor authentication user.");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -171,7 +169,7 @@ namespace xManik.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException("Unable to load two-factor authentication user.");
             }
 
             var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
@@ -219,8 +217,7 @@ namespace xManik.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = xManik.Extensions.Utils.imageBytes };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = Utils.ImageBytes };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -267,7 +264,6 @@ namespace xManik.Controllers
         {
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToAction(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -312,7 +308,7 @@ namespace xManik.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = xManik.Extensions.Utils.imageBytes };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = Utils.ImageBytes };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
