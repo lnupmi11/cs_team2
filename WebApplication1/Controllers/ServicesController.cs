@@ -28,13 +28,6 @@ namespace xManik.Controllers
             _user = _user ?? await _context.Providers.Include(p => p.Services).Where(p => p.Id == _userId).FirstOrDefaultAsync();
         }
 
-
-        public async Task<IActionResult> AllServices()
-        {
-            return View(await _context.Services.ToListAsync());
-        }
-
-
         public async Task<IActionResult> Information(string id)
         {
             if (id == null)
@@ -123,22 +116,6 @@ namespace xManik.Controllers
             return View(await PaginatedList<Service>.CreateAsync(services, page ?? 1, pageSize));
         }
 
-        public async Task<IActionResult> Information(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
-
-            if (service == null)
-            {
-                return NotFound();
-            }
-
-            return View(service);
-        }
 
         // GET: Services/Details/5
         [Authorize(Roles = "Provider")]
