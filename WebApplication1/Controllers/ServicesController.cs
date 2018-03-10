@@ -10,7 +10,7 @@ using System;
 
 namespace xManik.Controllers
 {
-    [Authorize(Roles = "Provider")]
+
     public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,21 +27,20 @@ namespace xManik.Controllers
             _user = _user ?? await _context.Providers.Include(p => p.Services).Where(p => p.Id == _userId).FirstOrDefaultAsync();
         }
 
-        // GET: Services
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> AllServices()
         {
-            await InitUser();
-            return View(_user.Services.ToList());
+            return View(await _context.Services.ToListAsync());
         }
 
-        // GET: Services/Details/5
-        public async Task<IActionResult> Details(string id)
+
+        public async Task<IActionResult> Information(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            await InitUser();
+
             var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
 
             if (service == null)
@@ -52,7 +51,35 @@ namespace xManik.Controllers
             return View(service);
         }
 
+        // GET: Services
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Index()
+        {
+            await InitUser();
+            return View(_user.Services.ToList());
+        }
+
+        // GET: Services/Details/5
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            await InitUser();
+            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            if (service == null || service.Provider.Id != _user.Id)
+            {
+                return NotFound();
+            }
+
+            return View(service);
+        }
+
         // GET: Services/Create
+        [Authorize(Roles = "Provider")]
         public IActionResult Create()
         {
             return View();
@@ -63,6 +90,7 @@ namespace xManik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Create([Bind("ServiceId,Description,Price,Duration")] Service service)
         {
             if (ModelState.IsValid)
@@ -81,6 +109,7 @@ namespace xManik.Controllers
         }
 
         // GET: Services/Edit/5
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -101,6 +130,7 @@ namespace xManik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Description,Price,Duration")] Service service)
         {
 
@@ -133,6 +163,7 @@ namespace xManik.Controllers
         }
 
         // GET: Services/Delete/5
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -153,6 +184,7 @@ namespace xManik.Controllers
         // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             await InitUser();
