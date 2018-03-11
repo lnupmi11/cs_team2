@@ -14,17 +14,10 @@ namespace xManik.Controllers
     public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private Provider _user;
 
         public ServicesController(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        private async Task InitUser()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _user = _user ?? await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
         }
 
         public IActionResult AllServices(string sortOrder, string currentFilter, string searchString, int? page)
@@ -109,8 +102,18 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Index()
         {
-            await InitUser();
-            return View(_user.Services.ToList());
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user.Services.ToList());
         }
 
         // GET: Services/Details/5
@@ -121,10 +124,21 @@ namespace xManik.Controllers
             {
                 return NotFound();
             }
-            await InitUser();
+
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
 
-            if (service == null || service.Provider.Id != _user.Id)
+            if (service == null || service.Provider.Id != user.Id)
             {
                 return NotFound();
             }
@@ -149,14 +163,18 @@ namespace xManik.Controllers
         {
             if (ModelState.IsValid)
             {
-                await InitUser();
-                if (_user == null)
+                var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
                 {
-                    return RedirectToAction(nameof(Index));
+                    throw new ApplicationException("cannot find item with this id");
                 }
-
+                var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return NotFound();
+                }
                 service.DatePublished = DateTime.Now;
-                _user.Services.Add(service);
+                user.Services.Add(service);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -179,8 +197,18 @@ namespace xManik.Controllers
             {
                 return NotFound();
             }
-            await InitUser();
-            var service = _user.Services.SingleOrDefault(p => p.Id == id);
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var service = user.Services.SingleOrDefault(p => p.Id == id);
             if (service == null)
             {
                 return NotFound();
@@ -197,8 +225,13 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Description,Price,Duration")] Service service)
         {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
 
-            if (id != service.Id)
+            if (id != service.Id || service.Provider.Id != userId)
             {
                 return NotFound();
             }
@@ -235,8 +268,19 @@ namespace xManik.Controllers
             {
                 return NotFound();
             }
-            await InitUser();
-            var service = _user.Services.SingleOrDefault(p => p.Id == id);
+
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var service = user.Services.SingleOrDefault(p => p.Id == id);
 
             if (service == null)
             {
@@ -252,13 +296,19 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            await InitUser();
-            var service = _user.Services.SingleOrDefault(p => p.Id == id);
-            if (service != null)
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
             {
-                _context.Services.Remove(service);
+                throw new ApplicationException("cannot find item with this id");
             }
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
 
+            var service = user?.Services.SingleOrDefault(p => p.Id == id);
+            if (service == null)
+            {
+                throw new ApplicationException("Can not delete this item");
+            }
+            _context.Services.Remove(service);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
