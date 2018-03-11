@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Models.ManageViewModels
+namespace xManik.Models.ManageViewModels
 {
 
     public class IndexViewModel
@@ -22,5 +18,7 @@ namespace WebApplication1.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }
+
+        public byte[] ProfileImage { get; set; }
     }
 }

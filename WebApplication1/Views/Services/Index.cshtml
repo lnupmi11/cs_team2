@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Service>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
+    </div>
+    <div class="col-xs-9 col-sm-9 col-md-9  col-lg-9">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <div class="card-body">
+                    <h3 class="card-title">Product Name</h3>
+                    <h4>$@item.Price</h4>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                    <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                    4.0 stars
+                </div>
+            </div>
+        }
+    </div>
+</div>

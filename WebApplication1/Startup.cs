@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -8,12 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication1.Data;
-using WebApplication1.Models;
-using WebApplication1.Services;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using xManik.Data;
+using xManik.Models;
+using xManik.Services;
 
-namespace WebApplication1
+namespace xManik
 {
     public class Startup
     {
@@ -22,19 +19,28 @@ namespace WebApplication1
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get;}
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public async void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
-                config => config.SignIn.RequireConfirmedEmail = true)
+                config =>
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                    config.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -43,12 +49,11 @@ namespace WebApplication1
 
             await CreateRolesandUsersAsync(services.BuildServiceProvider());
 
-
         }
 
+        
         private async Task CreateRolesandUsersAsync(IServiceProvider serviceProvider)
         {
-
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
             context.Database.EnsureCreated();
 
@@ -59,19 +64,22 @@ namespace WebApplication1
             {
                 var role = new IdentityRole
                 {
-                    Name = "Admin"
+                    Name = "Admin",
+                   
                 };
                 await roleManager.CreateAsync(role);
 
                 var user = new ApplicationUser
                 {
-                    UserName = Configuration.GetSection("UserSettings")["UserEmail"],
-                    Email = Configuration.GetSection("UserSettings")["UserEmail"]
+                    UserName = Configuration.GetSection("UserSettings")["UserName"],
+                    Email = Configuration.GetSection("UserSettings")["UserEmail"],
+                    EmailConfirmed = true,
+                    DateRegistered = DateTime.Now
                 };
 
-                string userPWD = "Asdfgh@77";
+                var userPassword = Configuration.GetSection("UserSettings")["UserPassword"];
 
-                var chkUser = await userManager.CreateAsync(user, userPWD);
+                var chkUser = await userManager.CreateAsync(user, userPassword);
                 if (chkUser.Succeeded)
                 {
                     var result1 = await userManager.AddToRoleAsync(user, "Admin");
@@ -100,9 +108,7 @@ namespace WebApplication1
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-
-
+        {          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -9,12 +8,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using WebApplication1.Models;
-using WebApplication1.Models.ManageViewModels;
-using WebApplication1.Services;
+using xManik.Services;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using xManik.Models;
+using xManik.Models.ManageViewModels;
+using xManik.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using xManik.Extensions;
 
-namespace WebApplication1.Controllers
+namespace xManik.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -25,6 +29,7 @@ namespace WebApplication1.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -33,17 +38,165 @@ namespace WebApplication1.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _context = context;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Portfolio()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+
+            if (provider == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            var model = new PortfolioViewModel
+            {
+                StatusMessage = StatusMessage,
+                Images = provider.Portfolio
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Portfolio(PortfolioViewModel model, IFormFile file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+
+            if (provider == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    var item = new Artwork
+                    {
+                        Description = model.Description,
+                        Image = memoryStream.ToArray()
+                    };
+                    provider.Portfolio.Add(item);
+                    _context.Update(provider);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            StatusMessage = "Your profile has been updated";
+
+            return RedirectToAction(nameof(Portfolio));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> EditPortfolioItem(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+            if (image.Provider.Id != userId)
+            {
+                return NotFound();
+            }
+
+            return View(image);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> EditPortfolioItem(Artwork model, IFormFile file)
+        {
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    model.Image = memoryStream.ToArray();
+                }
+            }
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Portfolio));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> RemovePortfolioImage(string id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+            if (image.Provider.Id != userId)
+            {
+                return NotFound();
+            }
+            _context.Remove(image);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Portfolio));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProfileDescription()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Providers.Where(p => p.Id == userId).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            DescriptionViewModel model = new DescriptionViewModel()
+            {
+                StatusMessage = StatusMessage,
+                Description = user.Description
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> ProfileDescription(DescriptionViewModel model)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Providers.Where(p => p.Id == userId).FirstOrDefaultAsync();
+            user.Description = model.Description;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+            StatusMessage = "Your profile has been updated";
+            return RedirectToAction(nameof(ProfileDescription));
+        }
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -60,15 +213,17 @@ namespace WebApplication1.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                ProfileImage = user.ProfileImage,
             };
 
             return View(model);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model)
+        public async Task<IActionResult> Index(IndexViewModel model, IFormFile file)
         {
             if (!ModelState.IsValid)
             {
@@ -98,6 +253,16 @@ namespace WebApplication1.Controllers
                 if (!setPhoneResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                }
+            }
+
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    user.ProfileImage = memoryStream.ToArray();
+                    await _userManager.UpdateAsync(user);
                 }
             }
 
@@ -318,7 +483,7 @@ namespace WebApplication1.Controllers
             var model = new TwoFactorAuthenticationViewModel
             {
                 HasAuthenticator = await _userManager.GetAuthenticatorKeyAsync(user) != null,
-                Is2faEnabled = user.TwoFactorEnabled,
+                Is2FaEnabled = user.TwoFactorEnabled,
                 RecoveryCodesLeft = await _userManager.CountRecoveryCodesAsync(user),
             };
 
@@ -326,7 +491,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Disable2faWarning()
+        public async Task<IActionResult> Disable2FaWarning()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -339,12 +504,12 @@ namespace WebApplication1.Controllers
                 throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.");
             }
 
-            return View(nameof(Disable2fa));
+            return View(nameof(Disable2Fa));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Disable2fa()
+        public async Task<IActionResult> Disable2Fa()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -352,8 +517,8 @@ namespace WebApplication1.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
-            if (!disable2faResult.Succeeded)
+            var disable2FaResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
+            if (!disable2FaResult.Succeeded)
             {
                 throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.");
             }
@@ -405,10 +570,10 @@ namespace WebApplication1.Controllers
             // Strip spaces and hypens
             var verificationCode = model.Code.Replace(" ", string.Empty).Replace("-", string.Empty);
 
-            var is2faTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
+            var is2FaTokenValid = await _userManager.VerifyTwoFactorTokenAsync(
                 user, _userManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
-            if (!is2faTokenValid)
+            if (!is2FaTokenValid)
             {
                 ModelState.AddModelError("model.Code", "Verification code is invalid.");
                 return View(model);
@@ -495,7 +660,7 @@ namespace WebApplication1.Controllers
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("WebApplication1"),
+                _urlEncoder.Encode("xManik"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

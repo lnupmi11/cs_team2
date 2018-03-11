@@ -1,0 +1,82 @@
+﻿@model xManik.Extensions.PaginatedList<Service>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Services</h2>
+
+
+<div class="row">
+    <div class="col-sm-3">
+        <!--left col-->
+        <ul class="list-group">
+            <li class="list-group-item text-muted" contenteditable="false">Filters</li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Price)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["RateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Provider.Rate)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["DurationSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Duration)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <a asp-action="AllServices" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().DatePublished)</a>
+            </li>
+            <li class="list-group-item text-center">
+                <form asp-action="AllServices" method="get">
+                    <div class="form-group">
+                        <label for="inputdefault">Find by description</label>
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Search" class="btn btn-default" /> |
+                        <a asp-action="AllServices">Back to Full List</a>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        @if (Model.Count == 0)
+        {
+            <h1>Sorry, no services with that description:</h1>
+            <h2><i>@ViewData["CurrentFilter"]</i></h2>
+        }
+        @foreach (var item in Model)
+        {
+            <div class="well well-sm card">
+                <a asp-action="Information" asp-route-id="@item.Id">More Details</a>
+                <div class="card-body">
+                    <h3 class="card-title">Product Name</h3>
+                    <h4>$@item.Price</h4>
+                    <p class="card-text">@item.Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br /><br />
+<div class="center-block text-center">
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="AllServices"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-page="@(Model.PageIndex - 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="AllServices"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-page="@(Model.PageIndex + 1)"
+       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>

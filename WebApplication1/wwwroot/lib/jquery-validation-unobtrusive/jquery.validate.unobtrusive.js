@@ -85,9 +85,9 @@
         }
     }
 
-    function onReset(event) {  // 'this' is the form element
+    function onReset() {  // 'this' is the form element
         var $form = $(this),
-            key = '__jquery_unobtrusive_validation_form_reset';
+            key = "__jquery_unobtrusive_validation_form_reset";
         if ($form.data(key)) {
             return;
         }
