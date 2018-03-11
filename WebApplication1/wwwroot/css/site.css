@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 90px;
     padding-bottom: 20px;
 }
 
@@ -34,7 +34,6 @@
     }
 }
 
-
 .glyphicon {
     margin-bottom: 10px;
     margin-right: 10px;
@@ -45,3 +44,88 @@ small {
     line-height: 1.428571429;
     color: #999;
 }
+
+/*Nav bar*/
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-fixed-top {
+    height: 90px;
+    font-size: 18px;
+    padding-top: 15px;
+    -webkit-transition: height .5s, line-height .5s;
+    transition: height .5s, line-height .5s;
+}
+
+    .navbar-fixed-top.scrolled {
+        height: 60px !important;
+        font-size: 16px;
+    }
+
+
+.navbar.navbar-fixed-top.fixed-theme {
+    background-color: #222;
+    border-color: #080808;
+    box-shadow: 0 0 5px rgba(0,0,0,.8);
+}
+
+.navbar-brand.fixed-theme {
+    font-size: 18px;
+}
+
+.navbar-container.fixed-theme {
+    padding: 0;
+}
+
+.navbar-brand.fixed-theme,
+.navbar-container.fixed-theme,
+.navbar.navbar-fixed-top.fixed-theme,
+.navbar-brand,
+.navbar-container {
+    transition: 0.8s;
+    -webkit-transition: 0.8s;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .navbar-fixed-top {
+        padding: 0;
+        height: 60px;
+    }
+
+        .navbar-fixed-top.scrolled {
+            height: 40px !important;
+        }
+
+    .navbar-default .navbar-collapse {
+        background-color: #05060a;
+    }
+}
+
+@media only screen and (max-width: 676px) {
+
+    .navbar-default .navbar-collapse {
+        font-size: 10px;
+    }
+
+    #navbar {
+        height: 100vh !important;
+        overflow-y: scroll !important;
+    }
+
+    #navbar .navbar-right {
+        margin-bottom:50px;
+    }
+}
+
+@media only screen and (max-width: 426px) {
+
+    .navbar-default .navbar-collapse li {
+        float:left;
+        font-size: 8px;
+    }
+
+}
+/*Nav bar end*/
