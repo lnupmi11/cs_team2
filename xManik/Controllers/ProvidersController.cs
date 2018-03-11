@@ -6,6 +6,7 @@ using xManik.Data;
 using Microsoft.AspNetCore.Authorization;
 using xManik.Extensions;
 using xManik.Models;
+using System;
 
 namespace xManik.Controllers
 {
@@ -35,15 +36,16 @@ namespace xManik.Controllers
             }
 
             var provider = await _context.Providers
-                .Include(p => p.User).Include(p=>p.Portfolio).Include(p=>p.Services)
+                .Include(p => p.User).Include(p => p.Portfolio).Include(p => p.Services)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
             if (provider == null)
             {
                 return NotFound();
             }
 
             return View(provider);
-        }    
+        }
 
         // GET: Providers/Delete/5
         [Authorize(Roles = "Admin")]
@@ -72,6 +74,10 @@ namespace xManik.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var provider = await _context.Providers.SingleOrDefaultAsync(m => m.Id == id);
+            if (provider == null)
+            {
+                throw new ApplicationException("Can not delete this item");
+            }
             _context.Providers.Remove(provider);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
