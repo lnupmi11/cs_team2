@@ -2,6 +2,7 @@
 
 namespace xManik.Models.ManageViewModels
 {
+
     public class IndexViewModel
     {
         public string Username { get; set; }
