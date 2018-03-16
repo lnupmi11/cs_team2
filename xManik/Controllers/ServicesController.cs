@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System;
 using xManik.Extensions;
+using Stripe;
 
 namespace xManik.Controllers
 {
@@ -50,31 +51,35 @@ namespace xManik.Controllers
                 services = services.Where(s => s.Description.ToLower().Contains(searchString));
             }
 
+            double maxPrice = services.Max(p => p.Price);
+            double maxRate = services.Max(p => p.Provider.Rate);
+            double longest = services.Max(p => p.Duration);
+
             switch (sortOrder)
             {
                 case "price_desc":
-                    services = services.OrderByDescending(p => p.Price);
+                    services = services.OrderByDescending(p=> p.IsPromoted ? maxPrice + p.Price : p.Price);
                     break;
                 case "rate_asc":
-                    services = services.OrderBy(s => s.Provider.Rate);
+                    services = services.OrderBy(p => p.IsPromoted ? p.Provider.Rate - maxRate - 1 : p.Provider.Rate);
                     break;
                 case "rate_desc":
-                    services = services.OrderByDescending(s => s.Provider.Rate);
+                    services = services.OrderByDescending(p => p.IsPromoted ? maxRate + p.Provider.Rate + 1 : p.Provider.Rate);
                     break;
                 case "date_asc":
-                    services = services.OrderBy(s => s.DatePublished);
+                    services = services.OrderBy(p => p.IsPromoted ? DateTime.MinValue : p.DatePublished);
                     break;
                 case "date_desc":
-                    services = services.OrderByDescending(s => s.DatePublished);
+                    services = services.OrderByDescending(p => p.IsPromoted ? p.DatePublished.Add(new TimeSpan(Int32.MaxValue)) : p.DatePublished);
                     break;
                 case "duration_desc":
-                    services = services.OrderByDescending(s => s.Duration);
+                    services = services.OrderByDescending(p => p.IsPromoted ? longest + p.Duration : p.Duration);
                     break;
                 case "duration_asc":
-                    services = services.OrderBy(s => s.Duration);
+                    services = services.OrderBy(p => p.IsPromoted ? p.Duration - longest : p.Duration);
                     break;
                 default:
-                    services = services.OrderBy(s => s.Price);
+                    services = services.OrderBy(p => p.IsPromoted ? p.Price - maxPrice : p.Price);
                     break;
             }
 

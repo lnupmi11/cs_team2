@@ -1,0 +1,23 @@
+﻿@using xManik.Extensions;
+@using Microsoft.Extensions.Options
+@inject IOptions<PaymentSettings> Stripe
+@{
+    ViewData["Title"] = "PromoteService";
+}
+
+<h2>PromoteService</h2>
+
+<form action="/Payment/PromoteService" method="POST">
+    <article>
+        <label>Amount: ₴5.00</label>
+    </article>
+    <input name="id" value="@ViewBag.Id" type="hidden"/>
+    <script src="//checkout.stripe.com/v2/checkout.js"
+            class="stripe-button"
+            data-key="@Stripe.Value.PublishableKey"
+            data-locale="auto"
+            data-description="Promotion Charge"
+            data-amount="500">
+    </script>
+</form>
+

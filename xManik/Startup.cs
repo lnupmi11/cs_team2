@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using xManik.Data;
 using xManik.Models;
 using xManik.Services;
+using Stripe;
+using xManik.Extensions;
 
 namespace xManik
 {
@@ -41,6 +43,11 @@ namespace xManik
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
+
+
+            
+            StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
+            services.Configure<PaymentSettings>(Configuration.GetSection("Stripe"));
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
