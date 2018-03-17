@@ -10,6 +10,7 @@ using System;
 using xManik.Extensions;
 using Stripe;
 
+
 namespace xManik.Controllers
 {
     public class ServicesController : Controller
@@ -137,13 +138,8 @@ namespace xManik.Controllers
             {
                 throw new ApplicationException("cannot find item with this id");
             }
-            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var service = await _context.Services.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync()
+            var service = user?.Services.SingleOrDefault(p => p.Id == id);
 
             if (service == null || service.Provider.Id != user.Id)
             {
@@ -210,12 +206,7 @@ namespace xManik.Controllers
                 throw new ApplicationException("cannot find item with this id");
             }
             var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var service = user.Services.SingleOrDefault(p => p.Id == id);
+            var service = user?.Services.SingleOrDefault(p => p.Id == id);
             if (service == null)
             {
                 return NotFound();
@@ -238,7 +229,7 @@ namespace xManik.Controllers
                 throw new ApplicationException("cannot find item with this id");
             }
 
-            if (id != service.Id || service.Provider.Id != userId)
+            if (id != service.Id)
             {
                 return NotFound();
             }
@@ -282,13 +273,7 @@ namespace xManik.Controllers
                 throw new ApplicationException("cannot find item with this id");
             }
             var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var service = user.Services.SingleOrDefault(p => p.Id == id);
-
+            var service = user?.Services.SingleOrDefault(p => p.Id == id);
             if (service == null)
             {
                 return NotFound();
@@ -309,7 +294,6 @@ namespace xManik.Controllers
                 throw new ApplicationException("cannot find item with this id");
             }
             var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
-
             var service = user?.Services.SingleOrDefault(p => p.Id == id);
             if (service == null)
             {

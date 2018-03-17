@@ -48,10 +48,9 @@ namespace xManik
             
             StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
             services.Configure<PaymentSettings>(Configuration.GetSection("Stripe"));
-
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
+            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("EmailServices") );
             services.AddMvc();
 
             await CreateRolesandUsersAsync(services.BuildServiceProvider());

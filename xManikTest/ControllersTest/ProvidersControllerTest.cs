@@ -11,6 +11,8 @@ using System;
 
 namespace xManikTest.ControllersTest
 {
+
+    //For each test case context is the same
     public class ProvidersControllerTest
     {
         private static ProvidersController controller;

@@ -1,7 +1,14 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using xManik.Controllers;
 using xManik.Data;
 using xManik.Models;
@@ -11,26 +18,24 @@ namespace xManikTest.ControllersTest
 {
     public class ServicesControllerTest
     {
-        private static ServicesController controller;
-        private static ApplicationDbContext context;
-
-        static ServicesControllerTest()
+        //New context for each test case
+        private DbContextOptions<ApplicationDbContext> GetDbContextOptions()
         {
-            InitializeControllerAndContext();
+            var serviceProvider = new ServiceCollection()
+                .AddEntityFrameworkInMemoryDatabase()
+                .BuildServiceProvider();
+
+            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            builder.UseInMemoryDatabase("aspnet-xManik-AF8D5E9A-D650-4030-8051-C883BE4C81AC")
+                   .UseInternalServiceProvider(serviceProvider);
+
+            return builder.Options;
         }
 
-        private static void InitializeControllerAndContext()
+        private async Task<ApplicationDbContext> GetInitializedContextWithDefaultDataAsync()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseInMemoryDatabase("aspnet-xManik-AF8D5E9A-D650-4030-8051-C883BE4C81AC");
-            context = new ApplicationDbContext(optionsBuilder.Options);
-            InitializeContextWithDefaultData();
-            controller = new ServicesController(context);
-        }
-
-        private static void InitializeContextWithDefaultData()
-        {
-            var s = new Service() { Id = "1", DatePublished = DateTime.Now, Description = "short description1", Duration = 1, Price = 1 };
+            ApplicationDbContext context = new ApplicationDbContext(GetDbContextOptions());
+            var service = new Service() { Id = "1", DatePublished = DateTime.Now, Description = "short description1", Duration = 1, Price = 1 };
             var provider = new Provider()
             {
                 Id = "1233",
@@ -41,8 +46,9 @@ namespace xManikTest.ControllersTest
                 Rate = 33,
                 Services = new List<Service>()
             };
-            s.Provider = provider;
-            provider.Services.Add(s);
+
+            service.Provider = provider;
+            provider.Services.Add(service);
             var user = new ApplicationUser()
             {
                 Id = "1123",
@@ -54,7 +60,8 @@ namespace xManikTest.ControllersTest
             };
             provider.User = user;
             context.Users.Add(user);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
+            return context;
         }
 
         #region IndexTests
@@ -62,7 +69,115 @@ namespace xManikTest.ControllersTest
         [Fact]
         public void Index_NoUser_ThrowApplicationException()
         {
-            controller.Invoking(p => p.Index().Wait()).Should().Throw<ApplicationException>();
+            using (var context = new ApplicationDbContext(GetDbContextOptions()))
+            {
+                var controller = new ServicesController(context);
+                controller.Invoking(p => p.Index().Wait()).Should().Throw<ApplicationException>();
+            }
+        }
+
+        [Fact]
+        public async Task Index_InvalidNameIdentifier_ReturnNotFound()
+        {
+            using (var context = await GetInitializedContextWithDefaultDataAsync())
+            {
+                var controller = new ServicesController(context);
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                {
+                 new Claim(ClaimTypes.NameIdentifier, "testId"),
+                 new Claim(ClaimTypes.Name, "testName")
+                }));
+                var httpContextMock = new Mock<HttpContext>();
+                httpContextMock.Setup(p => p.User).Returns(user);
+                controller.ControllerContext.HttpContext = httpContextMock.Object;
+
+                var result = ((await controller.Index()) as StatusCodeResult);
+                result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+            }
+        }
+
+        [Fact]
+        public async Task Index_ValidNameIdentifier_ReturnExistingModel()
+        {
+            using (var context = await GetInitializedContextWithDefaultDataAsync())
+            {
+                var controller = new ServicesController(context);
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                {
+                 new Claim(ClaimTypes.NameIdentifier, "1123"),
+                 new Claim(ClaimTypes.Name, "testName")
+                }));
+                var httpContextMock = new Mock<HttpContext>();
+                httpContextMock.Setup(p => p.User).Returns(user);
+                controller.ControllerContext.HttpContext = httpContextMock.Object;
+
+                var model = ((await controller.Index()) as ViewResult).Model as List<Service>;
+                model.Count.Should().Be(1);
+                model[0].Id.Should().Be("1");
+                model[0].Provider.Id.Should().Be("1123");
+                model[0].Price.Should().Be(1);
+            }
+        }
+
+        #endregion
+
+        #region DetailsTests
+
+        [Fact]
+        public void Details_NoUser_ThrowApplicationException()
+        {
+            using (var context = new ApplicationDbContext(GetDbContextOptions()))
+            {
+                var controller = new ServicesController(context);
+                controller.Invoking(p => p.Details("").Wait()).Should().Throw<ApplicationException>();
+            }
+        }
+
+        [Fact]
+        public async Task Details_InvalidNameIdentifier_ReturnNotFound()
+        {
+            using (var context = await GetInitializedContextWithDefaultDataAsync())
+            {
+                var controller = new ServicesController(context);
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                {
+                 new Claim(ClaimTypes.NameIdentifier, "testId"),
+                 new Claim(ClaimTypes.Name, "testName")
+                }));
+                var httpContextMock = new Mock<HttpContext>();
+                httpContextMock.Setup(p => p.User).Returns(user);
+                controller.ControllerContext.HttpContext = httpContextMock.Object;
+
+                var result = ((await controller.Index()) as StatusCodeResult);
+                result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+            }
+        }
+
+        [Fact]
+        public async Task Details_ValidNameIdentifier_ReturnExistingModel()
+        {
+            using (var context = await GetInitializedContextWithDefaultDataAsync())
+            {
+                var controller = new ServicesController(context);
+                var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+                {
+                 new Claim(ClaimTypes.NameIdentifier, "1123"),
+                 new Claim(ClaimTypes.Name, "testName")
+                }));
+
+                var httpContextMock = new Mock<HttpContext>();
+                httpContextMock.Setup(p => p.User).Returns(user);
+                controller.ControllerContext.HttpContext = httpContextMock.Object;
+
+                var result = ((await controller.Details("32")) as StatusCodeResult);
+                result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+
+                var model = ((await controller.Details("1")) as ViewResult).Model as Service;
+                model.Should().NotBeNull();
+                model.Id.Should().Be("1");
+                model.Provider.Id.Should().Be("1123");
+                model.Price.Should().Be(1);
+            }
         }
 
         #endregion

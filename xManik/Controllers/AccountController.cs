@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -220,18 +220,17 @@ namespace xManik.Controllers
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Role = model.Role, ProfileImage = Utils.ImageBytes };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-                //if (result.Succeeded)
-                //{
-                //    _logger.LogInformation("User created a new account with password.");
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
 
-                //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                //    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                //    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                //    _logger.LogInformation("User created a new account with password.");
-                //    return RedirectToLocal(returnUrl);
-                //}
-                await ConfirmEmail(user.Id, await _userManager.GenerateEmailConfirmationTokenAsync(user));
+                    _logger.LogInformation("User created a new account with password.");
+                    return RedirectToLocal(returnUrl);
+                }
                 AddErrors(result);
             }
 
