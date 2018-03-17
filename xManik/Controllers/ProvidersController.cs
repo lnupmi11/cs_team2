@@ -36,7 +36,8 @@ namespace xManik.Controllers
             }
 
             var provider = await _context.Providers
-                .Include(p => p.User).Include(p => p.Portfolio).Include(p => p.Services)
+                .Include(p => p.User).Include(p => p.Portfolio)
+                .Include(p => p.Services).Include(p=> p.Reviews)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (provider == null)

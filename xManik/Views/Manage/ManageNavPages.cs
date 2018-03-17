@@ -10,6 +10,8 @@ namespace xManik.Views.Manage
 
         public static string Index => "Index";
 
+        public static string Profile => "Profile";
+
         public static string Portfolio => "Portfolio";
 
         public static string ProfileDescription => "ProfileDescription";
@@ -23,6 +25,8 @@ namespace xManik.Views.Manage
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
         public static string IndexPortfolioNavClass(ViewContext viewContext) => PageNavClass(viewContext, Portfolio);
+
+        public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
 
         public static string ProfileDescriptionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ProfileDescription);
 

@@ -15,7 +15,7 @@
         <br />
         <h3>@Model.User.UserName</h3>
         <button type="button" class="btn btn-success small">Book me!</button>
-        <br/><br />
+        <br /><br />
         <ul class="list-group">
             <li class="list-group-item text-muted" contenteditable="false">Profile</li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span>@Model.User.DateRegistered</li>
@@ -92,15 +92,8 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Reviews</div>
-            <div class="panel-body">
-                A long description about me.
-            </div>
+        <div class="reviews-partial" ng-app="myApp">
+            @Html.Partial("../Reviews/Index.cshtml", Tuple.Create(Model.Reviews, Model.Id))
         </div>
     </div>
 </div>
-
-
-
-
