@@ -47,7 +47,11 @@
         }
         @foreach (var item in Model)
         {
-            <div class="well well-sm card">
+            <div class="well well-sm card" 
+                 @if(item.IsPromoted)
+                 {
+                     @:style="background-color: #B39DDB"
+                 }>
                 <a asp-action="Information" asp-route-id="@item.Id">More Details</a>
                 <div class="card-body">
                     <h3 class="card-title">Product Name</h3>

@@ -23,7 +23,7 @@ namespace xManik.Controllers
 
         public IActionResult AllServices(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            const int pageSize = 3;
+            const int pageSize = 5;
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewData["RateSortParm"] = sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
@@ -54,6 +54,8 @@ namespace xManik.Controllers
             double maxPrice = services.Max(p => p.Price);
             double maxRate = services.Max(p => p.Provider.Rate);
             double longest = services.Max(p => p.Duration);
+            DateTime latest = services.Max(p => p.DatePublished);
+            TimeSpan oneYear = DateTime.Now.AddYears(1) - DateTime.Now;
 
             switch (sortOrder)
             {
@@ -67,10 +69,10 @@ namespace xManik.Controllers
                     services = services.OrderByDescending(p => p.IsPromoted ? maxRate + p.Provider.Rate + 1 : p.Provider.Rate);
                     break;
                 case "date_asc":
-                    services = services.OrderBy(p => p.IsPromoted ? DateTime.MinValue : p.DatePublished);
+                    services = services.OrderBy(p => p.IsPromoted ? p.DatePublished.Subtract(oneYear) : p.DatePublished);
                     break;
                 case "date_desc":
-                    services = services.OrderByDescending(p => p.IsPromoted ? p.DatePublished.Add(new TimeSpan(Int32.MaxValue)) : p.DatePublished);
+                    services = services.OrderByDescending(p => p.IsPromoted ? p.DatePublished.Add(oneYear) : p.DatePublished);
                     break;
                 case "duration_desc":
                     services = services.OrderByDescending(p => p.IsPromoted ? longest + p.Duration : p.Duration);

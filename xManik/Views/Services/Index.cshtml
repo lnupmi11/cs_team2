@@ -26,9 +26,13 @@
                 <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
                 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
                 4.0 stars
-                <a>
-                    @Html.ActionLink("promote", "Index", "Payment", new { id = item.Id}, null)
-                </a>
+                @if (!item.IsPromoted)
+                {
+                <form action="/Payment/Index" method="post">
+                    <input type="hidden" name="serviceId" value="@item.Id">
+                    <input type="submit" value="Promote">
+                </form>
+                }
             </div>
         </div>
         }

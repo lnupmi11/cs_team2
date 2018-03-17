@@ -30,47 +30,35 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> PromoteService(string id, string stripeToken)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId == null)
-            {
-                throw new ApplicationException("cannot find item with this id");
-            }
-
-            var user = await _context.Providers.Include(p => p.Services).Include(p => p.User).Where(p => p.Id == userId).FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var service = user.Services.SingleOrDefault(p => p.Id == id);
+            var service = await _context?.Services.FirstOrDefaultAsync(p => p.Id == id);
 
             if (service == null)
             {
                 return NotFound();
             }
 
-            if(!service.IsPromoted)
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                NotFound();
+            }
+
+            if (!service.IsPromoted)
             {
                 var customers = new StripeCustomerService();
                 var charges = new StripeChargeService();
 
                 var customer = customers.Create(new StripeCustomerCreateOptions
                 {
-                    Email = user.User.Email,
+                    Email = user.Email,
                     SourceToken = stripeToken
                 });
 
                 var charge = charges.Create(new StripeChargeCreateOptions
                 {
                     Amount = 500,
-                    Description = "Service promotion Charge " + user.User.Email,
+                    Description = "Service promotion charge.",
                     Currency = "usd",
                     CustomerId = customer.Id
                 });
@@ -82,9 +70,20 @@ namespace xManik.Controllers
             return RedirectToAction("Index", "Services");
         }
 
-        public IActionResult Index(string id)
+        public async Task<IActionResult> Index(string serviceId)
         {
-            @ViewBag.Id = id;
+            var user = await _userManager.GetUserAsync(User);
+
+            if(user == null)
+            {
+                NotFound();
+            }
+
+            ViewBag.Id = serviceId;
+            ViewBag.Description = "Service promotion charge.";
+            ViewBag.Email = user.Email;
+            ViewBag.Amount = 500;
+
             return View();
         }
 
