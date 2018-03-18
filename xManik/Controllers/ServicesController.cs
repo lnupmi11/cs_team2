@@ -45,6 +45,13 @@ namespace xManik.Controllers
             var services = _context.Services
                 .Include(s => s.Provider).AsQueryable();
 
+            if(services.Count() == 0)
+            {
+                //TODO:
+                //throw some exception or show some view
+                return View();
+            }
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.Trim().ToLower();
@@ -121,6 +128,60 @@ namespace xManik.Controllers
             }
 
             return View(user.Services.ToList());
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Order(string serviceId)
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                NotFound();
+            }
+
+            ViewBag.ServiceId = serviceId;
+            ViewBag.UserId = user.Id;
+                
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Order(RegisterOrderViewModel model)
+        {
+            var service = _context.Services.Include(s => s.Provider).FirstOrDefault(s => s.Id == model.ServiceId);
+            if (ModelState.IsValid)
+            {
+                var user = _context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+
+                if (service== null || user == null)
+                {
+                    NotFound();
+                }
+
+                Order order = new Order
+                {
+                    CustomerId = model.UserId,
+                    ProviderId = service.Provider.Id,
+                    ServiceId = service.Id,
+                    AdditionalInfo = model.OrderDetails,
+                    StartTime = model.ServiceTime,
+                    EndTime = model.ServiceTime.Add(TimeSpan.FromMinutes(service.Duration))
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+            }
+
+            return Redirect("\\Services\\AllServices");
         }
 
         // GET: Services/Details/5

@@ -17,6 +17,7 @@ using xManik.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using xManik.Extensions;
+using System.Collections.Generic;
 
 namespace xManik.Controllers
 {
@@ -54,6 +55,31 @@ namespace xManik.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Orders()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var orders = _context.Orders.Where(o => o.ProviderId == userId);
+
+            orders = orders.OrderBy(o => o.IsRead);
+
+            List<OrderViewModel> fullOrders = new List<OrderViewModel>();
+
+            foreach(var item in orders)
+            {
+                fullOrders.Add(new OrderViewModel
+                {
+                    UserName = (await _context.Users.FirstOrDefaultAsync(u => u.Id == item.CustomerId)).UserName,
+                    Service = await _context.Services.FirstOrDefaultAsync(s => s.Id == item.ServiceId),
+                    Order = item
+                });
+            }
+
+            return View(fullOrders);
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Portfolio()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -72,7 +98,6 @@ namespace xManik.Controllers
 
             return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -194,10 +219,7 @@ namespace xManik.Controllers
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(ProfileDescription));
         }
-
-
-
-
+       
         [HttpGet]
         public async Task<IActionResult> Index()
         {

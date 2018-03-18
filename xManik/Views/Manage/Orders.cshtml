@@ -1,0 +1,41 @@
+﻿@model IEnumerable<OrderViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+    ViewData.AddActivePage(ManageNavPages.Orders);
+}
+
+
+<h4>@ViewData["Title"]</h4>
+
+<ul class="list-group ">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item 
+            @if (item.Order.IsRead)
+            {
+                 @:list-group-item-info
+            }
+            else
+            {
+                @:list-group-item-danger
+            } ">
+            <span>
+                @item.UserName
+            </span>
+            <span class="pull-right">
+                @item.Order.AdditionalInfo
+            </span>
+        </li>
+    }
+</ul>
+
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+

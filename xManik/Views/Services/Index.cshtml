@@ -28,10 +28,7 @@
                 4.0 stars
                 @if (!item.IsPromoted)
                 {
-                <form action="/Payment/Index" method="post">
-                    <input type="hidden" name="serviceId" value="@item.Id">
-                    <input type="submit" value="Promote">
-                </form>
+                        @Html.ActionLink("Promote", "Index", "Payment", new { serviceId = item.Id }, null);
                 }
             </div>
         </div>

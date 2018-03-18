@@ -47,10 +47,8 @@
         }
         @foreach (var item in Model)
         {
-            <div class="well well-sm card" 
-                 @if(item.IsPromoted)
-                 {
-                     @:style="background-color: #B39DDB"
+            <div class="well well-sm card"
+                 @if (item.IsPromoted) { @: style="background-color: #B39DDB"
                  }>
                 <a asp-action="Information" asp-route-id="@item.Id">More Details</a>
                 <div class="card-body">
@@ -59,12 +57,16 @@
                     <h4>@item.Provider.Rate</h4>
                     <h4>@item.Duration</h4>
                     <h4>@item.DatePublished</h4>
-                    @if(item.IsPromoted)
+                    @if (item.IsPromoted)
                     {
                         <h4>PROMOTED</h4>
                     }
                     <p class="card-text">@item.Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
                 </div>
+                @if (User.IsInRole("Client"))
+                {
+                    @Html.ActionLink("Замовити", "Order", "Services", new { serviceId = item.Id}, null);
+                }
             </div>
         }
     </div>
