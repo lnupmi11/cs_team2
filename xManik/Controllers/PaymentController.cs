@@ -74,7 +74,7 @@ namespace xManik.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            if(user == null)
+            if(user == null || serviceId == null)
             {
                 NotFound();
             }
