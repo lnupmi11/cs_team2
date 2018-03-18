@@ -17,6 +17,7 @@ namespace xManik.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Artwork> Artworks { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
