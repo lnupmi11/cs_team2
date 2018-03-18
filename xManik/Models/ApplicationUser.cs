@@ -20,11 +20,10 @@ namespace xManik.Models
         public string Id { get; set; }
         //Credit card info
         public virtual ApplicationUser User { get; set; }
-        public string ClientProperty { get; set; }
     }
 
     public class Provider
-    { 
+    {
         public string Id { get; set; }
         public virtual Marker Marker { get; set; }
         //Credit card info
@@ -33,9 +32,8 @@ namespace xManik.Models
         public double Rate { get; set; }
         public virtual ICollection<Service> Services { get; set; }
         public virtual ICollection<Artwork> Portfolio { get; set; }
-        //public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-        public string ProviderProperty { get; set; }
     }
 }

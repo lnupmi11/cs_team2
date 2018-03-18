@@ -39,7 +39,5 @@ namespace xManik.Data
        .WithOne(b => b.User)
        .HasForeignKey<Provider>(b => b.Id);
         }
-
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }

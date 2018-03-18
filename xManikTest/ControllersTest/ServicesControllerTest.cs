@@ -181,5 +181,20 @@ namespace xManikTest.ControllersTest
         }
 
         #endregion
+
+        #region CreateTests
+
+        [Fact]
+        public void Create_NoUser_ThrowApplicationException()
+        {
+            using (var context = new ApplicationDbContext(GetDbContextOptions()))
+            {
+                Service service = new Service() { Price = 10, Description = "test", Duration = 12 };
+                var controller = new ServicesController(context);
+                controller.Invoking(p => p.Create(service).Wait()).Should().Throw<ApplicationException>();
+            }
+        }
+
+        #endregion
     }
 }
