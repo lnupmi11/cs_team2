@@ -229,6 +229,30 @@ namespace xManik.Migrations
                     b.ToTable("Marker");
                 });
 
+            modelBuilder.Entity("xManik.Models.Order", b =>
+                {
+                    b.Property<string>("OrderId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdditionalInfo");
+
+                    b.Property<string>("CustomerId");
+
+                    b.Property<DateTime>("EndTime");
+
+                    b.Property<bool>("IsRead");
+
+                    b.Property<string>("ProviderId");
+
+                    b.Property<string>("ServiceId");
+
+                    b.Property<DateTime>("StartTime");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("xManik.Models.Provider", b =>
                 {
                     b.Property<string>("Id");
@@ -278,6 +302,8 @@ namespace xManik.Migrations
                     b.Property<string>("Description");
 
                     b.Property<double>("Duration");
+
+                    b.Property<bool>("IsPromoted");
 
                     b.Property<double>("Price");
 

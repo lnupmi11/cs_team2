@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,7 @@ namespace xManikTest.ControllersTest
                 Rate = 33,
                 Services = new List<Service>()
             };
+
             service.Provider = provider;
             provider.Services.Add(service);
             var user = new ApplicationUser()

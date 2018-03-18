@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System;
 using xManik.Extensions;
+using Stripe;
+
 
 namespace xManik.Controllers
 {
@@ -22,7 +24,7 @@ namespace xManik.Controllers
 
         public IActionResult AllServices(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            const int pageSize = 3;
+            const int pageSize = 5;
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
             ViewData["RateSortParm"] = sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
@@ -44,41 +46,57 @@ namespace xManik.Controllers
             var services = _context.Services
                 .Include(s => s.Provider).AsQueryable();
 
+            if(services.Count() == 0)
+            {
+                return RedirectToAction(nameof(DefaultEmptyPage));
+            }
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.Trim().ToLower();
                 services = services.Where(s => s.Description.ToLower().Contains(searchString));
             }
 
+            double maxPrice = services.Max(p => p.Price);
+            double maxRate = services.Max(p => p.Provider.Rate);
+            double longest = services.Max(p => p.Duration);
+            DateTime latest = services.Max(p => p.DatePublished);
+            TimeSpan oneYear = DateTime.Now.AddYears(1) - DateTime.Now;
+
             switch (sortOrder)
             {
                 case "price_desc":
-                    services = services.OrderByDescending(p => p.Price);
+                    services = services.OrderByDescending(p=> p.IsPromoted ? maxPrice + p.Price : p.Price);
                     break;
                 case "rate_asc":
-                    services = services.OrderBy(s => s.Provider.Rate);
+                    services = services.OrderBy(p => p.IsPromoted ? p.Provider.Rate - maxRate - 1 : p.Provider.Rate);
                     break;
                 case "rate_desc":
-                    services = services.OrderByDescending(s => s.Provider.Rate);
+                    services = services.OrderByDescending(p => p.IsPromoted ? maxRate + p.Provider.Rate + 1 : p.Provider.Rate);
                     break;
                 case "date_asc":
-                    services = services.OrderBy(s => s.DatePublished);
+                    services = services.OrderBy(p => p.IsPromoted ? p.DatePublished.Subtract(oneYear) : p.DatePublished);
                     break;
                 case "date_desc":
-                    services = services.OrderByDescending(s => s.DatePublished);
+                    services = services.OrderByDescending(p => p.IsPromoted ? p.DatePublished.Add(oneYear) : p.DatePublished);
                     break;
                 case "duration_desc":
-                    services = services.OrderByDescending(s => s.Duration);
+                    services = services.OrderByDescending(p => p.IsPromoted ? longest + p.Duration : p.Duration);
                     break;
                 case "duration_asc":
-                    services = services.OrderBy(s => s.Duration);
+                    services = services.OrderBy(p => p.IsPromoted ? p.Duration - longest : p.Duration);
                     break;
                 default:
-                    services = services.OrderBy(s => s.Price);
+                    services = services.OrderBy(p => p.IsPromoted ? p.Price - maxPrice : p.Price);
                     break;
             }
 
             return View(PaginatedList<Service>.Create(services, page ?? 1, pageSize));
+        }
+
+        public IActionResult DefaultEmptyPage()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Information(string id)
@@ -114,6 +132,60 @@ namespace xManik.Controllers
             }
 
             return View(user.Services.ToList());
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Order(string serviceId)
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                throw new ApplicationException("cannot find item with this id");
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                NotFound();
+            }
+
+            ViewBag.ServiceId = serviceId;
+            ViewBag.UserId = user.Id;
+                
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Order(RegisterOrderViewModel model)
+        {
+            var service = _context.Services.Include(s => s.Provider).FirstOrDefault(s => s.Id == model.ServiceId);
+            if (ModelState.IsValid)
+            {
+                var user = _context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+
+                if (service== null || user == null)
+                {
+                    NotFound();
+                }
+
+                Order order = new Order
+                {
+                    CustomerId = model.UserId,
+                    ProviderId = service.Provider.Id,
+                    ServiceId = service.Id,
+                    AdditionalInfo = model.OrderDetails,
+                    StartTime = model.ServiceTime,
+                    EndTime = model.ServiceTime.Add(TimeSpan.FromMinutes(service.Duration))
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+            }
+
+            return Redirect("\\Services\\AllServices");
         }
 
         // GET: Services/Details/5
@@ -182,6 +254,7 @@ namespace xManik.Controllers
 
             return View(service);
         }
+
 
         // GET: Services/Edit/5
         [Authorize(Roles = "Provider")]
@@ -265,7 +338,6 @@ namespace xManik.Controllers
             }
             var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
             var service = user?.Services.SingleOrDefault(p => p.Id == id);
-
             if (service == null)
             {
                 return NotFound();

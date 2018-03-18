@@ -20,6 +20,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <PackageReference Include="Stripe.net" Version="14.0.0" />
+
   </ItemGroup>
 
   <ItemGroup>
