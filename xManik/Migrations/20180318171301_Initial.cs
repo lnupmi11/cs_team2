@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace xManik.Migrations
 {
-    public partial class Orders : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -194,8 +194,7 @@ namespace xManik.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    ClientProperty = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,7 +214,6 @@ namespace xManik.Migrations
                     Id = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     MarkerId = table.Column<int>(nullable: true),
-                    ProviderProperty = table.Column<string>(nullable: true),
                     Rate = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -259,25 +257,19 @@ namespace xManik.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    ReviewId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthorId = table.Column<string>(nullable: true),
+                    ReviewId = table.Column<string>(nullable: false),
+                    ClientId = table.Column<string>(nullable: true),
                     DatePosted = table.Column<DateTime>(nullable: false),
                     Message = table.Column<string>(nullable: true),
-                    RecipientId = table.Column<string>(nullable: true)
+                    ProviderId = table.Column<string>(nullable: true),
+                    Rating = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ReviewId);
                     table.ForeignKey(
-                        name: "FK_Reviews_Clients_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Providers_RecipientId",
-                        column: x => x.RecipientId,
+                        name: "FK_Reviews_Providers_ProviderId",
+                        column: x => x.ProviderId,
                         principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -356,14 +348,9 @@ namespace xManik.Migrations
                 column: "MarkerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_AuthorId",
+                name: "IX_Reviews_ProviderId",
                 table: "Reviews",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reviews_RecipientId",
-                table: "Reviews",
-                column: "RecipientId");
+                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_ProviderId",
@@ -392,6 +379,9 @@ namespace xManik.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
@@ -402,9 +392,6 @@ namespace xManik.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Providers");

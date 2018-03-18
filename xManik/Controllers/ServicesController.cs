@@ -48,9 +48,7 @@ namespace xManik.Controllers
 
             if(services.Count() == 0)
             {
-                //TODO:
-                //throw some exception or show some view
-                return View();
+                return RedirectToAction(nameof(DefaultEmptyPage));
             }
 
             if (!string.IsNullOrEmpty(searchString))
@@ -94,6 +92,11 @@ namespace xManik.Controllers
             }
 
             return View(PaginatedList<Service>.Create(services, page ?? 1, pageSize));
+        }
+
+        public IActionResult DefaultEmptyPage()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Information(string id)
@@ -199,7 +202,7 @@ namespace xManik.Controllers
             {
                 throw new ApplicationException("cannot find item with this id");
             }
-            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync()
+            var user = await _context.Providers.Include(p => p.Services).Where(p => p.Id == userId).FirstOrDefaultAsync();
             var service = user?.Services.SingleOrDefault(p => p.Id == id);
 
             if (service == null || service.Provider.Id != user.Id)

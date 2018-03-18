@@ -18,8 +18,7 @@ namespace xManik.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
-
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -254,7 +253,6 @@ namespace xManik.Migrations
                     b.ToTable("Orders");
                 });
 
-
             modelBuilder.Entity("xManik.Models.Provider", b =>
                 {
                     b.Property<string>("Id");
@@ -274,7 +272,6 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Review", b =>
                 {
-
                     b.Property<string>("ReviewId")
                         .ValueGeneratedOnAdd();
 
@@ -283,7 +280,6 @@ namespace xManik.Migrations
                     b.Property<DateTime>("DatePosted");
 
                     b.Property<string>("Message");
-
 
                     b.Property<string>("ProviderId");
 
@@ -308,7 +304,6 @@ namespace xManik.Migrations
                     b.Property<double>("Duration");
 
                     b.Property<bool>("IsPromoted");
-
 
                     b.Property<double>("Price");
 
@@ -395,7 +390,6 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Review", b =>
                 {
-
                     b.HasOne("xManik.Models.Provider", "Provider")
                         .WithMany("Reviews")
                         .HasForeignKey("ProviderId");

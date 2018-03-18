@@ -8,7 +8,6 @@ namespace xManik.Models
 {
     public class Order
     {
-        [Key]
         public string OrderId { get; set; }
         public string CustomerId { get; set; }
         public string ProviderId { get; set; }

@@ -12,8 +12,8 @@ using xManik.Models;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180318145749_Initial22222")]
-    partial class Initial22222
+    [Migration("20180318171301_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -230,6 +230,30 @@ namespace xManik.Migrations
                     b.ToTable("Marker");
                 });
 
+            modelBuilder.Entity("xManik.Models.Order", b =>
+                {
+                    b.Property<string>("OrderId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdditionalInfo");
+
+                    b.Property<string>("CustomerId");
+
+                    b.Property<DateTime>("EndTime");
+
+                    b.Property<bool>("IsRead");
+
+                    b.Property<string>("ProviderId");
+
+                    b.Property<string>("ServiceId");
+
+                    b.Property<DateTime>("StartTime");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("xManik.Models.Provider", b =>
                 {
                     b.Property<string>("Id");
@@ -279,6 +303,8 @@ namespace xManik.Migrations
                     b.Property<string>("Description");
 
                     b.Property<double>("Duration");
+
+                    b.Property<bool>("IsPromoted");
 
                     b.Property<double>("Price");
 
