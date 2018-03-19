@@ -26,6 +26,7 @@
     margin: 15px;
 }
 
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
@@ -258,9 +259,6 @@ small {
     padding-right: 5px;
 }
 
-/**
- * Caption
- */
 .star-rating .caption, .star-rating-rtl .caption {
     color: #999;
     display: inline-block;
@@ -275,3 +273,27 @@ small {
 .star-rating-rtl .caption {
     padding-right: 5px;
 }
+
+/*signing up success email confirmation page */
+.qlt-confirmation {
+    width: 30%;
+    margin: 10px auto;
+}
+
+    .qlt-confirmation .panel-body {
+        width: 99%;
+        margin: 0 auto;
+        padding: 40px 10px;
+    }
+
+        .qlt-confirmation .panel-body .desc {
+            margin: 10px auto;
+        }
+
+        .qlt-confirmation .panel-body .notice {
+            padding: 0px 20px;
+            margin-top: 50px;
+            text-align: left;
+            font-style: italic;
+            color: gray;
+        }

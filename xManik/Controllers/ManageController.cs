@@ -77,7 +77,6 @@ namespace xManik.Controllers
             return View(fullOrders);
         }
 
-
         [HttpGet]
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> Portfolio()
@@ -185,7 +184,6 @@ namespace xManik.Controllers
 
             return RedirectToAction(nameof(Portfolio));
         }
-
 
         [HttpGet]
         public async Task<IActionResult> ProfileDescription()

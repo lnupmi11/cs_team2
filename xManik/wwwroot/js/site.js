@@ -1,4 +1,39 @@
-﻿// Write your JavaScript code.
+﻿/* Reviews/Index angular controllers  */
+
+var app = angular.module('myApp', []);
+app.controller('AddReviewCtrl', function ($scope, $http) {
+    $scope.add = function (review, clientId, providerId,url) {
+        review.ClientId = clientId;
+        review.ProviderId = providerId;
+        var post = $http({
+            dataType: 'json',
+            method: 'POST',
+            url: url,
+            data: review,
+            headers: { "Content-Type": "application/json" }
+        }).then(function () {
+            location.reload();
+        });
+    }
+});
+
+app.controller('DeleteReviewCtrl', function ($scope, $http) {
+    $scope.delete = function (id, url) {
+        var post = $http({
+            method: 'POST',
+            url: url,
+            data: '"' + id + '"',
+            headers: { "Content-Type": "application/json" }
+        }).then(function () {
+            location.reload();
+        }).catch(function (error) {
+            alert("error");
+        });;
+    }
+});
+
+
+/*Reviews/Index  rating stars */
 
 (function ($) {
     var DEFAULT_MIN = 0;

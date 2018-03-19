@@ -44,8 +44,7 @@ namespace xManik
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
 
-
-            
+         
             StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
             services.Configure<PaymentSettings>(Configuration.GetSection("Stripe"));
             // Add application services.
@@ -54,7 +53,6 @@ namespace xManik
             services.AddMvc();
 
             await CreateRolesandUsersAsync(services.BuildServiceProvider());
-
         }
 
         

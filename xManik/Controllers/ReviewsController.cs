@@ -57,10 +57,21 @@ namespace xManik.Controllers
             {
                 throw new ApplicationException("Cannot add review for this provider");
             }
-
             provider.Reviews.Add(review);
+            provider.Rate = RecalculateRate(provider);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        private double RecalculateRate(Provider provider)
+        {
+            int reviewsAmount = provider.Reviews.Count;
+            double newRate = 0;
+            if (reviewsAmount != 0)
+            {
+                newRate = provider.Reviews.Sum(p => p.Rating) * 1.0 / (reviewsAmount);
+            }
+            return newRate;
         }
 
         // POST: Reviews/Edit/5
@@ -103,12 +114,16 @@ namespace xManik.Controllers
         [Authorize(Roles = "Client")]
         public async Task<IActionResult> DeleteConfirmed([FromBody]string id)
         {
-            var review = await _context.Reviews.SingleOrDefaultAsync(m => m.ReviewId == id);
-            if (review.ClientId != User.FindFirstValue(ClaimTypes.NameIdentifier) || review == null)
+            var review = await _context.Reviews.Include(p => p.Provider).SingleOrDefaultAsync(m => m.ReviewId == id);
+            if (review.ClientId != User.FindFirstValue(ClaimTypes.NameIdentifier) || review.Provider == null || review == null)
             {
                 throw new ApplicationException("invalid id");
             }
+            var providerId = review.Provider.Id;
             _context.Reviews.Remove(review);
+            await _context.SaveChangesAsync();
+            var provider = await _context.Providers.Include(p => p.Reviews).Where(p => p.Id == providerId).FirstOrDefaultAsync();
+            provider.Rate = RecalculateRate(provider);
             await _context.SaveChangesAsync();
             return Ok();
         }

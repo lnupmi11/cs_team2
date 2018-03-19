@@ -229,6 +229,11 @@ namespace xManik.Controllers
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     _logger.LogInformation("User created a new account with password.");
+                    if(returnUrl == null)
+                    {
+                        return RedirectToAction("ConfirmEmailNotification" , "Account");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -236,6 +241,12 @@ namespace xManik.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmailNotification()
+        {
+            return await Task.Run(() => { return View(); });
         }
 
         [HttpPost]

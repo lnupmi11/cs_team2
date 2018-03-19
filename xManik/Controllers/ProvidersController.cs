@@ -23,7 +23,7 @@ namespace xManik.Controllers
         public IActionResult Index(int? page)
         {
             var pageSize = 3;
-            var providers = _context.Providers.Include(p => p.User);
+            var providers = _context.Providers.Include(p => p.User).OrderBy(provider => provider.Rate);
             return View(PaginatedList<Provider>.Create(providers, page ?? 1, pageSize));
         }
 
