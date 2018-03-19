@@ -5,6 +5,8 @@
     var currentClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
+
+
 @if (User.IsInRole("Client"))
 {
     <div class="col-md-12">
@@ -19,7 +21,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label" for="message">Your rating</label>
                 <div class="col-md-9">
-                    <input id="input-21e" value="0" type="number" ng-model="review.Rating" class="rating" min=0 max=5 step=0.5 data-size="xs">
+                    <input id="input-21e" value="0" type="number" ng-model="review.Rating"  class="rating" min=0 max=5 step=0.5 data-size="xs">
                 </div>
             </div>
 
@@ -27,8 +29,10 @@
         </form>
     </div>
 
+
+
     <script>
-    var app = angular.module('myApp', []);
+        var app = angular.module('myApp', []);
     app.controller('AddReviewCtrl', function ($scope, $http) {
         $scope.add = function (review) {
             review.ClientId = "@currentClientId";

@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using xManik.Extensions;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace xManik.Controllers
 {
@@ -50,8 +51,55 @@ namespace xManik.Controllers
             _context = context;
         }
 
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            base.OnActionExecuted(context);
+            var result = context.Result as ViewResult;
+            if (result != null)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var newOrdersNum = _context.Orders.Where(o => o.ProviderId == userId && !o.IsRead).Count();
+                result.ViewData["newMsgs"] = newOrdersNum;
+            }
+        }
+
         [TempData]
         public string StatusMessage { get; set; }
+
+        [HttpGet]
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> OrderDetails(string orderId)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            var customer = await _context.Users.FirstOrDefaultAsync(u => u.Id == order.CustomerId);
+            var service = await _context.Services.FirstOrDefaultAsync(s => s.Id == order.ServiceId);
+
+            if(order == null || customer == null || service == null)
+            {
+                return NotFound();
+            }
+
+            if(!order.IsRead)
+            {
+                order.IsRead = true;
+                await _context.SaveChangesAsync();
+            }
+
+            OrderDetailsViewModel orderDetail = new OrderDetailsViewModel
+            {
+                CustomerName = customer.UserName,
+                CustomerEmail = customer.Email,
+                CustomerRegistered = customer.DateRegistered,
+                ServiceDescription = service.Description,
+                ServicePrice = service.Price,
+                ServicePosted = service.DatePublished,
+                AdditionalServiceInfo = order.AdditionalInfo,
+                ServiceStartTime = order.StartTime,
+                ServiceEndTime = order.EndTime
+            };
+
+            return View(orderDetail);
+        }
 
         [HttpGet]
         [Authorize(Roles = "Provider")]
@@ -62,19 +110,7 @@ namespace xManik.Controllers
 
             orders = orders.OrderBy(o => o.IsRead);
 
-            List<OrderViewModel> fullOrders = new List<OrderViewModel>();
-
-            foreach(var item in orders)
-            {
-                fullOrders.Add(new OrderViewModel
-                {
-                    UserName = (await _context.Users.FirstOrDefaultAsync(u => u.Id == item.CustomerId)).UserName,
-                    Service = await _context.Services.FirstOrDefaultAsync(s => s.Id == item.ServiceId),
-                    Order = item
-                });
-            }
-
-            return View(fullOrders);
+            return View(await orders.ToListAsync());
         }
 
 

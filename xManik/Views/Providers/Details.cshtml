@@ -79,21 +79,25 @@
             <div class="panel-body">
                 <div class="row">
                     @foreach (var item in images)
-                    {
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img src="@Utils.ConvertByteToString(item.Image)" />
-                                <div class="caption">
-                                    <p>@item.Description</p>
-                                </div>
+                {
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="@Utils.ConvertByteToString(item.Image)" />
+                            <div class="caption">
+                                <p>@item.Description</p>
                             </div>
                         </div>
-                    }
+                    </div>
+            }
                 </div>
             </div>
         </div>
+
+
+      
+
         <div class="reviews-partial" ng-app="myApp">
-            @Html.Partial("../Reviews/Index.cshtml", Tuple.Create(Model.Reviews, Model.Id))
+            @await Html.PartialAsync("../Reviews/Index.cshtml", Tuple.Create(Model.Reviews, Model.Id))
         </div>
     </div>
 </div>

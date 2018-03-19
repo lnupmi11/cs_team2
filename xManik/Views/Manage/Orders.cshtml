@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OrderViewModel>
+﻿@model IEnumerable<Order>
 
 @{
     ViewData["Title"] = "Orders";
@@ -8,27 +8,27 @@
 
 <h4>@ViewData["Title"]</h4>
 
-<ul class="list-group ">
+
     @foreach (var item in Model)
     {
-        <li class="list-group-item 
-            @if (item.Order.IsRead)
+        var data = new Dictionary<string, string>
             {
-                 @:list-group-item-info
+                { "orderId", item.OrderId },
+            };
+
+
+        <a asp-action="OrderDetails" asp-all-route-data="data" class="list-group-item list-group-item-action 
+            @if (item.IsRead)
+            {
+                 @:list-group-item-success
             }
             else
             {
-                @:list-group-item-danger
+                @:list-group-item-info
             } ">
-            <span>
-                @item.UserName
-            </span>
-            <span class="pull-right">
-                @item.Order.AdditionalInfo
-            </span>
-        </li>
+            New message
+            </a>
     }
-</ul>
 
 
     @section Scripts {

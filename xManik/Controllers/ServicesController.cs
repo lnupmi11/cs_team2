@@ -164,7 +164,7 @@ namespace xManik.Controllers
             var service = _context.Services.Include(s => s.Provider).FirstOrDefault(s => s.Id == model.ServiceId);
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
 
                 if (service== null || user == null)
                 {
@@ -182,7 +182,7 @@ namespace xManik.Controllers
                 };
 
                 _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
 
             return Redirect("\\Services\\AllServices");
