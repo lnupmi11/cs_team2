@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using xManik.Models;
+using xManik.Models.ManageViewModels;
 
 namespace xManik.Data
 {

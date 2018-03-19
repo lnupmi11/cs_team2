@@ -12,7 +12,7 @@
         <li class="@ManageNavPages.ProfileNavClass(ViewContext)"><a asp-action="Details" asp-controller="Providers" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">View my profile as others see it</a></li>
         <li class="@ManageNavPages.IndexPortfolioNavClass(ViewContext)"><a asp-action="Portfolio">Portfolio</a></li>
         <li class="@ManageNavPages.ProfileDescriptionNavClass(ViewContext)"><a asp-action="ProfileDescription">ProfileDescription</a></li>
-        <li class="@ManageNavPages.IndexOrdersNavClass(ViewContext)"><a asp-action="Orders">Orders</a></li>
+        <li class="@ManageNavPages.IndexOrdersNavClass(ViewContext)"><a asp-action="Orders">Orders <span class="badge badge-primary badge-pill pull-right">@ViewData["newMsgs"]</span></a></li>
     }
     <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a asp-action="ChangePassword">Password</a></li>
     @if (hasExternalLogins)
