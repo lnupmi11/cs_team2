@@ -1,0 +1,65 @@
+﻿@model xManik.Models.ManageViewModels.OrderDetailsViewModel
+
+<div>
+    <h4>Order Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerRegistered)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerRegistered)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServiceDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicePrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServicePrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicePosted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServicePosted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdditionalServiceInfo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalServiceInfo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceStartTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServiceStartTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceEndTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ServiceEndTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Orders">Back to messages</a>
+</div>

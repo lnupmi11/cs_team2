@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Orders";
+    ViewData.AddActivePage(ManageNavPages.Orders);
+}
+
+
+<h4>@ViewData["Title"]</h4>
+
+
+    @foreach (var item in Model)
+    {
+        var data = new Dictionary<string, string>
+            {
+                { "orderId", item.OrderId },
+            };
+
+
+        <a asp-action="OrderDetails" asp-all-route-data="data" class="list-group-item list-group-item-action 
+            @if (item.IsRead)
+            {
+                 @:list-group-item-success
+            }
+            else
+            {
+                @:list-group-item-info
+            } ">
+            New message
+            </a>
+    }
+
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+

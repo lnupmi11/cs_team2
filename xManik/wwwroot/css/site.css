@@ -1,0 +1,381 @@
+﻿body {
+    padding-top: 90px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.glyphicon {
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+small {
+    display: block;
+    line-height: 1.428571429;
+    color: #999;
+}
+
+/*Nav bar*/
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-fixed-top {
+    height: 80px;
+    font-size: 18px;
+    padding-top: 10px;
+    -webkit-transition: height .5s, line-height .5s;
+    transition: height .5s, line-height .5s;
+}
+
+    .navbar-fixed-top.scrolled {
+        height: 50px !important;
+        font-size: 16px;
+        padding:0px;
+    }
+
+
+.navbar.navbar-fixed-top.fixed-theme {
+    background-color: #222;
+    border-color: #080808;
+    box-shadow: 0 0 5px rgba(0,0,0,.8);
+}
+
+.navbar-brand.fixed-theme {
+    font-size: 18px;
+}
+
+.navbar-container.fixed-theme {
+    padding: 0;
+}
+
+.navbar-brand.fixed-theme,
+.navbar-container.fixed-theme,
+.navbar.navbar-fixed-top.fixed-theme,
+.navbar-brand,
+.navbar-container {
+    transition: 0.8s;
+    -webkit-transition: 0.8s;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .navbar-fixed-top {
+        padding: 0;
+        height: 60px;
+    }
+
+        .navbar-fixed-top.scrolled {
+            height: 40px !important;
+        }
+
+    .navbar-default .navbar-collapse {
+        background-color: #05060a;
+    }
+}
+
+@media only screen and (max-width: 676px) {
+
+    .navbar-default .navbar-collapse {
+        font-size: 10px;
+    }
+
+    #navbar {
+        height: 100vh !important;
+        overflow-y: scroll !important;
+    }
+
+        #navbar .navbar-right {
+            margin-bottom: 50px;
+        }
+}
+
+@media only screen and (max-width: 426px) {
+
+    .navbar-default .navbar-collapse li {
+        float: left;
+        font-size: 8px;
+    }
+}
+/*Nav bar end*/
+
+.blockquote-box {
+    border-right: 5px solid #E6E6E6;
+    margin-bottom: 25px
+}
+
+    .blockquote-box .square {
+        width: 100px;
+        min-height: 50px;
+        margin-right: 22px;
+        text-align: center !important;
+        background-color: #E6E6E6;
+        padding: 20px 0
+    }
+
+    .blockquote-box.blockquote-primary {
+        border-color: #357EBD
+    }
+
+        .blockquote-box.blockquote-primary .square {
+            background-color: #428BCA;
+            color: #FFF
+        }
+
+    .blockquote-box.blockquote-success {
+        border-color: #4CAE4C
+    }
+
+        .blockquote-box.blockquote-success .square {
+            background-color: #5CB85C;
+            color: #FFF
+        }
+
+    .blockquote-box.blockquote-info {
+        border-color: #46B8DA
+    }
+
+        .blockquote-box.blockquote-info .square {
+            background-color: #5BC0DE;
+            color: #FFF
+        }
+
+    .blockquote-box.blockquote-warning {
+        border-color: #EEA236
+    }
+
+        .blockquote-box.blockquote-warning .square {
+            background-color: #F0AD4E;
+            color: #FFF
+        }
+
+    .blockquote-box.blockquote-danger {
+        border-color: #D43F3A
+    }
+
+        .blockquote-box.blockquote-danger .square {
+            background-color: #D9534F;
+            color: #FFF
+        }
+
+
+.rating-loading {
+    width: 25px;
+    height: 25px;
+    font-size: 0px;
+    color: #fff;
+    background: transparent url('../img/loading.gif') top left no-repeat;
+    border: none;
+}
+/*
+ * Stars
+ */
+.rating-gly {
+    font-family: 'Glyphicons Halflings';
+}
+
+.rating-gly-star {
+    font-family: 'Glyphicons Halflings';
+    padding-left: 2px;
+}
+
+    .rating-gly-star .rating-stars:before {
+        padding-left: 2px;
+    }
+
+.rating-lg .rating-gly-star, .rating-lg .rating-gly-star .rating-stars:before {
+    padding-left: 4px;
+}
+
+.rating-xl .rating-gly-star, .rating-xl .rating-gly-star .rating-stars:before {
+    padding-left: 2px;
+}
+
+.rating-active {
+    cursor: default;
+}
+
+.rating-disabled {
+    cursor: not-allowed;
+}
+
+.rating-uni {
+    font-size: 1.2em;
+    margin-top: -5px;
+}
+
+.rating-container {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    color: #e3e3e3;
+    overflow: hidden;
+}
+
+    .rating-container:before {
+        content: attr(data-content);
+    }
+
+    .rating-container .rating-stars {
+        position: absolute;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #fde16d;
+        transition: all 0.25s ease-out;
+        -o-transition: all 0.25s ease-out;
+        -moz-transition: all 0.25s ease-out;
+        -webkit-transition: all 0.25s ease-out;
+    }
+
+        .rating-container .rating-stars:before {
+            content: attr(data-content);
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+        }
+
+.rating-container-rtl {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
+    color: #fde16d;
+}
+
+    .rating-container-rtl:before {
+        content: attr(data-content);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+    }
+
+    .rating-container-rtl .rating-stars {
+        position: absolute;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #e3e3e3;
+        transition: all 0.25s ease-out;
+        -o-transition: all 0.25s ease-out;
+        -moz-transition: all 0.25s ease-out;
+        -webkit-transition: all 0.25s ease-out;
+    }
+
+        .rating-container-rtl .rating-stars:before {
+            content: attr(data-content);
+        }
+
+/**
+ * Rating sizes
+ */
+.rating-xl {
+    font-size: 4.89em;
+}
+
+.rating-lg {
+    font-size: 3.91em;
+}
+
+.rating-md {
+    font-size: 3.13em;
+}
+
+.rating-sm {
+    font-size: 2.5em;
+}
+
+.rating-xs {
+    font-size: 2em;
+}
+
+/**
+ * Clear rating button
+ */
+.star-rating .clear-rating, .star-rating-rtl .clear-rating {
+    color: #aaa;
+    cursor: not-allowed;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 60%;
+}
+
+.clear-rating-active {
+    cursor: pointer !important;
+}
+
+    .clear-rating-active:hover {
+        color: #843534;
+    }
+
+.star-rating .clear-rating {
+    padding-right: 5px;
+}
+
+.star-rating .caption, .star-rating-rtl .caption {
+    color: #999;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 55%;
+}
+
+.star-rating .caption {
+    padding-left: 5px;
+}
+
+.star-rating-rtl .caption {
+    padding-right: 5px;
+}
+
+/*signing up success email confirmation page */
+.qlt-confirmation {
+    width: 30%;
+    margin: 10px auto;
+}
+
+    .qlt-confirmation .panel-body {
+        width: 99%;
+        margin: 0 auto;
+        padding: 40px 10px;
+    }
+
+        .qlt-confirmation .panel-body .desc {
+            margin: 10px auto;
+        }
+
+        .qlt-confirmation .panel-body .notice {
+            padding: 0px 20px;
+            margin-top: 50px;
+            text-align: left;
+            font-style: italic;
+            color: gray;
+        }

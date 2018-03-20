@@ -1,0 +1,59 @@
+﻿@model Tuple< ICollection<xManik.Models.Review> , string>
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Index";
+    var currentClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<div ng-app="myApp">
+    @if (User.IsInRole("Client"))
+    {
+        <div class="col-md-12">
+            <form class="form-horizontal" ng-controller="AddReviewCtrl">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="message">Your message</label>
+                    <div class="col-md-9">
+                        <textarea class="form-control" ng-model="review.Message" name="message" placeholder="Please enter your feedback here..." rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="message">Your rating</label>
+                    <div class="col-md-9">
+                        <input id="input-21e" value="0" type="number" ng-model="review.Rating" class="rating" min=0 max=5 step=0.5 data-size="xs">
+                    </div>
+                </div>
+                <button type="button" ng-click="add(review,'@currentClientId','@Model.Item2','@Url.Action("Create","Reviews")')" class="btn btn-default">Add</button>
+            </form>
+        </div>
+    }
+
+    <div class="col-sm-12">
+        <hr />
+        @foreach (var review in Model.Item1)
+        {
+            <div class="review-block">
+                <div class="row" ng-controller="DeleteReviewCtrl">
+                    @if (review.ClientId == currentClientId)
+                    {
+                        <a ng-click="delete('@review.ReviewId','@Url.Action("Delete", "Reviews")')">Delete</a>
+                    }
+                    <div class="col-sm-3">
+                        <img src="" class="img-rounded">
+                        <div class="review-block-name"><a href="#">nktailor</a></div>
+                        <div class="review-block-date">January 29, 2016<br />1 day ago</div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="review-block-rate">
+                            <div class="col-sm-12">
+                                <input disabled value="@review.Rating.ToString().Replace(',','.')" type="number" class="rating" step="0.5" data-size="xs">
+                            </div>
+                        </div>
+                        <div class="review-block-title">this was nice in buy</div>
+                        <div class="review-block-description">this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        }
+    </div>
+</div>

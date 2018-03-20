@@ -1,0 +1,8 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "angular": "v1.6.9",
+    "font-awesome": "Font-Awesome#v4.7.0"
+  }
+}
