@@ -1,0 +1,17 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+@using System.Security.Claims;
+
+<ul class="nav nav-pills nav-stacked">
+    <li class="@ProfileNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
+    @if (User.IsInRole("Provider"))
+    {
+        <li class="@ProfileNavPages.ProfileNavClass(ViewContext)"><a asp-action="Details" asp-controller="Providers" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">View my profile as others see it</a></li>
+        <li class="@ProfileNavPages.IndexPortfolioNavClass(ViewContext)"><a asp-action="Portfolio">Portfolio</a></li>
+        <li class="@ProfileNavPages.ProfileDescriptionNavClass(ViewContext)"><a asp-action="ProfileDescription">ProfileDescription</a></li>
+        <li class="@ProfileNavPages.IndexOrdersNavClass(ViewContext)"><a asp-action="Orders">Orders <span class="badge badge-primary badge-pill pull-right">@ViewData["newMsgs"]</span></a></li>
+    }
+</ul>
+

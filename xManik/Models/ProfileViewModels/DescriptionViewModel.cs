@@ -1,4 +1,4 @@
-﻿namespace xManik.Models.ManageViewModels
+﻿namespace xManik.Models.ProfileViewModels
 {
     public class DescriptionViewModel
     {
