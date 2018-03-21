@@ -3,51 +3,56 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="container">
+    <h2>Index</h2>
+    <div id="portfolio" class="section md-padding bg-grey">
+        <!-- Container -->
+        <div class="container">
+            <!-- Row -->
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-xs-6 col-sm-6 col-md-4  work">
+                        <img class="img-responsive" style="height:300px" src="@Utils.ConvertByteToString(item.User.ProfileImage)" alt="">
+                        <div class="overlay"></div>
+                        <div class="work-content">
+                            <div class="button-link">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-lg">Дізнатися більше</a>
+                            </div>
+                        </div>
+                        <p>
+                            <h2 class="user-inform">@item.User.UserName</h2>
+                            <br />
+                            <div class="rating-Portfolio">
 
-<h2>Index</h2>
-<div id="portfolio" class="section md-padding bg-grey">
-    <!-- Container -->
-    <div class="container">
-        <!-- Row -->
-        <div class="row">
-            @foreach (var item in Model)
-            {
-            <div class="col-xs-6 col-sm-6 col-md-4  work">
-                <img class="img-responsive" style="height:300px" src="@Utils.ConvertByteToString(item.User.ProfileImage)" alt="">
-                <div class="overlay"></div>
-                <div class="work-content">
-                    <div class="button-link">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-lg">Дізнатися більше</a>
+                                <input disabled value="@item.Rate.ToString().Replace(',','.')" type="number" class="rating" step="0.5" data-size="xs">
+                            </div>
+                        </p>
+
                     </div>
-                </div>
-                <p>
-                    <h2 class="user-inform">@item.User.UserName</h2>
-                    <br />
-                    <div class="rating-Portfolio">
-        
-                        <input disabled value="@item.Rate.ToString().Replace(',','.')" type="number" class="rating" step="0.5" data-size="xs">
-                    </div>
-                </p>
-                
+                }
             </div>
-            }
         </div>
     </div>
-</div>
-<div>
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
 
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageIndex - 1)"
-       class="btn btn-default @prevDisabled">
-        Previous
-    </a>
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageIndex + 1)"
-       class="btn btn-default @nextDisabled">
-        Next
-    </a>
+    <br /><br />
+    <div class="center-block text-center">
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+
 </div>
