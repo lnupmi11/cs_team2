@@ -5,11 +5,13 @@
     var currentClientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
-<div ng-app="myApp">
+<div ng-app="myApp" class="section sm-padding bg-grey">
     @if (User.IsInRole("Client"))
     {
         <div class="col-md-12">
             <form class="form-horizontal" ng-controller="AddReviewCtrl">
+                <h3 class="text-center">Add your review about this user</h3>
+                <br/>
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="message">Your message</label>
                     <div class="col-md-9">
@@ -22,38 +24,40 @@
                         <input id="input-21e" value="0" type="number" ng-model="review.Rating" class="rating" min=0 max=5 step=0.5 data-size="xs">
                     </div>
                 </div>
-                <button type="button" ng-click="add(review,'@currentClientId','@Model.Item2','@Url.Action("Create","Reviews")')" class="btn btn-default">Add</button>
+                <button type="button" ng-click="add(review,'@currentClientId','@Model.Item2','@Url.Action("Create","Reviews")')" class="btn btn-info center-block">Add</button>
             </form>
         </div>
+        <hr>
     }
 
-    <div class="col-sm-12">
-        <hr />
+
+    <div class="blog-comments">
+        <h3 class="title">(@Model.Item1.Count) Reviews</h3>
         @foreach (var review in Model.Item1)
         {
-            <div class="review-block">
-                <div class="row" ng-controller="DeleteReviewCtrl">
-                    @if (review.ClientId == currentClientId)
-                    {
-                        <a ng-click="delete('@review.ReviewId','@Url.Action("Delete", "Reviews")')">Delete</a>
-                    }
-                    <div class="col-sm-3">
-                        <img src="" class="img-rounded">
-                        <div class="review-block-name"><a href="#">nktailor</a></div>
-                        <div class="review-block-date">January 29, 2016<br />1 day ago</div>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="review-block-rate">
-                            <div class="col-sm-12">
-                                <input disabled value="@review.Rating.ToString().Replace(',','.')" type="number" class="rating" step="0.5" data-size="xs">
-                            </div>
-                        </div>
-                        <div class="review-block-title">this was nice in buy</div>
-                        <div class="review-block-description">this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</div>
+        <!-- comment -->
+            <div class="media bg-light-aqua" ng-controller="DeleteReviewCtrl">
+                <div class="media-left">
+                    <img class="media-object" src="./img/perso2.jpg" alt="">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        @review.ClientId<span class="time">@review.DatePosted</span>
+                        @if (review.ClientId == currentClientId)
+                        {
+                            <a class="reply" ng-click="delete('@review.ReviewId','@Url.Action("Delete", "Reviews")')">Delete</a>
+                        }
+                    </h4>
+                    <p>@review.Message</p>
+                </div>
+                <div class="review-block-rate">
+                    <div class="col-sm-12">
+                        <input disabled value="@review.Rating.ToString().Replace(',','.')" type="number" class="rating" step="0.5" data-size="xs">
                     </div>
                 </div>
-                <hr />
             </div>
+            <br />
+             <!-- /comment -->
         }
     </div>
 </div>
