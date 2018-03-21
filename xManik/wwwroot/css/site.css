@@ -95,6 +95,16 @@ small {
     -webkit-transition: 0.8s;
 }
 
+.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -1px;
+    }
+
 
 @media only screen and (max-width: 768px) {
 
@@ -443,6 +453,23 @@ small {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#0000ff',GradientType=1 ); /* ie6-9 */
 }
 
+.bg-light-aqua {
+    background: -moz-linear-gradient(45deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 50%, rgba(232,236,255,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(224,233,255,1)), color-stop(50%, rgba(255,255,255,1)), color-stop(100%, rgba(232,236,255,1))); /* safari4+,chrome */
+    background: -webkit-linear-gradient(45deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 50%, rgba(232,236,255,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(45deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 50%, rgba(232,236,255,1) 100%); /* opera 11.10+ */
+    background: linear-gradient(45deg, rgba(224,233,255,1) 0%, rgba(255,255,255,1) 50%, rgba(232,236,255,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E8ECFF', endColorstr='#E0E9FF',GradientType=1 ); /* ie6-9 */
+}
+
+.bg-light-dark {
+    background: -moz-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(5,193,255,1) 2%, rgba(255,255,255,1) 8%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 32%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 92%, rgba(0,0,255,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(255,255,255,1)), color-stop(2%, rgba(5,193,255,1)), color-stop(8%, rgba(255,255,255,1)), color-stop(31%, rgba(255,255,255,1)), color-stop(32%, rgba(255,255,255,1)), color-stop(40%, rgba(255,255,255,1)), color-stop(92%, rgba(255,255,255,1)), color-stop(100%, rgba(0,0,255,1))); /* safari4+,chrome */
+    background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(5,193,255,1) 2%, rgba(255,255,255,1) 8%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 32%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 92%, rgba(0,0,255,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(5,193,255,1) 2%, rgba(255,255,255,1) 8%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 32%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 92%, rgba(0,0,255,1) 100%); /* opera 11.10+ */
+    background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(5,193,255,1) 2%, rgba(255,255,255,1) 8%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 32%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 92%, rgba(0,0,255,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0000ff', endColorstr='#ffffff',GradientType=1 ); /* ie6-9 */
+}
 /* --  background image section  -- */
 
 .bg-img {
@@ -579,126 +606,101 @@ small {
     padding: 20px;
 }
 
-.work>img {
-  width: 100%;
-}
+    .work > img {
+        width: 100%;
+    }
 
-.work .overlay {
-    background: #1C1D21;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    opacity: 0;
-    -webkit-transition: 0.2s opacity;
-    transition: 0.2s opacity;
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-}
+    .work .overlay {
+        background: #1C1D21;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        opacity: 0;
+        -webkit-transition: 0.2s opacity;
+        transition: 0.2s opacity;
+        -webkit-transition-delay: 0.2s;
+        transition-delay: 0.2s;
+    }
 
-.work:hover .overlay {
-    -webkit-transition-delay: 0s;
-    transition-delay: 0s;
-    opacity: 0.8;
-}
+    .work:hover .overlay {
+        -webkit-transition-delay: 0s;
+        transition-delay: 0s;
+        opacity: 0.8;
+    }
 
-.work .work-content {
-    position: absolute;
-    left: 25px;
-    right: 25px;
-    top: 50%;
+    .work .work-content {
+        position: absolute;
+        left: 25px;
+        right: 25px;
+        top: 50%;
+        text-align: center;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .work .work-content h3 {
+            -webkit-transform: translateY(100%);
+            -ms-transform: translateY(100%);
+            transform: translateY(100%);
+            opacity: 0;
+            color: #FFF;
+            margin-bottom: 10px;
+            -webkit-transition: 0.2s all;
+            transition: 0.2s all;
+            -webkit-transition-delay: 0.1s;
+            transition-delay: 0.1s;
+        }
+
+    .work:hover .work-content h3 {
+        -webkit-transform: translateY(0%);
+        -ms-transform: translateY(0%);
+        transform: translateY(0%);
+        opacity: 1;
+        -webkit-transition-delay: 0.1s;
+        transition-delay: 0.1s;
+    }
+
+    .work .work-link {
+        text-align: center;
+        margin-top: 30px;
+        opacity: 0;
+        -webkit-transition: 0.2s opacity;
+        transition: 0.2s opacity;
+    }
+
+        .work .work-link a {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #6195FF;
+            color: #FFF;
+            text-align: center;
+        }
+
+    .work:hover .work-link {
+        -webkit-transition-delay: 0.2s;
+        transition-delay: 0.2s;
+        opacity: 1;
+    }
+
+    .work .button-link {
+        opacity: 0;
+        -webkit-transition: 0.2s opacity;
+        transition: 0.2s opacity;
+    }
+
+
+    .work:hover .button-link {
+        -webkit-transition-delay: 0.2s;
+        transition-delay: 0.2s;
+        opacity: 1;
+    }
+
+.user-inform {
     text-align: center;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-.work .work-content h3 {
-    -webkit-transform: translateY(100%);
-    -ms-transform: translateY(100%);
-    transform: translateY(100%);
-    opacity: 0;
-    color: #FFF;
-    margin-bottom: 10px;
-    -webkit-transition: 0.2s all;
-    transition: 0.2s all;
-    -webkit-transition-delay: 0.1s;
-    transition-delay: 0.1s;
-}
-
-.work:hover .work-content h3 {
-    -webkit-transform: translateY(0%);
-    -ms-transform: translateY(0%);
-    transform: translateY(0%);
-    opacity: 1;
-    -webkit-transition-delay: 0.1s;
-    transition-delay: 0.1s;
-}
-
-.work .work-content span {
-    display: block;
-    text-transform: uppercase;
-    -webkit-transform: translateY(100%);
-    -ms-transform: translateY(100%);
-    transform: translateY(100%);
-    opacity: 0;
-    color: #6195FF;
-    margin-bottom: 5px;
-    -webkit-transition: 0.2s all;
-    transition: 0.2s all;
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-}
-
-.work:hover .work-content span {
-    -webkit-transform: translateY(0%);
-    -ms-transform: translateY(0%);
-    transform: translateY(0%);
-    opacity: 1;
-    -webkit-transition-delay: 0s;
-    transition-delay: 0s;
-}
-
-.work .work-link {
-    text-align: center;
-    margin-top: 20px;
-    opacity: 0;
-    -webkit-transition: 0.2s opacity;
-    transition: 0.2s opacity;
-}
-
-.work .work-link a {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    background-color: #6195FF;
-    color: #FFF;
-    line-height: 50px;
-    text-align: center;
-}
-
-.work:hover .work-link {
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-    opacity: 1;
-}
-
-.work .button-link {
-    opacity: 0;
-    -webkit-transition: 0.2s opacity;
-    transition: 0.2s opacity;
-}
-
-
-.work:hover .button-link {
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-    opacity: 1;
-}
-.user-inform
-{
-	text-align: center;
 }
 
 /* --  services  -- */
@@ -787,7 +789,7 @@ small {
     border: 1px solid #EEE;
     background-color: #FFF;
     z-index: 11;
-    margin: 0px ;
+    margin: 0px;
 }
 
     .pricing::after {
@@ -824,8 +826,8 @@ small {
         color: #6195FF;
     }
 
-    .pricing:hover li{
-        color:#FFF;
+    .pricing:hover li {
+        color: #FFF;
     }
 
     .pricing .price {
@@ -858,7 +860,7 @@ small {
     }
 
     .pricing ul {
-        margin:0px;
+        margin: 0px;
         padding: 0px;
         list-style: none
     }

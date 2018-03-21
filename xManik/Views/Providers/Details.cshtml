@@ -5,95 +5,165 @@
     var images = Model.Portfolio;
 }
 
-<h2>Details</h2>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<div class="container">
 
-<div class="row">
-    <div class="col-xs-6 col-sm-3 col-md-3">
-        <br />
-        <h3>@Model.User.UserName</h3>
-        <button type="button" class="btn btn-success small">Book me!</button>
-        <br /><br />
-        <ul class="list-group">
-            <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span>@Model.User.DateRegistered</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span> Yesterday</li>
-            <li class="list-group-item text-right">
-                <span class="pull-left"><strong class="">Real name</strong></span> Joseph
-                Doe
-            </li>
-            <li class="list-group-item text-right">
-                <span class="pull-left"><strong class="">Role: </strong></span> @Model.User.Role
-            </li>
-        </ul>
+    <h2>Details</h2>
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
-    <div class="col-xs-4 col-sm-4 col-md-4 ">
-        <a href="/users"><img title="profile image" class="img-thumbnail" src="@Utils.ConvertByteToString(Model.User.ProfileImage)"></a>
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-sm-3">
-        <!--left col-->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Website <i class="fa fa-link fa-1x"></i>
-            </div>
-            <div class="panel-body">
-                <a href="http://bootply.com" class="">bootply.com</a>
-            </div>
-        </div>
-
-        <ul class="list-group">
-            <li class="list-group-item text-muted">
-                Activity <i class="fa fa-dashboard fa-1x"></i>
-            </li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong class="">Shares</strong></span> 125</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong class="">Likes</strong></span> 13</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong class="">Posts</strong></span> 37</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong class="">Followers</strong></span> 78</li>
-        </ul>
-        <div class="panel panel-default">
-            <div class="panel-heading">Social Media</div>
-            <div class="panel-body">
-                <i class="fa fa-facebook fa-2x"></i>
-                <i class="fa fa-github fa-2x"></i>
-                <i class="fa fa-twitter fa-2x"></i>
-                <i class="fa fa-pinterest fa-2x"></i>
-                <i class="fa fa-google-plus fa-2x"></i>
+    <!-- blog author -->
+    <div class="blog-author">
+        <div class="media bg-light-dark">
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <img class="media-object img-responsive" style="height:200px;" src="@Utils.ConvertByteToString(Model.User.ProfileImage)" alt="">
+                </div>
+                <div class="col-sm-6 col-md-8">
+                    <div class="media-heading">
+                        <h3>@Model.User.UserName</h3>
+                        <div class="author-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-google-plus"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <p>@Model.Description</p>
+                    <br /><br /><br />
+                    <div class="review-block-rate text-center">
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <h4><strong>@Model.Services.Count</strong></h4>
+                            <p><small>Posts</small></p>
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <h4><strong>@Model.User.DateRegistered.ToString("dd/MM/yyyy")</strong></h4>
+                            <p><small>Joined</small></p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input disabled value="@Model.Rate.ToString().Replace(',','.')" type="number" class="rating" step="0.5" data-size="xs">
+                            <p><small>Rating</small></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!--/col-3-->
-    <div class="col-sm-9" contenteditable="false" style="">
-        <div class="panel panel-default">
-            <div class="panel-heading">About me</div>
-            <div class="panel-body">
-                @Model.Description
-            </div>
-        </div>
-        <div class="panel panel-default target">
-            <div class="panel-heading" contenteditable="false">My Portfolio</div>
-            <div class="panel-body">
+    <!-- /blog author -->
+    <!-- Portfolio -->
+    <div id="portfolio" class="section sm-padding bg-grey">
+        <!-- Container -->
+        <div class="container">
+            <!-- Row -->
+            @if (images.Count != 0)
+            {
+                <div class="text-center">
+                    <h3>Portfolio</h3>
+                    <h5>Hoover on to see the details</h5>
+                </div>
                 <div class="row">
+                    <!-- Work -->
                     @foreach (var item in images)
                     {
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img src="@Utils.ConvertByteToString(item.Image)" />
-                                <div class="caption">
-                                    <p>@item.Description</p>
+                        <div class="col-md-4 col-xs-6 work">
+                            <img class="img-responsive" src="@Utils.ConvertByteToString(item.Image)" alt="">
+                            <div class="overlay"></div>
+                            <div class="work-content">
+                                <h3 style="font-size:14px;">@item.Description</h3>
+                                <div class="work-link">
+                                    <a class="lightbox" href="./img/work1.jpg"><i class="fa fa-external-link"></i></a>
                                 </div>
                             </div>
                         </div>
                     }
+                    <!-- /Work -->
                 </div>
+            }
+            <!-- /Row -->
+        </div>
+        <!-- /Container -->
+    </div>
+    <!-- /Portfolio -->
+
+    <div class="reviews-partial">
+        @Html.Partial("../Reviews/Index.cshtml", Tuple.Create(Model.Reviews, Model.Id))
+    </div>
+
+    @*<div class="row">
+            <div class="col-xs-6 col-sm-3 col-md-3">
+                <br />
+                <h3>@Model.User.UserName</h3>
+                <button type="button" class="btn btn-success small">Book me!</button>
+                <br /><br />
+                <ul class="list-group">
+                    <li class="list-group-item text-muted" contenteditable="false">Profile</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span>@Model.User.DateRegistered</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Last seen</strong></span> Yesterday</li>
+                    <li class="list-group-item text-right">
+                        <span class="pull-left"><strong class="">Real name</strong></span> Joseph
+                        Doe
+                    </li>
+                    <li class="list-group-item text-right">
+                        <span class="pull-left"><strong class="">Role: </strong></span> @Model.User.Role
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="reviews-partial">
-            @Html.Partial("../Reviews/Index.cshtml", Tuple.Create(Model.Reviews, Model.Id))
-        </div>
-    </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-3">
+                <!--left col-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Website <i class="fa fa-link fa-1x"></i>
+                    </div>
+                    <div class="panel-body">
+                        <a href="http://bootply.com" class="">bootply.com</a>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Social Media</div>
+                    <div class="panel-body">
+                        <i class="fa fa-facebook fa-2x"></i>
+                        <i class="fa fa-github fa-2x"></i>
+                        <i class="fa fa-twitter fa-2x"></i>
+                        <i class="fa fa-pinterest fa-2x"></i>
+                        <i class="fa fa-google-plus fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+            <!--/col-3-->
+
+            <div class="col-sm-9" contenteditable="false" style="">
+
+                    <a href="/users"><img title="profile image" class="img-thumbnail" src="@Utils.ConvertByteToString(Model.User.ProfileImage)"></a>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">About me</div>
+                    <div class="panel-body">
+                        @Model.Description
+                    </div>
+                </div>
+                <div class="panel panel-default target">
+                    <div class="panel-heading" contenteditable="false">My Portfolio</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            @foreach (var item in images)
+                            {
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="@Utils.ConvertByteToString(item.Image)" />
+                                        <div class="caption">
+                                            <p>@item.Description</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>*@
 </div>

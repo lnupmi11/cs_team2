@@ -1,8 +1,8 @@
-﻿@model PortfolioViewModel
+﻿@model xManik.Models.ProfileViewModels.PortfolioViewModel
 
 @{
     ViewData["Title"] = "Portfolio";
-    ViewData.AddActivePage(ManageNavPages.Portfolio);
+    ViewData.AddActivePage(ProfileNavPages.Portfolio);
     var images = new List<Tuple<string, string, string>>();
     if (Model.Images != null)
     {
