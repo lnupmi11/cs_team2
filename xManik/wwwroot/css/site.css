@@ -212,6 +212,7 @@ small {
     width: 25px;
     height: 25px;
     font-size: 0px;
+	margin: auto;
     color: #fff;
     background: transparent url('../img/loading.gif') top left no-repeat;
     border: none;
@@ -701,6 +702,15 @@ small {
 
 .user-inform {
     text-align: center;
+}
+
+.rating-Portfolio{
+	margin:auto; 
+	width:65%; 
+	position:absolute; 
+	left:50%; 
+	margin-left:-30%;
+	margin-top:-5%;
 }
 
 /* --  services  -- */
