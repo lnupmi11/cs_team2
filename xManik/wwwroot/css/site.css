@@ -50,7 +50,6 @@ small {
     color: #FFF;
 }
 
-
 /* --  navbar  -- */
 
 .navbar-brand {
@@ -70,6 +69,28 @@ small {
         font-size: 16px;
         padding: 0px;
     }
+
+        .navbar-fixed-top.scrolled li a {
+            color: #FFF;
+        }
+
+        .navbar-fixed-top.scrolled li a:hover {
+            color: rgba(5,193,255,1);
+        }
+
+.navbar-right.dropdown li a {
+    color: rgba(0,0,0,1);
+}
+
+/* --  navbar right  -- */
+.navbar-fixed-top.scrolled .navbar-right button {
+    color: #FFF;
+    text-decoration: none;
+}
+
+.navbar-fixed-top.scrolled .navbar-right .scroll-black {
+    color: black;
+}
 
 
 .navbar.navbar-fixed-top.fixed-theme {
@@ -104,6 +125,48 @@ small {
         left: 100%;
         margin-top: -1px;
     }
+
+
+/* -- navbar right collapsed -- */
+@media only screen and (max-width: 768px) {
+    .nav > li > a.dropdown-toggle {
+        display: none;
+    }
+
+    .nav .dropdown-menu {
+        display: block;
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        margin-bottom: 15px;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+
+        .nav .dropdown-menu li {
+            float: left;
+        }
+
+    .navbar-right.dropdown li a {
+        color: #FFF;
+    }
+
+    /* --  navbar right  -- */
+    .navbar-fixed-top .navbar-right button.scroll-black {
+        color: #FFF;
+        text-decoration: none;
+        position:relative;
+        top: -5px;
+    }
+
+    .navbar-fixed-top.scrolled .navbar-right .scroll-black {
+        color: #FFF;
+        
+    }
+}
 
 
 @media only screen and (max-width: 768px) {
