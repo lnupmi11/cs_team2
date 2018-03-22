@@ -1,17 +1,64 @@
-﻿@{
-    ViewData["Title"] = "Contact";
-}
+﻿
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<div id="contact" class="section sm-padding">
+    <!-- Container -->
+    <div class="container">
+        <!-- Row -->
+        <div class="row">
+            <!-- Section-header -->
+            <div class="section-header text-center">
+                <h2 class="title">Get in touch</h2>
+            </div>
+            <!-- /Section-header -->
+            <!-- contact -->
+            <div class="col-sm-4">
+                <div class="contact">
+                    <i class="fa fa-phone"></i>
+                    <h3>Phone</h3>
+                    <strong>512-421-3940</strong>
+                </div>
+            </div>
+            <!-- /contact -->
+            <!-- contact -->
+            <div class="col-sm-4">
+                <div class="contact">
+                    <i class="fa fa-envelope"></i>
+                    <h3>Email</h3>
+                    <strong><a href="mailto:Support@example.com">Support@example.com</a></strong><br />
+                </div>
+            </div>
+            <!-- /contact -->
+            <!-- contact -->
+            <div class="col-sm-4">
+                <div class="contact">
+                    <i class="fa fa-map-marker"></i>
+                    <h3>Address</h3>
+                    <strong>1739 Bubby Drive</strong>
+                </div>
+            </div>
+        </div>
+        <br /><br /><br />
+        <!-- /contact -->
+        <!-- contact form -->
+        <form class="form-horizontal center-block" style="width:60%;" action="" method="post">
+            <!-- Name input-->
+            <div class="form-group">
+                <input  id="name" name="name" type="text" placeholder="Your name" class="form-control">
+            </div>
+            <!-- Email input-->
+            <div class="form-group">
+                <input  id="email" name="email" type="text" placeholder="Your email" class="form-control">
+            </div>
+            <!-- Message body -->
+            <div class="form-group">
+                <textarea  class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+            </div>
+            <!-- Form actions -->
+            <div class="form-group text-center">
+                <button  type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+        </form>
+        <!-- /contact form -->
+    </div>
+    <!-- /Container -->
+</div>
