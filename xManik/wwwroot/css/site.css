@@ -460,9 +460,198 @@ small {
             color: gray;
         }
 
+/* -- profile --*/
+.profile {
+    margin: 20px 0;
+}
 
+/* Profile sidebar */
+.profile-sidebar {
+    margin-top:30px;
+    padding: 0px;
+    background: #fff;
+}
+
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 60%;
+    height: 60%;
+    -webkit-border-radius: 0% !important;
+    -moz-border-radius: 0% !important;
+    border-radius: 0% !important;
+}
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+    .profile-userbuttons .btn {
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 6px 15px;
+        margin-right: 5px;
+    }
+
+        .profile-userbuttons .btn:last-child {
+            margin-right: 0px;
+        }
+
+.profile-usermenu {
+    margin:0px 20%;
+    background: #282933;
+}
+
+    .profile-usermenu ul li {
+        border-bottom: 1px solid #f0f4f7;
+    }
+
+        .profile-usermenu ul li:last-child {
+            border-bottom: none;
+        }
+
+        .profile-usermenu ul li a {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+            .profile-usermenu ul li a i {
+                margin-right: 8px;
+                font-size: 14px;
+            }
+
+            .profile-usermenu ul li a:hover {
+                background-color: #6195FF;
+                color: #ffffff;
+            }
+
+        .profile-usermenu ul li.active {
+            border-bottom: none;
+        }
+
+            .profile-usermenu ul li.active a {
+                color: #ffffff;
+                background-color: #6195FF;
+                border-left: 2px solid #5b9bd1;
+            }
+
+/* Profile Content */
+.profile-content {
+    padding: 0px;
+    margin: 0px;
+    background: #fff;
+    min-height: 460px;
+
+}
+
+.profile-intro {
+    font-size:24px;
+    padding: 20px 0px 20px 0px;
+}
+
+
+
+.profile-intro hr {
+    width: 15%;
+    margin: 20px 0px 0px 0px;
+    height: 4px;
+    background-color: #6195FF;
+    color: #f3f6db;
+    border: 0 none;
+}
+
+.profile-description {
+    font-size: 16px;
+    padding: 10px 0px 20px 0px;
+}
+
+.profile-info {
+    font-size: 16px;
+    padding: 10px 0px 20px 0px;
+}
+
+.profile-info hr {
+    width: 12%;
+    margin: 20px 0px 0px 0px;
+    height: 4px;
+    background-color: #6195FF;
+    color: #f3f6db;
+    border: 0 none;
+}
+
+    .profile-info form {
+        margin-top:4%;
+    }
+.profile-info form .form-group{
+    display:inline-flex;
+}
+
+    .profile-info form .form-group label {
+        width: 200px;
+        text-align: center;
+        background-color: #6195FF;
+        color: #f3f6db;
+        padding-top: 5px;
+        margin: 0px;
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+    .profile-info form .form-group .profile-image {
+        height: 50px;
+        text-align: center;
+        padding-top: 13px;
+        border-radius: 6px;
+        background-color: #6195FF;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .profile-info form .form-group input {
+        background-color: #e3e3e3;
+        color: black;
+        padding-left: 5px;
+        margin: 0px 0px 0px 10px;
+        border-radius: 5px;
+        border: 1px solid #e3e3e3;
+    }
+
+        .profile-info form .form-group input[type ="file"] {
+            cursor: inherit;
+            display: block;
+            font-size: 18px;
+            filter: alpha(opacity=0);
+            min-height: 100%;
+            min-width: 100%;
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            text-align: right;
+            top: 0;
+        }
 /* -- section  -- */
-
 .section {
     position: relative;
 }

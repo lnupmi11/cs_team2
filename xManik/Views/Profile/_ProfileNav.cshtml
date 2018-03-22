@@ -1,17 +1,80 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var user = await SignInManager.UserManager.GetUserAsync(User);
+    var img = "";
+    if (user.ProfileImage != null)
+    {
+        var base64 = Convert.ToBase64String(user.ProfileImage);
+        img = String.Format("data:image/gif;base64,{0}", base64);
+    }
 }
 @using System.Security.Claims;
 
-<ul class="nav nav-pills nav-stacked">
-    <li class="@ProfileNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
-    @if (User.IsInRole("Provider"))
-    {
-        <li class="@ProfileNavPages.ProfileNavClass(ViewContext)"><a asp-action="Details" asp-controller="Providers" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">View my profile as others see it</a></li>
-        <li class="@ProfileNavPages.IndexPortfolioNavClass(ViewContext)"><a asp-action="Portfolio">Portfolio</a></li>
-        <li class="@ProfileNavPages.ProfileDescriptionNavClass(ViewContext)"><a asp-action="ProfileDescription">ProfileDescription</a></li>
-        <li class="@ProfileNavPages.IndexOrdersNavClass(ViewContext)"><a asp-action="Orders">Orders <span class="badge badge-primary badge-pill pull-right">@ViewData["newMsgs"]</span></a></li>
-    }
-</ul>
+<div class="profile-sidebar">
+    <!-- SIDEBAR USERPIC -->
+    <div class="profile-userpic">
+        @if (img != "")
+        {
+            <img src="@img" class="img-rounded img-responsive" />
+        }
+        else
+        {
+            <p>None</p>
+        }
+    </div>
+    <!-- END SIDEBAR USERPIC -->
+    <!-- SIDEBAR USER TITLE -->
+    <div class="profile-usertitle">
+        <div class="profile-usertitle-name">
+            @user.UserName
+        </div>
+        <div class="profile-usertitle-job">
+            Developer
+        </div>
+    </div>
+    <!-- END SIDEBAR USER TITLE -->
+    <!-- SIDEBAR MENU -->
+    <div class="profile-usermenu">
+        <ul class="nav">
+            <li class="@ProfileNavPages.IndexNavClass(ViewContext)">
+                <a asp-action="Index">
+                    <i class="glyphicon glyphicon-home"></i>
+                    Profile
+                </a>
+            </li>
+            @if (User.IsInRole("Provider"))
+            {
+                <li class="@ProfileNavPages.IndexPortfolioNavClass(ViewContext)">
+                    <a asp-action="Portfolio">
+                        <i class="glyphicon glyphicon-camera"></i>
+                        Portfolio
+                    </a>
+                </li>
+                <li class="@ProfileNavPages.ProfileDescriptionNavClass(ViewContext)">
+                    <a asp-action="ProfileDescription">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        ProfileDescription
+                    </a>
+                </li>
+                <li class="@ProfileNavPages.IndexOrdersNavClass(ViewContext)">
+                    <a asp-action="Orders">
+                        <i class="glyphicon glyphicon-briefcase"></i>
+                        Orders
+                        <span class="badge badge-primary badge-pill pull-right">
+                            @ViewData["newMsgs"]
+                        </span>
+                    </a>
+                </li>
+                <li class="@ProfileNavPages.ProfileNavClass(ViewContext)">
+                    <a asp-action="Details" asp-controller="Providers" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                        View my profile as others see it
+                    </a>
+                </li>
+        }
+        </ul>
+    </div>
+    <!-- END MENU -->
+</div>
 
