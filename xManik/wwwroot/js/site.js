@@ -1,5 +1,12 @@
 ﻿/*nav-bar menu resizing*/
 $(document).ready(function () {
+
+    var offsetHeight = document.getElementById('content-block').offsetHeight;
+    while (offsetHeight > 0 && offsetHeight < 380) {
+        $('.body-content').append("<br/><br/>");
+        offsetHeight = document.getElementById('content-block').offsetHeight;
+    }
+
     var scrollTop = 0;
     $(window).scroll(function () {
         scrollTop = $(window).scrollTop();
@@ -73,7 +80,7 @@ $(document).ready(function () {
 
 var app = angular.module('myApp', []);
 app.controller('AddReviewCtrl', function ($scope, $http) {
-    $scope.add = function (review, clientId, providerId,url) {
+    $scope.add = function (review, clientId, providerId, url) {
         review.ClientId = clientId;
         review.ProviderId = providerId;
         var post = $http({
@@ -224,7 +231,7 @@ app.controller('DeleteReviewCtrl', function ($scope, $http) {
             if (self.rtl) {
                 self.$element.attr('dir', 'rtl');
             }
-            self.showClear = options.showClear;
+            //self.showClear = options.showClear;
             self.showCaption = options.showCaption;
             self.size = options.size;
             self.stars = options.stars;
@@ -484,8 +491,8 @@ app.controller('DeleteReviewCtrl', function ($scope, $http) {
         },
         clearButton: '<i class="glyphicon glyphicon-minus-sign"></i>',
         clearButtonTitle: 'Clear',
-        clearButtonBaseClass: 'clear-rating',
-        clearButtonActiveClass: 'clear-rating-active',
+        //clearButtonBaseClass: 'clear-rating',
+        //clearButtonActiveClass: 'clear-rating-active',
         clearCaption: 'Not Rated',
         clearCaptionClass: 'label label-default',
         clearValue: 0,

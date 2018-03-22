@@ -397,8 +397,8 @@ small {
     font-size: 2em;
 }
 
-
-.star-rating .clear-rating, .star-rating-rtl .clear-rating {
+/* -- clear rating -- */
+/*.star-rating .clear-rating, .star-rating-rtl .clear-rating {
     color: #aaa;
     cursor: not-allowed;
     display: inline-block;
@@ -416,8 +416,8 @@ small {
 
 .star-rating .clear-rating {
     padding-right: 5px;
-}
-
+}*/
+/* -- -- */
 .star-rating .caption, .star-rating-rtl .caption {
     color: #999;
     display: inline-block;
@@ -956,14 +956,7 @@ small {
     text-align: center;
 }
 
-.rating-Portfolio{
-	margin:auto; 
-	width:65%; 
-	position:absolute; 
-	left:50%; 
-	margin-left:-30%;
-	margin-top:-5%;
-}
+
 
 /* --  services  -- */
 
