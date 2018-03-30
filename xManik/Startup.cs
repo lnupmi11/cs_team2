@@ -41,12 +41,10 @@ namespace WebApplication1
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
             services.AddMvc();
 
-            await CreateRolesandUsersAsync(services.BuildServiceProvider());
-
-
+            await CreateRolesAndUsersAsync(services.BuildServiceProvider());
         }
 
-        private async Task CreateRolesandUsersAsync(IServiceProvider serviceProvider)
+        private async Task CreateRolesAndUsersAsync(IServiceProvider serviceProvider)
         {
 
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();

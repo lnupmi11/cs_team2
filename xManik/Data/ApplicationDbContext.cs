@@ -15,11 +15,6 @@ namespace WebApplication1.Data
         {
         }
 
-        public ApplicationDbContext() 
-            : base()
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

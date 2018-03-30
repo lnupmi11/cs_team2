@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <UserSecretsId>aspnet-WebApplication1-AF8D5E9A-D650-4030-8051-C883BE4C81AC</UserSecretsId>
+    <UserSecretsId>aspnet-xManik-AF8D5E9A-D650-4030-8051-C883BE4C81AC</UserSecretsId>
   </PropertyGroup>
 
 
