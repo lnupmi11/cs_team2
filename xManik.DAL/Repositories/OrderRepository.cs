@@ -1,51 +1,81 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
 using xManik.DAL.Interfaces;
 
 namespace xManik.DAL.Repositories
 {
-    public class OrderRepository: IRepository<Order>
+    public class OrderRepository : IRepository<Order>
     {
-        private ApplicationContext db;
- 
-        public OrderRepository(ApplicationContext context)
+        private ApplicationDbContext _context;
+
+        public OrderRepository(ApplicationDbContext context)
         {
-            this.db = context;
+            _context = context;
         }
- 
+
         public IEnumerable<Order> GetAll()
         {
-            return db.Orders.Include(o => o.Service);
+            return _context.Orders.Include(o => o.Service);
         }
- 
+
         public Order Get(int id)
         {
-            return db.Orders.Find(id);
+            return _context.Orders.Find(id);
         }
- 
-        public void Create(Order order)
+
+        public void Create(Order item)
         {
-            db.Orders.Add(order);
+            _context.Orders.Add(item);
         }
- 
-        public void Update(Order order)
+
+        public Task CreateAsync(Order item)
         {
-            db.Entry(order).State = EntityState.Modified;
+            return _context.Orders.AddAsync(item);
         }
+
+        public void Update(Order item)
+        {
+            _context.Update(item);
+        }
+
         public IEnumerable<Order> Find(Func<Order, Boolean> predicate)
         {
-            return db.Orders.Include(o => o.Service).Where(predicate).ToList();
+            return _context.Orders.Include(o => o.Service).Where(predicate).ToList();
         }
-        public void Delete(int id)
+
+        public void Delete(string id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = _context.Orders.Find(id);
             if (order != null)
-                db.Orders.Remove(order);
+                _context.Orders.Remove(order);
+        }
+               
+        public async Task DeleteAsync(string id)
+        {
+            Order order = await _context.Orders.FindAsync(id);
+            if (order != null)
+                _context.Orders.Remove(order);
+        }
+
+        public Task<Order> SingleOrDefaultAsync(Func<Order, bool> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(Order item)
+        {
+            _context.Orders.Remove(item);
+        }
+
+        public bool Any(Func<Order, bool> predicate)
+        {
+            return _context.Orders.Any(predicate);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
 using xManik.DAL.Interfaces;
@@ -11,41 +11,66 @@ namespace xManik.DAL.Repositories
 {
     public class PortfolioItemRepository : IRepository<PortfolioItem>
     {
-        private ApplicationContext db;
+        private ApplicationDbContext _cotnext;
 
-        public PortfolioItemRepository(ApplicationContext context)
+        public PortfolioItemRepository(ApplicationDbContext context)
         {
-            this.db = context;
+            _cotnext = context;
         }
 
-        public IEnumerable<PortfolioItem> GetAll()
+        public bool Any(Func<PortfolioItem, bool> predicate)
         {
-            return db.PortfolioItems;
+            throw new NotImplementedException();
+        }
+
+        public void Create(PortfolioItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateAsync(PortfolioItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<PortfolioItem> Find(Func<PortfolioItem, bool> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         public PortfolioItem Get(int id)
         {
-            return db.PortfolioItems.Find(id);
+            throw new NotImplementedException();
         }
 
-        public void Create(PortfolioItem order)
+        public IEnumerable<PortfolioItem> GetAll()
         {
-            db.PortfolioItems.Add(order);
+            throw new NotImplementedException();
         }
 
-        public void Update(PortfolioItem order)
+        public void Remove(PortfolioItem item)
         {
-            db.Entry(order).State = EntityState.Modified;
+            throw new NotImplementedException();
         }
-        public IEnumerable<PortfolioItem> Find(Func<PortfolioItem, Boolean> predicate)
+
+        public Task<PortfolioItem> SingleOrDefaultAsync(Func<PortfolioItem, bool> predicate)
         {
-            return db.PortfolioItems.Where(predicate).ToList();
+            throw new NotImplementedException();
         }
-        public void Delete(int id)
+
+        public void Update(PortfolioItem item)
         {
-            PortfolioItem order = db.PortfolioItems.Find(id);
-            if (order != null)
-                db.PortfolioItems.Remove(order);
+            throw new NotImplementedException();
         }
     }
 }

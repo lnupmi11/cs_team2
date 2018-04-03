@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using WebApplication1.Models;
-using WebApplication1.Models.ManageViewModels;
-using WebApplication1.Services;
+using xManik.Models;
+using xManik.Models.ManageViewModels;
+using xManik.Services;
 
-namespace WebApplication1.Controllers
+namespace xManik.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -495,7 +495,7 @@ namespace WebApplication1.Controllers
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("WebApplication1"),
+                _urlEncoder.Encode("xManik"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace xManik.DAL.Interfaces
 {
@@ -9,10 +10,15 @@ namespace xManik.DAL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(int id);
-        IEnumerable<T> Find(Func<T, Boolean> predicate);
+        IEnumerable<T> Find(Func<T, Boolean> predicate);      
         void Create(T item);
         void Update(T item);
-        void Delete(int id);
+        void Delete(string id);
+        void Remove(T item);
+        bool Any(Func<T, Boolean> predicate);
+        Task CreateAsync(T item);
+        Task DeleteAsync(string id);
+        Task<T> SingleOrDefaultAsync(Func<T, Boolean> predicate);
     }
 
 }

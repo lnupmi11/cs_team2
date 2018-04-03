@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+using xManik.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Models;
+using xManik.Models;
 
-namespace WebApplication1.Data
+namespace xManik.DAL.EF
 {
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -22,5 +23,9 @@ namespace WebApplication1.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Service> Services { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<PortfolioItem> PortfolioItems { get; set; }
     }
 }

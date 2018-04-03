@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication1.Data;
-using WebApplication1.Models;
-using WebApplication1.Services;
+using xManik.Models;
+using xManik.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using xManik.DAL.EF;
 
-namespace WebApplication1
+namespace xManik
 {
     public class Startup
     {

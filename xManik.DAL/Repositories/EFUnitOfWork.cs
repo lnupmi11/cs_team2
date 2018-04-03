@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
 using xManik.DAL.Interfaces;
@@ -9,22 +8,22 @@ namespace xManik.DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private ApplicationContext db;
-        private ServiceRepository serviceRepository;
-        private OrderRepository orderRepository;
-        private PortfolioItemRepository portfolioItemRepository;
+        private ApplicationDbContext _context;
+        private ServiceRepository _serviceRepository;
+        private OrderRepository _orderRepository;
+        private PortfolioItemRepository _portfolioItemRepository;
 
-        public EFUnitOfWork(string connectionString)
+        public EFUnitOfWork(ApplicationDbContext context)
         {
-            db = new ApplicationContext(connectionString);
+            _context = context;
         }
         public IRepository<Service> Services
         {
             get
             {
-                if (serviceRepository == null)
-                    serviceRepository = new ServiceRepository(db);
-                return serviceRepository;
+                if (_serviceRepository == null)
+                    _serviceRepository = new ServiceRepository(_context);
+                return _serviceRepository;
             }
         }
 
@@ -32,9 +31,9 @@ namespace xManik.DAL.Repositories
         {
             get
             {
-                if (orderRepository == null)
-                    orderRepository = new OrderRepository(db);
-                return orderRepository;
+                if (_orderRepository == null)
+                    _orderRepository = new OrderRepository(_context);
+                return _orderRepository;
             }
         }
 
@@ -42,15 +41,15 @@ namespace xManik.DAL.Repositories
         {
             get
             {
-                if (portfolioItemRepository == null)
-                    portfolioItemRepository = new PortfolioItemRepository(db);
-                return portfolioItemRepository;
+                if (_portfolioItemRepository == null)
+                    _portfolioItemRepository = new PortfolioItemRepository(_context);
+                return _portfolioItemRepository;
             }
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            db.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private bool disposed = false;
@@ -61,7 +60,7 @@ namespace xManik.DAL.Repositories
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                   _context.Dispose();
                 }
                 this.disposed = true;
             }

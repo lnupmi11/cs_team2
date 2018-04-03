@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using WebApplication1.Models;
-using WebApplication1.Models.AccountViewModels;
-using WebApplication1.Services;
+using xManik.Models;
+using xManik.Models.AccountViewModels;
+using xManik.Services;
 
-namespace WebApplication1.Controllers
+namespace xManik.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]

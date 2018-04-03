@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace WebApplication1.Models.ManageViewModels
+namespace xManik.Models.ManageViewModels
 {
     public class ExternalLoginsViewModel
     {
