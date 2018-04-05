@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using xManik.DAL.Entities;
 using xManik.Models;
 using xManik.Models.ManageViewModels;
 using xManik.Services;

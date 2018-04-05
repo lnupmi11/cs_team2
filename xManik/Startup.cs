@@ -12,6 +12,7 @@ using xManik.Models;
 using xManik.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using xManik.DAL.EF;
+using xManik.DAL.Entities;
 
 namespace xManik
 {
