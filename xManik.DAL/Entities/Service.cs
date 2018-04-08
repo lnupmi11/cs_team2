@@ -13,6 +13,6 @@ namespace xManik.DAL.Entities
         public TimeSpan Duration { get; set; }
         public DateTime DatePublished { get; set; }
         public bool IsPromoted { get; set; }
-        ICollection<Order> orders { get; set; }
+        ICollection<Order> Orders { get; set; }
     }
 }

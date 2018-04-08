@@ -4,7 +4,6 @@ using System.Text;
 using xManik.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using xManik.Models;
 
 namespace xManik.DAL.EF
 {
@@ -27,5 +26,7 @@ namespace xManik.DAL.EF
         public DbSet<Service> Services { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<PortfolioItem> PortfolioItems { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<ClientProfile> ClientProfiles { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace xManik.DAL.Interfaces
         IRepository<Service> Services { get; }
         IRepository<Order> Orders { get; }
         IRepository<PortfolioItem> PortfolioItems { get; }
+        IRepository<Comment> Comments { get; }
         Task SaveAsync();
     }
 }

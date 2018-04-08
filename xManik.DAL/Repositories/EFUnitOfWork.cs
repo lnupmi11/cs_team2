@@ -12,6 +12,7 @@ namespace xManik.DAL.Repositories
         private ServiceRepository _serviceRepository;
         private OrderRepository _orderRepository;
         private PortfolioItemRepository _portfolioItemRepository;
+        private CommentRepository _commentRepository;
 
         public EFUnitOfWork(ApplicationDbContext context)
         {
@@ -44,6 +45,16 @@ namespace xManik.DAL.Repositories
                 if (_portfolioItemRepository == null)
                     _portfolioItemRepository = new PortfolioItemRepository(_context);
                 return _portfolioItemRepository;
+            }
+        }
+
+        public IRepository<Comment> Comments
+        {
+            get
+            {
+                if (_commentRepository == null)
+                    _commentRepository = new CommentRepository(_context);
+                return _commentRepository;
             }
         }
 
