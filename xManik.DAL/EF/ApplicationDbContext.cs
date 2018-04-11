@@ -15,6 +15,7 @@ namespace xManik.DAL.EF
         {
         }
 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -27,6 +28,6 @@ namespace xManik.DAL.EF
         public DbSet<Order> Orders { get; set; }
         public DbSet<PortfolioItem> PortfolioItems { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<ClientProfile> ClientProfiles { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
     }
 }

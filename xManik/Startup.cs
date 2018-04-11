@@ -23,12 +23,11 @@ namespace xManik
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get;}
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public async void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -42,15 +41,12 @@ namespace xManik
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
             services.AddMvc();
 
-            await CreateRolesAndUsersAsync(services.BuildServiceProvider());
+            CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
+
         }
 
         private async Task CreateRolesAndUsersAsync(IServiceProvider serviceProvider)
         {
-
-            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            context.Database.EnsureCreated();
-
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
@@ -68,12 +64,12 @@ namespace xManik
                     Email = Configuration.GetSection("UserSettings")["UserEmail"]
                 };
 
-                string userPWD = "Asdfgh@77";
+                string userPassword = Configuration.GetSection("UserSettings")["UserPassword"];
 
-                var chkUser = await userManager.CreateAsync(user, userPWD);
-                if (chkUser.Succeeded)
+                var result = await userManager.CreateAsync(user, userPassword);
+                if (result.Succeeded)
                 {
-                    var result1 = await userManager.AddToRoleAsync(user, "Admin");
+                    await userManager.AddToRoleAsync(user, "Admin");
                 }
             }
 
@@ -99,9 +95,7 @@ namespace xManik
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-
-
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

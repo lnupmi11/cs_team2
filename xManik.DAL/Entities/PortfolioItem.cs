@@ -10,6 +10,5 @@ namespace xManik.DAL.Entities
         public byte[] Image { get; set; }
         public string Description { get; set; }
         public string ProviderId { get; set; }
-        //public Provider Provider { get; set; }
     }
 }

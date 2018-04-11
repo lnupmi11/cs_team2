@@ -6,7 +6,7 @@ using System.Text;
 
 namespace xManik.DAL.Entities
 {
-    public class ClientProfile
+    public class UserProfile
     {
         [Key]
         [ForeignKey("ApplicationUser")]
