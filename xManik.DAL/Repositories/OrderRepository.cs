@@ -23,7 +23,7 @@ namespace xManik.DAL.Repositories
             return _context.Orders.Include(o => o.Service);
         }
 
-        public Order Find(int id)
+        public Order Find(string id)
         {
             return _context.Orders.Find(id);
         }
@@ -62,7 +62,7 @@ namespace xManik.DAL.Repositories
                 _context.Orders.Remove(order);
         }
 
-        public Task<Order> SingleOrDefaultAsync(Func<Order, bool> predicate)
+        public Order SingleOrDefault(Func<Order, bool> predicate)
         {
             throw new NotImplementedException();
         }

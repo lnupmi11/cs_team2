@@ -23,7 +23,7 @@ namespace xManik.DAL.Repositories
             return _context.Comments.Include(o => o.Author).Include(o => o.Recipent);
         }
 
-        public Comment Find(int id)
+        public Comment Find(string id)
         {
             return _context.Comments.Find(id);
         }
@@ -62,7 +62,7 @@ namespace xManik.DAL.Repositories
                 _context.Comments.Remove(order);
         }
 
-        public Task<Comment> SingleOrDefaultAsync(Func<Comment, bool> predicate)
+        public Comment SingleOrDefault(Func<Comment, bool> predicate)
         {
             throw new NotImplementedException();
         }

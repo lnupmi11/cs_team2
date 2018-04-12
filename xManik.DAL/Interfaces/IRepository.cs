@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace xManik.DAL.Interfaces
@@ -9,7 +8,7 @@ namespace xManik.DAL.Interfaces
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-        T Find(int id);
+        T Find(string id);
         IEnumerable<T> Find(Func<T, Boolean> predicate);      
         void Create(T item);
         void Update(T item);
@@ -18,7 +17,7 @@ namespace xManik.DAL.Interfaces
         bool Any(Func<T, Boolean> predicate);
         Task CreateAsync(T item);
         Task DeleteAsync(string id);
-        Task<T> SingleOrDefaultAsync(Func<T, Boolean> predicate);
+        T SingleOrDefault(Func<T, Boolean> predicate);
     }
 
 }

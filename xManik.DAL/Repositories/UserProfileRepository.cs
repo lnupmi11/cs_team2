@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
@@ -49,7 +47,7 @@ namespace xManik.DAL.Repositories
             return _context.UserProfiles.Where(predicate).ToList();
         }
 
-        public UserProfile Find(int id)
+        public UserProfile Find(string id)
         {
             return _context.UserProfiles.Find(id);
         }
@@ -64,9 +62,9 @@ namespace xManik.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<UserProfile> SingleOrDefaultAsync(Func<UserProfile, bool> predicate)
+        public UserProfile SingleOrDefault(Func<UserProfile, bool> predicate)
         {
-            return SingleOrDefaultAsync(predicate);
+            return _context.UserProfiles.SingleOrDefault(predicate);
         }
 
         public void Update(UserProfile item)

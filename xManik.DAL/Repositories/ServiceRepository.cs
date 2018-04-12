@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace xManik.DAL.Repositories
             return _context.Services;
         }
 
-        public Service Find(int id)
+        public Service Find(string id)
         {
             return _context.Services.Find(id);
         }
@@ -66,9 +67,9 @@ namespace xManik.DAL.Repositories
                 _context.Services.Remove(book);
         }
 
-        public Task<Service> SingleOrDefaultAsync(Func<Service, bool> predicate)
+        public Service SingleOrDefault(Func<Service, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Services.SingleOrDefault(predicate);
         }
 
         public bool Any(Func<Service, bool> predicate)

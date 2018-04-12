@@ -23,15 +23,15 @@ namespace xManik.Controllers
         }
 
         // GET: Services/Details/5
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var service = await _context.Services
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var service = _context.Services
+                .SingleOrDefault(m => m.Id == id);
             if (service == null)
             {
                 return NotFound();
@@ -70,7 +70,7 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service =  _context.Services.Find(m => m.Id == id);
+            var service = _context.Services.SingleOrDefault(m => m.Id == id);
             if (service == null)
             {
                 return NotFound();
@@ -114,15 +114,15 @@ namespace xManik.Controllers
         }
 
         // GET: Services/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var service = await _context.Services
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var service = _context.Services
+                .SingleOrDefault(m => m.Id == id);
             if (service == null)
             {
                 return NotFound();
@@ -136,7 +136,7 @@ namespace xManik.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var service = await _context.Services.SingleOrDefaultAsync(m => m.Id == id);
+            var service = _context.Services.SingleOrDefault(m => m.Id == id);
             _context.Services.Remove(service);
             await _context.SaveAsync();
             return RedirectToAction(nameof(Index));

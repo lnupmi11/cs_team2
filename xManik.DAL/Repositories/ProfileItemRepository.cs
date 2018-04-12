@@ -46,7 +46,7 @@ namespace xManik.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public PortfolioItem Find(int id)
+        public PortfolioItem Find(string id)
         {
             throw new NotImplementedException();
         }
@@ -61,7 +61,7 @@ namespace xManik.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<PortfolioItem> SingleOrDefaultAsync(Func<PortfolioItem, bool> predicate)
+        public PortfolioItem SingleOrDefault(Func<PortfolioItem, bool> predicate)
         {
             throw new NotImplementedException();
         }
