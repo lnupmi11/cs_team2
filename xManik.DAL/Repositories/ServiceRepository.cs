@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
@@ -11,7 +10,7 @@ namespace xManik.DAL.Repositories
 {
     public class ServiceRepository : IRepository<Service>
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ServiceRepository(ApplicationDbContext context)
         {
@@ -23,7 +22,7 @@ namespace xManik.DAL.Repositories
             return _context.Services;
         }
 
-        public Service Get(int id)
+        public Service Find(int id)
         {
             return _context.Services.Find(id);
         }

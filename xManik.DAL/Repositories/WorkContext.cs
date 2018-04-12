@@ -6,18 +6,20 @@ using xManik.DAL.Interfaces;
 
 namespace xManik.DAL.Repositories
 {
-    public class EFUnitOfWork : IUnitOfWork
+    public class WorkContext : IUnitOfWork
     {
         private ApplicationDbContext _context;
         private ServiceRepository _serviceRepository;
         private OrderRepository _orderRepository;
         private PortfolioItemRepository _portfolioItemRepository;
         private CommentRepository _commentRepository;
+        private UserProfileRepository _userProfileRepositiry;
 
-        public EFUnitOfWork(ApplicationDbContext context)
+        public WorkContext(ApplicationDbContext context)
         {
             _context = context;
         }
+
         public IRepository<Service> Services
         {
             get
@@ -58,22 +60,33 @@ namespace xManik.DAL.Repositories
             }
         }
 
+        public IRepository<UserProfile> UserProfiles
+        {
+            get
+            {
+                if (_userProfileRepositiry == null)
+                    _userProfileRepositiry = new UserProfileRepository(_context);
+                return _userProfileRepositiry;
+            }
+        }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        private bool disposed = false;
+        #region IDisposable Support
+        private bool disposedValue = false;
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!this.disposedValue)
             {
                 if (disposing)
                 {
-                   _context.Dispose();
+                    _context.Dispose();
                 }
-                this.disposed = true;
+                this.disposedValue = true;
             }
         }
 
@@ -82,5 +95,6 @@ namespace xManik.DAL.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace xManik.DAL.Entities
+﻿namespace xManik.DAL.Entities
 {
     public class PortfolioItem
     {

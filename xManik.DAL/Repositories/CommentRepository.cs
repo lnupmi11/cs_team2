@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
@@ -12,7 +11,7 @@ namespace xManik.DAL.Repositories
 {
     public class CommentRepository : IRepository<Comment>
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public CommentRepository(ApplicationDbContext context)
         {
@@ -24,7 +23,7 @@ namespace xManik.DAL.Repositories
             return _context.Comments.Include(o => o.Author).Include(o => o.Recipent);
         }
 
-        public Comment Get(int id)
+        public Comment Find(int id)
         {
             return _context.Comments.Find(id);
         }

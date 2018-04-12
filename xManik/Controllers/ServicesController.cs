@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
@@ -13,11 +9,11 @@ namespace xManik.Controllers
 {
     public class ServicesController : Controller
     {
-        private readonly EFUnitOfWork _context;
+        private readonly WorkContext _context;
 
         public ServicesController(ApplicationDbContext context)
         {
-            _context = new EFUnitOfWork(context);
+            _context = new WorkContext(context);
         }
 
         // GET: Services

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
@@ -12,7 +11,7 @@ namespace xManik.DAL.Repositories
 {
     public class OrderRepository : IRepository<Order>
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public OrderRepository(ApplicationDbContext context)
         {
@@ -24,7 +23,7 @@ namespace xManik.DAL.Repositories
             return _context.Orders.Include(o => o.Service);
         }
 
-        public Order Get(int id)
+        public Order Find(int id)
         {
             return _context.Orders.Find(id);
         }

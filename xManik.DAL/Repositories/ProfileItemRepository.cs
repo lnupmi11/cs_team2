@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using xManik.DAL.EF;
 using xManik.DAL.Entities;
@@ -11,7 +9,7 @@ namespace xManik.DAL.Repositories
 {
     public class PortfolioItemRepository : IRepository<PortfolioItem>
     {
-        private ApplicationDbContext _cotnext;
+        private readonly ApplicationDbContext _cotnext;
 
         public PortfolioItemRepository(ApplicationDbContext context)
         {
@@ -48,7 +46,7 @@ namespace xManik.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public PortfolioItem Get(int id)
+        public PortfolioItem Find(int id)
         {
             throw new NotImplementedException();
         }
