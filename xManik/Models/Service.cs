@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace xManik.DAL.Entities
+namespace xManik.Models
 {
     public class Service
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using xManik.DAL.Entities;
+using xManik.Models;
 
-namespace xManik.DAL.Interfaces
+namespace xManik.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using xManik.DAL.EF;
-using xManik.DAL.Entities;
-using xManik.DAL.Interfaces;
+using xManik.EF;
+using xManik.Models;
+using xManik.Interfaces;
 
-namespace xManik.DAL.Repositories
+namespace xManik.Repositories
 {
     public class WorkContext : IUnitOfWork
     {

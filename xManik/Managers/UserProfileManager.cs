@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using xManik.DAL.Entities;
-using xManik.DAL.Repositories;
+using xManik.Models;
+using xManik.Repositories;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace xManik.Extensions.Managers
 {
@@ -49,11 +51,23 @@ namespace xManik.Extensions.Managers
             await _context.SaveAsync();
         }
 
+        public async Task ChangeFirstNameAsync(IPrincipal principal, string firstName)
+        {
+            var user = GetUserProfile(principal);
+            await ChangeFirstNameAsync(user, firstName);
+        }
+
         public async Task ChangeSecondNameAsync(UserProfile user, string secondName)
         {
             user.SecondName = secondName;
             _context.UserProfiles.Update(user);
             await _context.SaveAsync();
+        }
+
+        public async Task ChangeSecondNameAsync(IPrincipal principal, string secondName)
+        {
+            var user = GetUserProfile(principal);
+            await ChangeSecondNameAsync(user, secondName);
         }
 
         public async Task ChangeDescriptionAsync(UserProfile user, string description)
@@ -63,27 +77,47 @@ namespace xManik.Extensions.Managers
             await _context.SaveAsync();
         }
 
-        public bool ChangeProfilePhoto(UserProfile user, IFormFile file)
+        public async Task ChangeDescriptionAsync(IPrincipal principal, string description)
+        {
+            var user = GetUserProfile(principal);
+            await ChangeDescriptionAsync(user, description);
+        }
+
+        public bool ChangeProfilePhoto(UserProfile user, IFormFile file, string webRootPath)
         {
             if (file == null)
             {
                 return false;
             }
-            using (var memoryStream = new MemoryStream())
+
+            var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            filename = Path.Combine(webRootPath, "/Content/UserProfile/", $@"\{filename}");
+
+            if (Directory.Exists(webRootPath + "/Content/UserProfile/"))
             {
-                file.CopyTo(memoryStream);
-                //var item = new Artwork
-                //{
-                //    Description = model.Description,
-                //    Image = memoryStream.ToArray()
-                //};
-                //provider.Portfolio.Add(item);
-                //_context.Update(provider);
+                using (FileStream fs = File.Create(filename))
+                {
+                    file.CopyTo(fs);
+                    fs.Flush();
+                }
             }
+            string s = "~/Content/Brands/" + file.FileName;
 
             return true;
         }
 
+        public bool ChangeProfilePhoto(IPrincipal principal, IFormFile file, string webRootPath)
+        {
+            var user = GetUserProfile(principal);
+            if (file == null)
+            {
+                return false;
+            }
+
+            ChangeProfilePhoto(user, file, webRootPath);
+
+            return true;
+        }
         #endregion
 
         public UserProfile GetUserProfile(IPrincipal principal)

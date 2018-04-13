@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using xManik.DAL.EF;
+using xManik.EF;
 
 namespace xManik.DAL.Migrations
 {
@@ -129,7 +129,7 @@ namespace xManik.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("xManik.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -180,7 +180,7 @@ namespace xManik.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.Comment", b =>
+            modelBuilder.Entity("xManik.Models.Comment", b =>
                 {
                     b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd();
@@ -206,7 +206,7 @@ namespace xManik.DAL.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.Order", b =>
+            modelBuilder.Entity("xManik.Models.Order", b =>
                 {
                     b.Property<string>("OrderId")
                         .ValueGeneratedOnAdd();
@@ -226,7 +226,7 @@ namespace xManik.DAL.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.PortfolioItem", b =>
+            modelBuilder.Entity("xManik.Models.PortfolioItem", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -246,7 +246,7 @@ namespace xManik.DAL.Migrations
                     b.ToTable("PortfolioItems");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.Service", b =>
+            modelBuilder.Entity("xManik.Models.Service", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -272,7 +272,7 @@ namespace xManik.DAL.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.UserProfile", b =>
+            modelBuilder.Entity("xManik.Models.UserProfile", b =>
                 {
                     b.Property<string>("Id");
 
@@ -303,7 +303,7 @@ namespace xManik.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -311,7 +311,7 @@ namespace xManik.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -324,7 +324,7 @@ namespace xManik.DAL.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -332,53 +332,53 @@ namespace xManik.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.Comment", b =>
+            modelBuilder.Entity("xManik.Models.Comment", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser", "Author")
+                    b.HasOne("xManik.Models.ApplicationUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser", "Recipent")
+                    b.HasOne("xManik.Models.ApplicationUser", "Recipent")
                         .WithMany()
                         .HasForeignKey("RecipentId");
 
-                    b.HasOne("xManik.DAL.Entities.UserProfile")
+                    b.HasOne("xManik.Models.UserProfile")
                         .WithMany("Comments")
                         .HasForeignKey("UserProfileId");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.Order", b =>
+            modelBuilder.Entity("xManik.Models.Order", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.Service", "Service")
+                    b.HasOne("xManik.Models.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.PortfolioItem", b =>
+            modelBuilder.Entity("xManik.Models.PortfolioItem", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.UserProfile")
+                    b.HasOne("xManik.Models.UserProfile")
                         .WithMany("Portfolio")
                         .HasForeignKey("UserProfileId");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.Service", b =>
+            modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.UserProfile")
+                    b.HasOne("xManik.Models.UserProfile")
                         .WithMany("Services")
                         .HasForeignKey("UserProfileId");
                 });
 
-            modelBuilder.Entity("xManik.DAL.Entities.UserProfile", b =>
+            modelBuilder.Entity("xManik.Models.UserProfile", b =>
                 {
-                    b.HasOne("xManik.DAL.Entities.ApplicationUser", "ApplicationUser")
+                    b.HasOne("xManik.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("UserProfile")
-                        .HasForeignKey("xManik.DAL.Entities.UserProfile", "Id")
+                        .HasForeignKey("xManik.Models.UserProfile", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

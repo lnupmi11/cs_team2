@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -10,9 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using xManik.Models;
 using xManik.Services;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using xManik.DAL.EF;
-using xManik.DAL.Entities;
+using xManik.EF;
 
 namespace xManik
 {

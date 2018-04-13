@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using xManik.DAL.EF;
-using xManik.DAL.Entities;
-using xManik.DAL.Repositories;
+using xManik.EF;
+using xManik.Models;
+using xManik.Repositories;
 
 namespace xManik.Controllers
 {

@@ -1,0 +1,68 @@
+﻿@model xManik.Models.UserProfileViewModels.IndexViewModel
+
+@{
+    ViewData.AddActivePage(UserProfileNavPages.Index);
+}
+<div class="col-md-9">
+    <div class="profile-content">
+        <div class="profile-intro">
+            Hello, I am <strong>@Model.Username</strong>
+            <br />
+            Designer and Front-End Developer
+            <hr />
+        </div>
+        <div class="profile-description">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </div>
+        <hr />
+        <div class="profile-info">
+            <h2>
+                Personal info
+            </h2>
+
+            @Html.Partial("_StatusMessage", Model.StatusMessage)
+
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="form-control" disabled />
+                </div>
+                <br />
+                <div class=" form-group">
+                    @if (Model.IsEmailConfirmed)
+                    {
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                    }
+                    else
+                    {
+                        <input asp-for="Email" class="form-control" />
+                        <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                    }
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="profile-image">
+                        <span class="glyphicon glyphicon-file"></span>
+                        Choose avatar
+                        <input type="file" class="image-input" name="file" />
+                    </label>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-default">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

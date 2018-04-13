@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace xManik.DAL.Interfaces
+namespace xManik.Interfaces
 {
 
     public interface IRepository<T> where T : class

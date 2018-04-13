@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace xManik.DAL.Entities
+namespace xManik.Models
 {
     public class UserProfile
     {
@@ -13,7 +13,8 @@ namespace xManik.DAL.Entities
 
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-        public byte[] ProfileImage { get; set; }
+        //public byte[] ProfileImage { get; set; }
+        public string ImageName { get; set; }
         public DateTime DateRegistered { get; set; }
         public string Description { get; set; }
         public double Rate { get; set; }

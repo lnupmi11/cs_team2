@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace xManik.DAL.Entities
+namespace xManik.Models
 {
     public class Order
     {

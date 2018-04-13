@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using xManik.DAL.Entities;
+using xManik.Models;
 using xManik.Models.AccountViewModels;
 using xManik.Services;
 

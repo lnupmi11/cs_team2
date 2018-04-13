@@ -1,8 +1,8 @@
-﻿using xManik.DAL.Entities;
+﻿using xManik.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace xManik.DAL.EF
+namespace xManik.EF
 {
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
