@@ -28,8 +28,4 @@
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\xManik.DAL\xManik.DAL.csproj" />
-  </ItemGroup>
-
 </Project>
