@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace xManik.DAL.Migrations
+namespace xManik.Migrations
 {
     public partial class Initial : Migration
     {
@@ -162,7 +162,7 @@ namespace xManik.DAL.Migrations
                     DateRegistered = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
-                    ProfileImage = table.Column<byte[]>(nullable: true),
+                    ImageName = table.Column<string>(nullable: true),
                     Rate = table.Column<double>(nullable: false),
                     SecondName = table.Column<string>(nullable: true)
                 },

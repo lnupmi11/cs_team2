@@ -90,18 +90,19 @@ namespace xManik.Extensions.Managers
                 return false;
             }
 
-            var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            filename = Path.Combine(webRootPath, "/Content/UserProfile/", $@"\{filename}");
+            string filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            string filePath =  Path.Combine(webRootPath, "Storage\\ProfileImages\\" + filename);
 
-            if (Directory.Exists(webRootPath + "/Content/UserProfile/"))
+            if(!Directory.Exists(webRootPath + "\\Storage\\ProfileImages"))
             {
-                using (FileStream fs = File.Create(filename))
-                {
-                    file.CopyTo(fs);
-                    fs.Flush();
-                }
+                Directory.CreateDirectory(webRootPath + "\\Storage\\ProfileImages");
             }
-            string s = "~/Content/Brands/" + file.FileName;
+
+            using (FileStream fs = File.Create(filename))
+            {
+                file.CopyTo(fs);
+                fs.Flush();
+            }
 
             return true;
         }

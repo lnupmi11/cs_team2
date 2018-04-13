@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using xManik.EF;
 
-namespace xManik.DAL.Migrations
+namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180411191912_Initial")]
+    [Migration("20180413151027_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -282,7 +282,7 @@ namespace xManik.DAL.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<byte[]>("ProfileImage");
+                    b.Property<string>("ImageName");
 
                     b.Property<double>("Rate");
 
