@@ -11,7 +11,7 @@ using xManik.Models;
 using xManik.Repositories;
 using xManik.Extensions.IdentityExtensions;
 
-namespace xManik.Extensions.Managers
+namespace xManik.Managers
 {
     public class UserProfileManager<TUserProfile> : IDisposable where TUserProfile : class
     {
@@ -131,6 +131,11 @@ namespace xManik.Extensions.Managers
         {
             UserProfile userProfile = _context.UserProfiles.Find(principal.GetUserId());
             return userProfile;
+        }
+
+        public string GetUserProfileId(ClaimsPrincipal principal)
+        {
+            return principal.GetUserId();
         }
 
         public async Task UpdateSaveAsync(UserProfile user)

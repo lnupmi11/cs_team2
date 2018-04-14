@@ -41,7 +41,12 @@ namespace xManik.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PortfolioItem> Find(Func<PortfolioItem, bool> predicate)
+        public IEnumerable<PortfolioItem> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<PortfolioItem> GetAllWhere(Func<PortfolioItem, bool> predicate)
         {
             throw new NotImplementedException();
         }
@@ -51,11 +56,11 @@ namespace xManik.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PortfolioItem> GetAll()
+        public PortfolioItem Find(Func<PortfolioItem, bool> predicate)
         {
             throw new NotImplementedException();
         }
-
+                
         public void Remove(PortfolioItem item)
         {
             throw new NotImplementedException();
@@ -69,6 +74,6 @@ namespace xManik.Repositories
         public void Update(PortfolioItem item)
         {
             throw new NotImplementedException();
-        }
+        }         
     }
 }

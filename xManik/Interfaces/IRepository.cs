@@ -9,7 +9,8 @@ namespace xManik.Interfaces
     {
         IEnumerable<T> GetAll();
         T Find(string id);
-        IEnumerable<T> Find(Func<T, Boolean> predicate);      
+        IEnumerable<T> GetAllWhere(Func<T, Boolean> predicate);
+        T Find(Func<T, Boolean> predicate);
         void Create(T item);
         void Update(T item);
         void Delete(string id);

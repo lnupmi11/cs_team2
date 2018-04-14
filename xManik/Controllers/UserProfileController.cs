@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using xManik.EF;
 using xManik.Models;
 using xManik.Repositories;
-using xManik.Extensions.Managers;
+using xManik.Managers;
 using xManik.Models.UserProfileViewModels;
 
 namespace xManik.Controllers

@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xManik.EF;
+using xManik.Managers;
 using xManik.Models;
 using xManik.Repositories;
 
@@ -10,16 +14,26 @@ namespace xManik.Controllers
     public class ServicesController : Controller
     {
         private readonly WorkContext _context;
+        private readonly UserProfileManager<UserProfile> _userProfileManager;
+        private readonly ServicesManager<Service> _servicesManager;
 
         public ServicesController(ApplicationDbContext context)
         {
             _context = new WorkContext(context);
+            _userProfileManager = new UserProfileManager<UserProfile>(_context);
+            _servicesManager = new ServicesManager<Service>(_context);
         }
 
         // GET: Services
         public IActionResult Index()
         {
             return View(_context.Services.GetAll());
+        }
+
+        [Authorize(Roles = "Provider")]
+        public IActionResult UserServices()
+        {
+            return View(_userProfileManager.GetAllServices(User));
         }
 
         // GET: Services/Details/5
@@ -30,8 +44,7 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service = _context.Services
-                .SingleOrDefault(m => m.Id == id);
+            var service = _servicesManager.Find(id);
             if (service == null)
             {
                 return NotFound();
@@ -41,6 +54,7 @@ namespace xManik.Controllers
         }
 
         // GET: Services/Create
+        [Authorize(Roles = "Provider")]
         public IActionResult Create()
         {
             return View();
@@ -51,18 +65,21 @@ namespace xManik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProviderId,Description,Price,Duration,DatePublished,IsPromoted")] Service service)
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Create([Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Service service)
         {
             if (ModelState.IsValid)
             {
-                _context.Services.Create(service);
-                await _context.SaveAsync();
+                service.UserProfileId = _userProfileManager.GetUserProfileId(User);
+                await _servicesManager.CreateAsync(service);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(service);
         }
 
         // GET: Services/Edit/5
+        [Authorize(Roles = "Provider")]
         public IActionResult Edit(string id)
         {
             if (id == null)
@@ -70,7 +87,7 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service = _context.Services.SingleOrDefault(m => m.Id == id);
+            var service = _servicesManager.Find(id);
             if (service == null)
             {
                 return NotFound();
@@ -83,7 +100,8 @@ namespace xManik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,ProviderId,Description,Price,Duration,DatePublished,IsPromoted")] Service service)
+        [Authorize(Roles = "Provider")]
+        public async Task<IActionResult> Edit(string id, [Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Service service)
         {
             if (id != service.Id)
             {
@@ -94,12 +112,11 @@ namespace xManik.Controllers
             {
                 try
                 {
-                    _context.Services.Update(service);
-                    await _context.SaveAsync();
+                    await _servicesManager.UpdateAsync(service);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiceExists(service.Id))
+                    if (!_servicesManager.IsServiceExists(service.Id))
                     {
                         return NotFound();
                     }
@@ -114,6 +131,7 @@ namespace xManik.Controllers
         }
 
         // GET: Services/Delete/5
+        [Authorize(Roles = "Provider")]
         public IActionResult Delete(string id)
         {
             if (id == null)
@@ -121,8 +139,7 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service = _context.Services
-                .SingleOrDefault(m => m.Id == id);
+            var service = _servicesManager.Find(id);
             if (service == null)
             {
                 return NotFound();
@@ -134,17 +151,13 @@ namespace xManik.Controllers
         // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Provider")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var service = _context.Services.SingleOrDefault(m => m.Id == id);
-            _context.Services.Remove(service);
-            await _context.SaveAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var service = _servicesManager.Find(id);
+            await _servicesManager.RemoveAsync(service);
 
-        private bool ServiceExists(string id)
-        {
-            return _context.Services.Any(e => e.Id == id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -260,8 +260,6 @@ namespace xManik.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<string>("ProviderId");
-
                     b.Property<string>("UserProfileId");
 
                     b.HasKey("Id");
@@ -368,7 +366,7 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.HasOne("xManik.Models.UserProfile")
+                    b.HasOne("xManik.Models.UserProfile", "UserProfile")
                         .WithMany("Services")
                         .HasForeignKey("UserProfileId");
                 });

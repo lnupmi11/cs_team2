@@ -11,8 +11,8 @@ using xManik.EF;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180414090709_Initial2")]
-    partial class Initial2
+    [Migration("20180414135253_fk2")]
+    partial class fk2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -261,8 +261,6 @@ namespace xManik.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<string>("ProviderId");
-
                     b.Property<string>("UserProfileId");
 
                     b.HasKey("Id");
@@ -369,7 +367,7 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.HasOne("xManik.Models.UserProfile")
+                    b.HasOne("xManik.Models.UserProfile", "UserProfile")
                         .WithMany("Services")
                         .HasForeignKey("UserProfileId");
                 });

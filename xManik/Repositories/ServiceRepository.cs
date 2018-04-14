@@ -38,9 +38,14 @@ namespace xManik.Repositories
             _context.Services.Update(book);
         }
 
-        public IEnumerable<Service> Find(Func<Service, Boolean> predicate)
+        public IEnumerable<Service> GetAllWhere(Func<Service, Boolean> predicate)
         {
-            return _context.Services.Where(predicate).ToList();
+            return _context.Services.Where(predicate);
+        }
+
+        public Service Find(Func<Service, bool> predicate)
+        {
+            return _context.Services.Include(p => p.UserProfile).FirstOrDefault();
         }
 
         public void Delete(string id)

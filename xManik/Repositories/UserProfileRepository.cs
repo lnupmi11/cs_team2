@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using xManik.EF;
 using xManik.Models;
 using xManik.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace xManik.Repositories
 {
@@ -42,14 +43,19 @@ namespace xManik.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<UserProfile> Find(Func<UserProfile, bool> predicate)
+        public IEnumerable<UserProfile> GetAllWhere(Func<UserProfile, bool> predicate)
         {
-            return _context.UserProfiles.Where(predicate).ToList();
+            return _context.UserProfiles.Include( p => p.ApplicationUser).Include(p=> p.Services).Where(predicate);
+        }
+
+        public UserProfile Find(Func<UserProfile,bool> predicate)
+        {
+            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Services).Where(predicate).FirstOrDefault();
         }
 
         public UserProfile Find(string id)
         {
-            return _context.UserProfiles.Find(id);
+            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Services).SingleOrDefault(p => p.Id == id);
         }
 
         public IEnumerable<UserProfile> GetAll()
@@ -64,7 +70,7 @@ namespace xManik.Repositories
 
         public UserProfile SingleOrDefault(Func<UserProfile, bool> predicate)
         {
-            return _context.UserProfiles.SingleOrDefault(predicate);
+            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Services).SingleOrDefault(predicate);
         }
 
         public void Update(UserProfile item)

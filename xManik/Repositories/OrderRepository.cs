@@ -43,7 +43,7 @@ namespace xManik.Repositories
             _context.Update(item);
         }
 
-        public IEnumerable<Order> Find(Func<Order, Boolean> predicate)
+        public IEnumerable<Order> GetAllWhere(Func<Order, Boolean> predicate)
         {
             return _context.Orders.Include(o => o.Service).Where(predicate).ToList();
         }
@@ -75,6 +75,11 @@ namespace xManik.Repositories
         public bool Any(Func<Order, bool> predicate)
         {
             return _context.Orders.Any(predicate);
+        }
+
+        public Order Find(Func<Order, bool> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -43,9 +43,14 @@ namespace xManik.Repositories
             _context.Update(item);
         }
 
-        public IEnumerable<Comment> Find(Func<Comment, Boolean> predicate)
+        public IEnumerable<Comment> GetAllWhere(Func<Comment, Boolean> predicate)
         {
             return _context.Comments.Include(o => o.Author).Include(o => o.Recipent).Where(predicate).ToList();
+        }
+
+        public Comment Find(Func<Comment, bool> predicate)
+        {
+            return _context.Comments.Include(p => p.Author).FirstOrDefault();
         }
 
         public void Delete(string id)
@@ -75,6 +80,6 @@ namespace xManik.Repositories
         public bool Any(Func<Comment, bool> predicate)
         {
             return _context.Comments.Any(predicate);
-        }
+        }               
     }
 }
