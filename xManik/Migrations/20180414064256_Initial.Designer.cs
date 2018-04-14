@@ -11,7 +11,7 @@ using xManik.EF;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180413151027_Initial")]
+    [Migration("20180414064256_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -193,7 +193,7 @@ namespace xManik.Migrations
 
                     b.Property<string>("RecipentId");
 
-                    b.Property<string>("UserProfileId");
+                    b.Property<string>("UserUserProfileId");
 
                     b.HasKey("CommentId");
 
@@ -201,7 +201,7 @@ namespace xManik.Migrations
 
                     b.HasIndex("RecipentId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserUserProfileId");
 
                     b.ToTable("Comments");
                 });
@@ -237,11 +237,11 @@ namespace xManik.Migrations
 
                     b.Property<string>("ProviderId");
 
-                    b.Property<string>("UserProfileId");
+                    b.Property<string>("UserUserProfileId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserUserProfileId");
 
                     b.ToTable("PortfolioItems");
                 });
@@ -263,16 +263,16 @@ namespace xManik.Migrations
 
                     b.Property<string>("ProviderId");
 
-                    b.Property<string>("UserProfileId");
+                    b.Property<string>("UserUserProfileId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("UserUserProfileId");
 
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("xManik.Models.UserProfile", b =>
+            modelBuilder.Entity("xManik.Models.UserUserProfile", b =>
                 {
                     b.Property<string>("Id");
 
@@ -290,7 +290,7 @@ namespace xManik.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserUserProfiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -348,9 +348,9 @@ namespace xManik.Migrations
                         .WithMany()
                         .HasForeignKey("RecipentId");
 
-                    b.HasOne("xManik.Models.UserProfile")
+                    b.HasOne("xManik.Models.UserUserProfile")
                         .WithMany("Comments")
-                        .HasForeignKey("UserProfileId");
+                        .HasForeignKey("UserUserProfileId");
                 });
 
             modelBuilder.Entity("xManik.Models.Order", b =>
@@ -362,23 +362,23 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.PortfolioItem", b =>
                 {
-                    b.HasOne("xManik.Models.UserProfile")
+                    b.HasOne("xManik.Models.UserUserProfile")
                         .WithMany("Portfolio")
-                        .HasForeignKey("UserProfileId");
+                        .HasForeignKey("UserUserProfileId");
                 });
 
             modelBuilder.Entity("xManik.Models.Service", b =>
                 {
-                    b.HasOne("xManik.Models.UserProfile")
+                    b.HasOne("xManik.Models.UserUserProfile")
                         .WithMany("Services")
-                        .HasForeignKey("UserProfileId");
+                        .HasForeignKey("UserUserProfileId");
                 });
 
-            modelBuilder.Entity("xManik.Models.UserProfile", b =>
+            modelBuilder.Entity("xManik.Models.UserUserProfile", b =>
                 {
                     b.HasOne("xManik.Models.ApplicationUser", "ApplicationUser")
-                        .WithOne("UserProfile")
-                        .HasForeignKey("xManik.Models.UserProfile", "Id")
+                        .WithOne("UserUserProfile")
+                        .HasForeignKey("xManik.Models.UserUserProfile", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

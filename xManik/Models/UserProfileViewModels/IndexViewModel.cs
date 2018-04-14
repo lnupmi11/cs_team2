@@ -1,23 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace xManik.Models.UserProfileViewModels
+namespace xManik.Models.UserUserProfileViewModels
 {
     public class IndexViewModel
     {
-        public string Username { get; set; }
-
-        public bool IsEmailConfirmed { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string UserProfileImagePath { get; set; }
+        public string Description { get; set; }
+        public double Rate { get; set; }
+        public DateTime DateRegistered { get; set; }
 
         public string StatusMessage { get; set; }
-
-        public string ProfileImagePath { get; set; }
     }
 }

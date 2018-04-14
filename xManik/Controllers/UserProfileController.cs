@@ -14,7 +14,7 @@ using xManik.EF;
 using xManik.Models;
 using xManik.Repositories;
 using xManik.Extensions.Managers;
-using xManik.Models.UserProfileViewModels;
+using xManik.Models.UserUserProfileViewModels;
 
 namespace xManik.Controllers
 {
@@ -24,7 +24,7 @@ namespace xManik.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger _logger;
         private readonly WorkContext _context;
-        private readonly UserProfileManager<UserProfile> _userProfileManager;
+        private readonly UserUserProfileManager<UserUserProfile> _userUserProfileManager;
         private readonly IHostingEnvironment _environment;
 
         public UserProfileController(
@@ -36,11 +36,77 @@ namespace xManik.Controllers
             _userManager = userManager;
             _logger = logger;
             _context = new WorkContext(context);
+            _userUserProfileManager = new UserUserProfileManager<UserUserProfile>(_context);
             _environment = environment;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var userUserProfile = _userUserProfileManager.GetUserUserProfile(User);
+            var model = new IndexViewModel
+            {
+                FirstName = userUserProfile.FirstName,
+                SecondName = userUserProfile.SecondName,
+                UserProfileImagePath = userUserProfile.ImageName,
+                Description = userUserProfile.Description,
+                Rate = userUserProfile.Rate,
+                DateRegistered = userUserProfile.DateRegistered
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(IndexViewModel model, IFormFile file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var userUserProfile = _userUserProfileManager.GetUserUserProfile(User);
+            if (model.FirstName != string.Empty)
+            {
+                await _userUserProfileManager.ChangeFirstNameAsync(userUserProfile, model.FirstName);
+            }
+
+            if (model.SecondName != string.Empty)
+            {
+                await _userUserProfileManager.ChangeSecondNameAsync(userUserProfile, model.SecondName);
+            }
+
+            if (model.Description != string.Empty)
+            {
+                await _userUserProfileManager.ChangeDescriptionAsync(userUserProfile, model.Description);
+            }
+
+            if (file != null)
+            {
+                await _userUserProfileManager.ChangeUserProfilePhotoAsync(userUserProfile, file, _environment.WebRootPath);
+            }
+
+            StatusMessage = "Your UserProfile has been updated";
+            return RedirectToAction(nameof(Index));
+        }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
@@ -156,7 +222,7 @@ namespace xManik.Controllers
         //        }
         //    }
 
-        //    StatusMessage = "Your profile has been updated";
+        //    StatusMessage = "Your UserProfile has been updated";
 
         //    return RedirectToAction(nameof(Portfolio));
         //}
@@ -212,9 +278,9 @@ namespace xManik.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Provider")]
-        public IActionResult ProfileDescription()
+        public IActionResult UserProfileDescription()
         {
-            var user = _userProfileManager.GetUserProfile(User);
+            var user = _userUserProfileManager.GetUserUserProfile(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{user.Id}'.");
@@ -231,79 +297,14 @@ namespace xManik.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Provider")]
-        public async Task<IActionResult> ProfileDescription(DescriptionViewModel model)
+        public async Task<IActionResult> UserProfileDescription(DescriptionViewModel model)
         {
-            await _userProfileManager.ChangeDescriptionAsync(User, model.Description);
-            StatusMessage = "Your profile has been updated";
+            await _userUserProfileManager.ChangeDescriptionAsync(User, model.Description);
+            StatusMessage = "Your UserProfile has been updated";
 
-            return RedirectToAction(nameof(ProfileDescription));
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var model = new IndexViewModel
-            {
-                Username = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
-                //     ProfileImage = user.ProfileImage,
-            };
-
-            return View(model);
+            return RedirectToAction(nameof(UserProfileDescription));
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model, IFormFile file)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var email = user.Email;
-            if (model.Email != email)
-            {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                }
-            }
-
-            var phoneNumber = user.PhoneNumber;
-            if (model.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
-                }
-            }
-
-            if (file != null)
-            {
-                _userProfileManager.ChangeProfilePhoto(User, file, _environment.WebRootPath);
-            }
-
-            StatusMessage = "Your profile has been updated";
-            return RedirectToAction(nameof(Index));
-        }
     }
 }

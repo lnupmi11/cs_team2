@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace xManik.Views.UserProfile
 {
@@ -13,13 +13,13 @@ namespace xManik.Views.UserProfile
 
         public static string Index => "Index";
 
-        public static string Profile => "Profile";
+        public static string UserProfile => "UserProfile";
 
         public static string Portfolio => "Portfolio";
 
         public static string Orders => "Orders";
 
-        public static string ProfileDescription => "ProfileDescription";
+        public static string UserProfileDescription => "UserProfileDescription";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -27,9 +27,9 @@ namespace xManik.Views.UserProfile
 
         public static string IndexPortfolioNavClass(ViewContext viewContext) => PageNavClass(viewContext, Portfolio);
 
-        public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
+        public static string UserProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserProfile);
 
-        public static string ProfileDescriptionNavClass(ViewContext viewContext) => PageNavClass(viewContext, ProfileDescription);
+        public static string UserProfileDescriptionNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserProfileDescription);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {
@@ -39,5 +39,4 @@ namespace xManik.Views.UserProfile
 
         public static void AddActivePage(this ViewDataDictionary viewData, string activePage) => viewData[ActivePageKey] = activePage;
     }
-
 }

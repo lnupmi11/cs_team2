@@ -99,7 +99,7 @@ namespace xManik.Controllers
                 }
             }
 
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Your UserProfile has been updated";
             return RedirectToAction(nameof(Index));
         }
 

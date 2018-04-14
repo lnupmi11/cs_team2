@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace xManik.Models
 {
-    public class UserProfile
+    public class UserUserProfile
     {
         [Key]
         [ForeignKey("ApplicationUser")]
@@ -13,7 +13,6 @@ namespace xManik.Models
 
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-        //public byte[] ProfileImage { get; set; }
         public string ImageName { get; set; }
         public DateTime DateRegistered { get; set; }
         public string Description { get; set; }

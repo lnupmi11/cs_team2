@@ -10,7 +10,7 @@ namespace xManik.Interfaces
         IRepository<Order> Orders { get; }
         IRepository<PortfolioItem> PortfolioItems { get; }
         IRepository<Comment> Comments { get; }
-        IRepository<UserProfile> UserProfiles { get; }
+        IRepository<UserUserProfile> UserUserProfiles { get; }
         Task SaveAsync();
     }
 }

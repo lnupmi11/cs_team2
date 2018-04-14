@@ -25,6 +25,6 @@ namespace xManik.EF
         public DbSet<Order> Orders { get; set; }
         public DbSet<PortfolioItem> PortfolioItems { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<UserUserProfile> UserUserProfiles { get; set; }
     }
 }

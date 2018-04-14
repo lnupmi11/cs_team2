@@ -155,7 +155,7 @@ namespace xManik.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProfiles",
+                name: "UserUserProfiles",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -168,9 +168,9 @@ namespace xManik.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProfiles", x => x.Id);
+                    table.PrimaryKey("PK_UserUserProfiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserProfiles_AspNetUsers_Id",
+                        name: "FK_UserUserProfiles_AspNetUsers_Id",
                         column: x => x.Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -187,7 +187,7 @@ namespace xManik.Migrations
                     DatePosted = table.Column<DateTime>(nullable: false),
                     Message = table.Column<string>(nullable: true),
                     RecipentId = table.Column<string>(nullable: true),
-                    UserProfileId = table.Column<string>(nullable: true)
+                    UserUserProfileId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -205,9 +205,9 @@ namespace xManik.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_UserProfiles_UserProfileId",
-                        column: x => x.UserProfileId,
-                        principalTable: "UserProfiles",
+                        name: "FK_Comments_UserUserProfiles_UserUserProfileId",
+                        column: x => x.UserUserProfileId,
+                        principalTable: "UserUserProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -220,15 +220,15 @@ namespace xManik.Migrations
                     Description = table.Column<string>(nullable: true),
                     Image = table.Column<byte[]>(nullable: true),
                     ProviderId = table.Column<string>(nullable: true),
-                    UserProfileId = table.Column<string>(nullable: true)
+                    UserUserProfileId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PortfolioItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PortfolioItems_UserProfiles_UserProfileId",
-                        column: x => x.UserProfileId,
-                        principalTable: "UserProfiles",
+                        name: "FK_PortfolioItems_UserUserProfiles_UserUserProfileId",
+                        column: x => x.UserUserProfileId,
+                        principalTable: "UserUserProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -244,15 +244,15 @@ namespace xManik.Migrations
                     IsPromoted = table.Column<bool>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     ProviderId = table.Column<string>(nullable: true),
-                    UserProfileId = table.Column<string>(nullable: true)
+                    UserUserProfileId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Services_UserProfiles_UserProfileId",
-                        column: x => x.UserProfileId,
-                        principalTable: "UserProfiles",
+                        name: "FK_Services_UserUserProfiles_UserUserProfileId",
+                        column: x => x.UserUserProfileId,
+                        principalTable: "UserUserProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -328,9 +328,9 @@ namespace xManik.Migrations
                 column: "RecipentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserProfileId",
+                name: "IX_Comments_UserUserProfileId",
                 table: "Comments",
-                column: "UserProfileId");
+                column: "UserUserProfileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ServiceId",
@@ -338,14 +338,14 @@ namespace xManik.Migrations
                 column: "ServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PortfolioItems_UserProfileId",
+                name: "IX_PortfolioItems_UserUserProfileId",
                 table: "PortfolioItems",
-                column: "UserProfileId");
+                column: "UserUserProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_UserProfileId",
+                name: "IX_Services_UserUserProfileId",
                 table: "Services",
-                column: "UserProfileId");
+                column: "UserUserProfileId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -381,7 +381,7 @@ namespace xManik.Migrations
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "UserProfiles");
+                name: "UserUserProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
