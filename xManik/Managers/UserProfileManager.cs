@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using xManik.Models;
 using xManik.Repositories;
-using static System.Net.Mime.MediaTypeNames;
+using xManik.Extensions.IdentityExtensions;
 
 namespace xManik.Extensions.Managers
 {
@@ -23,21 +24,21 @@ namespace xManik.Extensions.Managers
 
         #region Services management
 
-        public async Task AddServiceAsync(IPrincipal principal, Service service)
+        public async Task AddServiceAsync(ClaimsPrincipal principal, Service service)
         {
             var userProfile = GetUserProfile(principal);
             userProfile.Services.Add(service);
             await UpdateSaveAsync(userProfile);
         }
 
-        public IEnumerable<Service> GetAllServices(IPrincipal principal)
+        public IEnumerable<Service> GetAllServices(ClaimsPrincipal principal)
         {
             return GetUserProfile(principal).Services;
         }
 
         #endregion
 
-        public IEnumerable<Comment> GetAllComments(IPrincipal principal)
+        public IEnumerable<Comment> GetAllComments(ClaimsPrincipal principal)
         {
             return GetUserProfile(principal).Comments;
         }
@@ -51,7 +52,7 @@ namespace xManik.Extensions.Managers
             await _context.SaveAsync();
         }
 
-        public async Task ChangeFirstNameAsync(IPrincipal principal, string firstName)
+        public async Task ChangeFirstNameAsync(ClaimsPrincipal principal, string firstName)
         {
             var user = GetUserProfile(principal);
             await ChangeFirstNameAsync(user, firstName);
@@ -64,7 +65,7 @@ namespace xManik.Extensions.Managers
             await _context.SaveAsync();
         }
 
-        public async Task ChangeSecondNameAsync(IPrincipal principal, string secondName)
+        public async Task ChangeSecondNameAsync(ClaimsPrincipal principal, string secondName)
         {
             var user = GetUserProfile(principal);
             await ChangeSecondNameAsync(user, secondName);
@@ -77,7 +78,7 @@ namespace xManik.Extensions.Managers
             await _context.SaveAsync();
         }
 
-        public async Task ChangeDescriptionAsync(IPrincipal principal, string description)
+        public async Task ChangeDescriptionAsync(ClaimsPrincipal principal, string description)
         {
             var user = GetUserProfile(principal);
             await ChangeDescriptionAsync(user, description);
@@ -112,7 +113,7 @@ namespace xManik.Extensions.Managers
             return true;
         }
 
-        public async Task<bool> ChangeUserProfilePhotoAsync(IPrincipal principal, IFormFile file, string webRootPath)
+        public async Task<bool> ChangeUserProfilePhotoAsync(ClaimsPrincipal principal, IFormFile file, string webRootPath)
         {
             var user = GetUserProfile(principal);
             if (file == null)
@@ -126,9 +127,10 @@ namespace xManik.Extensions.Managers
         }
         #endregion
 
-        public UserProfile GetUserProfile(IPrincipal principal)
+        public UserProfile GetUserProfile(ClaimsPrincipal principal)
         {
-            return new UserProfile();
+            UserProfile userProfile = _context.UserProfiles.Find(principal.GetUserId());
+            return userProfile;
         }
 
         public async Task UpdateSaveAsync(UserProfile user)

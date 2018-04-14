@@ -84,20 +84,20 @@ namespace xManik.Controllers
             }
 
             var userProfile = _userProfileManager.GetUserProfile(User);
-            //if (model.FirstName != string.Empty)
-            //{
-            //    await _userProfileManager.ChangeFirstNameAsync(userProfile, model.FirstName);
-            //}
+            if (model.FirstName != string.Empty)
+            {
+                await _userProfileManager.ChangeFirstNameAsync(userProfile, model.FirstName);
+            }
 
-            //if (model.SecondName != string.Empty)
-            //{
-            //    await _userProfileManager.ChangeSecondNameAsync(userProfile, model.SecondName);
-            //}
+            if (model.SecondName != string.Empty)
+            {
+                await _userProfileManager.ChangeSecondNameAsync(userProfile, model.SecondName);
+            }
 
-            //if (model.Description != string.Empty)
-            //{
-            //    await _userProfileManager.ChangeDescriptionAsync(userProfile, model.Description);
-            //}
+            if (model.Description != string.Empty)
+            {
+                await _userProfileManager.ChangeDescriptionAsync(userProfile, model.Description);
+            }
 
             if (file != null)
             {

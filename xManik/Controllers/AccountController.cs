@@ -216,7 +216,8 @@ namespace xManik.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var userProfile = new UserProfile();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UserProfile = userProfile };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
