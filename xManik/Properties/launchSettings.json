@@ -20,16 +20,22 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/xManik",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:58094/",
+      "applicationUrl": "https://localhost:44364/",
       "sslPort": 44364
     }
   },
   "profiles": {
     "xManik": {
-      "commandName": "Project",
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:44364/",
       "environmentVariables": {
-        "Key": "Value"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

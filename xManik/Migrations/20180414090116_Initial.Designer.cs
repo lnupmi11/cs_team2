@@ -11,7 +11,7 @@ using xManik.EF;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180414064256_Initial")]
+    [Migration("20180414090116_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
