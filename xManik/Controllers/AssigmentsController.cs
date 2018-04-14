@@ -66,7 +66,7 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> Create([Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Assigment assigment)
+        public async Task<IActionResult> Create([Bind("AssigmentId,ClientId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline,Orders")] Assigment assigment)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Assigment assigment)
+        public async Task<IActionResult> Edit(string id, [Bind("AssigmentId,ClientId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline,Orders")] Assigment assigment)
         {
             if (id != assigment.AssigmentId)
             {
