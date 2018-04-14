@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace xManik.Models
 {
-    public class UserUserProfile
+    public class UserProfile
     {
         [Key]
         [ForeignKey("ApplicationUser")]

@@ -12,11 +12,11 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace xManik.Extensions.Managers
 {
-    public class UserUserProfileManager<TUserUserProfile> : IDisposable where TUserUserProfile : class
+    public class UserProfileManager<TUserProfile> : IDisposable where TUserProfile : class
     {
         private readonly WorkContext _context;
 
-        public UserUserProfileManager(WorkContext context)
+        public UserProfileManager(WorkContext context)
         {
             _context = context;
         }
@@ -25,65 +25,65 @@ namespace xManik.Extensions.Managers
 
         public async Task AddServiceAsync(IPrincipal principal, Service service)
         {
-            var userUserProfile = GetUserUserProfile(principal);
-            userUserProfile.Services.Add(service);
-            await UpdateSaveAsync(userUserProfile);
+            var userProfile = GetUserProfile(principal);
+            userProfile.Services.Add(service);
+            await UpdateSaveAsync(userProfile);
         }
 
         public IEnumerable<Service> GetAllServices(IPrincipal principal)
         {
-            return GetUserUserProfile(principal).Services;
+            return GetUserProfile(principal).Services;
         }
 
         #endregion
 
         public IEnumerable<Comment> GetAllComments(IPrincipal principal)
         {
-            return GetUserUserProfile(principal).Comments;
+            return GetUserProfile(principal).Comments;
         }
 
-        #region UserUserProfile entities management
+         #region UserProfile entities management
 
-        public async Task ChangeFirstNameAsync(UserUserProfile user, string firstName)
+        public async Task ChangeFirstNameAsync(UserProfile user, string firstName)
         {
             user.FirstName = firstName;
-            _context.UserUserProfiles.Update(user);
+            _context.UserProfiles.Update(user);
             await _context.SaveAsync();
         }
 
         public async Task ChangeFirstNameAsync(IPrincipal principal, string firstName)
         {
-            var user = GetUserUserProfile(principal);
+            var user = GetUserProfile(principal);
             await ChangeFirstNameAsync(user, firstName);
         }
 
-        public async Task ChangeSecondNameAsync(UserUserProfile user, string secondName)
+        public async Task ChangeSecondNameAsync(UserProfile user, string secondName)
         {
             user.SecondName = secondName;
-            _context.UserUserProfiles.Update(user);
+            _context.UserProfiles.Update(user);
             await _context.SaveAsync();
         }
 
         public async Task ChangeSecondNameAsync(IPrincipal principal, string secondName)
         {
-            var user = GetUserUserProfile(principal);
+            var user = GetUserProfile(principal);
             await ChangeSecondNameAsync(user, secondName);
         }
 
-        public async Task ChangeDescriptionAsync(UserUserProfile user, string description)
+        public async Task ChangeDescriptionAsync(UserProfile user, string description)
         {
             user.Description = description;
-            _context.UserUserProfiles.Update(user);
+            _context.UserProfiles.Update(user);
             await _context.SaveAsync();
         }
 
         public async Task ChangeDescriptionAsync(IPrincipal principal, string description)
         {
-            var user = GetUserUserProfile(principal);
+            var user = GetUserProfile(principal);
             await ChangeDescriptionAsync(user, description);
         }
 
-        public async Task<bool> ChangeUserProfilePhotoAsync(UserUserProfile user, IFormFile file, string webRootPath)
+        public async Task<bool> ChangeUserProfilePhotoAsync(UserProfile user, IFormFile file, string webRootPath)
         {
             if (file == null)
             {
@@ -98,7 +98,7 @@ namespace xManik.Extensions.Managers
                 Directory.CreateDirectory(webRootPath + "\\Storage\\UserProfileImages");
             }
 
-            using (FileStream fs = File.Create(filename))
+            using (FileStream fs = File.Create(filePath))
             {
                 file.CopyTo(fs);
                 fs.Flush();
@@ -106,7 +106,7 @@ namespace xManik.Extensions.Managers
 
             user.ImageName = file.FileName;
 
-            _context.UserUserProfiles.Update(user);
+            _context.UserProfiles.Update(user);
             await _context.SaveAsync();
 
             return true;
@@ -114,7 +114,7 @@ namespace xManik.Extensions.Managers
 
         public async Task<bool> ChangeUserProfilePhotoAsync(IPrincipal principal, IFormFile file, string webRootPath)
         {
-            var user = GetUserUserProfile(principal);
+            var user = GetUserProfile(principal);
             if (file == null)
             {
                 return false;
@@ -126,14 +126,14 @@ namespace xManik.Extensions.Managers
         }
         #endregion
 
-        public UserUserProfile GetUserUserProfile(IPrincipal principal)
+        public UserProfile GetUserProfile(IPrincipal principal)
         {
-            return new UserUserProfile();
+            return new UserProfile();
         }
 
-        public async Task UpdateSaveAsync(UserUserProfile user)
+        public async Task UpdateSaveAsync(UserProfile user)
         {
-            _context.UserUserProfiles.Update(user);
+            _context.UserProfiles.Update(user);
             await _context.SaveAsync();
         }
 

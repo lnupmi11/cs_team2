@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace xManik.Models.UserUserProfileViewModels
+namespace xManik.Models.UserProfileViewModels
 {
     public class IndexViewModel
     {

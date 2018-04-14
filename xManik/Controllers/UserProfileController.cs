@@ -14,7 +14,7 @@ using xManik.EF;
 using xManik.Models;
 using xManik.Repositories;
 using xManik.Extensions.Managers;
-using xManik.Models.UserUserProfileViewModels;
+using xManik.Models.UserProfileViewModels;
 
 namespace xManik.Controllers
 {
@@ -24,7 +24,7 @@ namespace xManik.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger _logger;
         private readonly WorkContext _context;
-        private readonly UserUserProfileManager<UserUserProfile> _userUserProfileManager;
+        private readonly UserProfileManager<UserProfile> _userProfileManager;
         private readonly IHostingEnvironment _environment;
 
         public UserProfileController(
@@ -36,7 +36,7 @@ namespace xManik.Controllers
             _userManager = userManager;
             _logger = logger;
             _context = new WorkContext(context);
-            _userUserProfileManager = new UserUserProfileManager<UserUserProfile>(_context);
+            _userProfileManager = new UserProfileManager<UserProfile>(_context);
             _environment = environment;
         }
 
@@ -53,15 +53,15 @@ namespace xManik.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userUserProfile = _userUserProfileManager.GetUserUserProfile(User);
+            var userProfile = _userProfileManager.GetUserProfile(User);
             var model = new IndexViewModel
             {
-                FirstName = userUserProfile.FirstName,
-                SecondName = userUserProfile.SecondName,
-                UserProfileImagePath = userUserProfile.ImageName,
-                Description = userUserProfile.Description,
-                Rate = userUserProfile.Rate,
-                DateRegistered = userUserProfile.DateRegistered
+                FirstName = userProfile.FirstName,
+                SecondName = userProfile.SecondName,
+                UserProfileImagePath = userProfile.ImageName,
+                Description = userProfile.Description,
+                Rate = userProfile.Rate,
+                DateRegistered = userProfile.DateRegistered
             };
 
             return View(model);
@@ -83,25 +83,25 @@ namespace xManik.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userUserProfile = _userUserProfileManager.GetUserUserProfile(User);
-            if (model.FirstName != string.Empty)
-            {
-                await _userUserProfileManager.ChangeFirstNameAsync(userUserProfile, model.FirstName);
-            }
+            var userProfile = _userProfileManager.GetUserProfile(User);
+            //if (model.FirstName != string.Empty)
+            //{
+            //    await _userProfileManager.ChangeFirstNameAsync(userProfile, model.FirstName);
+            //}
 
-            if (model.SecondName != string.Empty)
-            {
-                await _userUserProfileManager.ChangeSecondNameAsync(userUserProfile, model.SecondName);
-            }
+            //if (model.SecondName != string.Empty)
+            //{
+            //    await _userProfileManager.ChangeSecondNameAsync(userProfile, model.SecondName);
+            //}
 
-            if (model.Description != string.Empty)
-            {
-                await _userUserProfileManager.ChangeDescriptionAsync(userUserProfile, model.Description);
-            }
+            //if (model.Description != string.Empty)
+            //{
+            //    await _userProfileManager.ChangeDescriptionAsync(userProfile, model.Description);
+            //}
 
             if (file != null)
             {
-                await _userUserProfileManager.ChangeUserProfilePhotoAsync(userUserProfile, file, _environment.WebRootPath);
+                await _userProfileManager.ChangeUserProfilePhotoAsync(userProfile, file, _environment.WebRootPath);
             }
 
             StatusMessage = "Your UserProfile has been updated";
@@ -280,7 +280,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public IActionResult UserProfileDescription()
         {
-            var user = _userUserProfileManager.GetUserUserProfile(User);
+            var user = _userProfileManager.GetUserProfile(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{user.Id}'.");
@@ -299,7 +299,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Provider")]
         public async Task<IActionResult> UserProfileDescription(DescriptionViewModel model)
         {
-            await _userUserProfileManager.ChangeDescriptionAsync(User, model.Description);
+            await _userProfileManager.ChangeDescriptionAsync(User, model.Description);
             StatusMessage = "Your UserProfile has been updated";
 
             return RedirectToAction(nameof(UserProfileDescription));

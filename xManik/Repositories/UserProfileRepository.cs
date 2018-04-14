@@ -8,26 +8,26 @@ using xManik.Interfaces;
 
 namespace xManik.Repositories
 {
-    public class UserUserProfileRepository : IRepository<UserUserProfile>
+    public class UserProfileRepository : IRepository<UserProfile>
     {
         private readonly ApplicationDbContext _context;
 
-        public UserUserProfileRepository(ApplicationDbContext context)
+        public UserProfileRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public bool Any(Func<UserUserProfile, bool> predicate)
+        public bool Any(Func<UserProfile, bool> predicate)
         {
-            return _context.UserUserProfiles.Any(predicate);
+            return _context.UserProfiles.Any(predicate);
         }
 
-        public void Create(UserUserProfile item)
+        public void Create(UserProfile item)
         {
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(UserUserProfile item)
+        public Task CreateAsync(UserProfile item)
         {
             throw new NotImplementedException();
         }
@@ -42,34 +42,34 @@ namespace xManik.Repositories
             throw new NotImplementedException();
         }
 
-        public IEnumerable<UserUserProfile> Find(Func<UserUserProfile, bool> predicate)
+        public IEnumerable<UserProfile> Find(Func<UserProfile, bool> predicate)
         {
-            return _context.UserUserProfiles.Where(predicate).ToList();
+            return _context.UserProfiles.Where(predicate).ToList();
         }
 
-        public UserUserProfile Find(string id)
+        public UserProfile Find(string id)
         {
-            return _context.UserUserProfiles.Find(id);
+            return _context.UserProfiles.Find(id);
         }
 
-        public IEnumerable<UserUserProfile> GetAll()
+        public IEnumerable<UserProfile> GetAll()
         {
-            return _context.UserUserProfiles;
+            return _context.UserProfiles;
         }
 
-        public void Remove(UserUserProfile item)
+        public void Remove(UserProfile item)
         {
             throw new NotImplementedException();
         }
 
-        public UserUserProfile SingleOrDefault(Func<UserUserProfile, bool> predicate)
+        public UserProfile SingleOrDefault(Func<UserProfile, bool> predicate)
         {
-            return _context.UserUserProfiles.SingleOrDefault(predicate);
+            return _context.UserProfiles.SingleOrDefault(predicate);
         }
 
-        public void Update(UserUserProfile item)
+        public void Update(UserProfile item)
         {
-            _context.UserUserProfiles.Update(item);
+            _context.UserProfiles.Update(item);
         }
     }
 }

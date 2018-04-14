@@ -13,7 +13,7 @@ namespace xManik.Repositories
         private OrderRepository _orderRepository;
         private PortfolioItemRepository _portfolioItemRepository;
         private CommentRepository _commentRepository;
-        private UserUserProfileRepository _userUserProfileRepositiry;
+        private UserProfileRepository _userProfileRepositiry;
 
         public WorkContext(ApplicationDbContext context)
         {
@@ -60,13 +60,13 @@ namespace xManik.Repositories
             }
         }
 
-        public IRepository<UserUserProfile> UserUserProfiles
+        public IRepository<UserProfile> UserProfiles
         {
             get
             {
-                if (_userUserProfileRepositiry == null)
-                    _userUserProfileRepositiry = new UserUserProfileRepository(_context);
-                return _userUserProfileRepositiry;
+                if (_userProfileRepositiry == null)
+                    _userProfileRepositiry = new UserProfileRepository(_context);
+                return _userProfileRepositiry;
             }
         }
 
