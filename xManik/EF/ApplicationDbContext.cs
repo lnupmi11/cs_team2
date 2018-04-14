@@ -21,10 +21,8 @@ namespace xManik.EF
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Service> Services { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<PortfolioItem> PortfolioItems { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Assigment> Assigments { get; set; }
+        public DbSet<Chanel> Chanels { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
     }
 }

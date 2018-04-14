@@ -9,10 +9,8 @@ namespace xManik.Repositories
     public class WorkContext : IUnitOfWork
     {
         private ApplicationDbContext _context;
-        private ServiceRepository _serviceRepository;
-        private OrderRepository _orderRepository;
-        private PortfolioItemRepository _portfolioItemRepository;
-        private CommentRepository _commentRepository;
+        private AssigmentRepository _serviceRepository;
+        private ChanelRepository _orderRepository;
         private UserProfileRepository _userProfileRepositiry;
 
         public WorkContext(ApplicationDbContext context)
@@ -20,43 +18,23 @@ namespace xManik.Repositories
             _context = context;
         }
 
-        public IRepository<Service> Services
+        public IRepository<Assigment> Assigments
         {
             get
             {
                 if (_serviceRepository == null)
-                    _serviceRepository = new ServiceRepository(_context);
+                    _serviceRepository = new AssigmentRepository(_context);
                 return _serviceRepository;
             }
         }
 
-        public IRepository<Order> Orders
+        public IRepository<Chanel> Chanels
         {
             get
             {
                 if (_orderRepository == null)
-                    _orderRepository = new OrderRepository(_context);
+                    _orderRepository = new ChanelRepository(_context);
                 return _orderRepository;
-            }
-        }
-
-        public IRepository<PortfolioItem> PortfolioItems
-        {
-            get
-            {
-                if (_portfolioItemRepository == null)
-                    _portfolioItemRepository = new PortfolioItemRepository(_context);
-                return _portfolioItemRepository;
-            }
-        }
-
-        public IRepository<Comment> Comments
-        {
-            get
-            {
-                if (_commentRepository == null)
-                    _commentRepository = new CommentRepository(_context);
-                return _commentRepository;
             }
         }
 

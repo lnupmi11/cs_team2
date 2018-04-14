@@ -11,32 +11,32 @@ using xManik.Repositories;
 
 namespace xManik.Controllers
 {
-    public class ServicesController : Controller
+    public class AssigmentsController : Controller
     {
         private readonly WorkContext _context;
         private readonly UserProfileManager<UserProfile> _userProfileManager;
-        private readonly ServicesManager<Service> _servicesManager;
+        private readonly AssigmentsManager<Assigment> _assigmentsManager;
 
-        public ServicesController(ApplicationDbContext context)
+        public AssigmentsController(ApplicationDbContext context)
         {
             _context = new WorkContext(context);
             _userProfileManager = new UserProfileManager<UserProfile>(_context);
-            _servicesManager = new ServicesManager<Service>(_context);
+            _assigmentsManager = new AssigmentsManager<Assigment>(_context);
         }
 
-        // GET: Services
+        // GET: Assigments
         public IActionResult Index()
         {
-            return View(_context.Services.GetAll());
+            return View(_context.Assigments.GetAll());
         }
 
-        [Authorize(Roles = "Provider")]
-        public IActionResult UserServices()
+        [Authorize(Roles = "Blogger")]
+        public IActionResult UserAssigments()
         {
-            return View(_userProfileManager.GetAllServices(User));
+            return View(_userProfileManager.GetAllAssigments(User));
         }
 
-        // GET: Services/Details/5
+        // GET: Assigments/Details/5
         public IActionResult Details(string id)
         {
             if (id == null)
@@ -44,42 +44,42 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service = _servicesManager.Find(id);
-            if (service == null)
+            var assigment = _assigmentsManager.Find(id);
+            if (assigment == null)
             {
                 return NotFound();
             }
 
-            return View(service);
+            return View(assigment);
         }
 
-        // GET: Services/Create
-        [Authorize(Roles = "Provider")]
+        // GET: Assigments/Create
+        [Authorize(Roles = "Blogger")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Services/Create
+        // POST: Assigments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Provider")]
-        public async Task<IActionResult> Create([Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Service service)
+        [Authorize(Roles = "Blogger")]
+        public async Task<IActionResult> Create([Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Assigment assigment)
         {
             if (ModelState.IsValid)
             {
-                service.UserProfileId = _userProfileManager.GetUserProfileId(User);
-                await _servicesManager.CreateAsync(service);
+                assigment.ClientId = _userProfileManager.GetUserProfileId(User);
+                await _assigmentsManager.CreateAsync(assigment);
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(service);
+            return View(assigment);
         }
 
-        // GET: Services/Edit/5
-        [Authorize(Roles = "Provider")]
+        // GET: Assigments/Edit/5
+        [Authorize(Roles = "Blogger")]
         public IActionResult Edit(string id)
         {
             if (id == null)
@@ -87,23 +87,23 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service = _servicesManager.Find(id);
-            if (service == null)
+            var assigment = _assigmentsManager.Find(id);
+            if (assigment == null)
             {
                 return NotFound();
             }
-            return View(service);
+            return View(assigment);
         }
 
-        // POST: Services/Edit/5
+        // POST: Assigments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Provider")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Service service)
+        [Authorize(Roles = "Blogger")]
+        public async Task<IActionResult> Edit(string id, [Bind("Id,UserProfileId,Description,Price,Duration,DatePublished,IsPromoted")] Assigment assigment)
         {
-            if (id != service.Id)
+            if (id != assigment.AssigmentId)
             {
                 return NotFound();
             }
@@ -112,11 +112,11 @@ namespace xManik.Controllers
             {
                 try
                 {
-                    await _servicesManager.UpdateAsync(service);
+                    await _assigmentsManager.UpdateAsync(assigment);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_servicesManager.IsServiceExists(service.Id))
+                    if (!_assigmentsManager.IsAssigmentExists(assigment.AssigmentId))
                     {
                         return NotFound();
                     }
@@ -127,11 +127,11 @@ namespace xManik.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(service);
+            return View(assigment);
         }
 
-        // GET: Services/Delete/5
-        [Authorize(Roles = "Provider")]
+        // GET: Assigments/Delete/5
+        [Authorize(Roles = "Blogger")]
         public IActionResult Delete(string id)
         {
             if (id == null)
@@ -139,23 +139,23 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var service = _servicesManager.Find(id);
-            if (service == null)
+            var assigment = _assigmentsManager.Find(id);
+            if (assigment == null)
             {
                 return NotFound();
             }
 
-            return View(service);
+            return View(assigment);
         }
 
-        // POST: Services/Delete/5
+        // POST: Assigments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Provider")]
+        [Authorize(Roles = "Blogger")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var service = _servicesManager.Find(id);
-            await _servicesManager.RemoveAsync(service);
+            var assigment = _assigmentsManager.Find(id);
+            await _assigmentsManager.RemoveAsync(assigment);
 
             return RedirectToAction(nameof(Index));
         }

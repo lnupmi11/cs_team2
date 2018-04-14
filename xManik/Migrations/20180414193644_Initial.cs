@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace xManik.Migrations
 {
-    public partial class fk2 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -59,8 +59,6 @@ namespace xManik.Controllers
                 FirstName = userProfile.FirstName,
                 SecondName = userProfile.SecondName,
                 UserProfileImagePath = userProfile.ImageName,
-                Description = userProfile.Description,
-                Rate = userProfile.Rate,
                 DateRegistered = userProfile.DateRegistered
             };
 
@@ -94,11 +92,6 @@ namespace xManik.Controllers
                 await _userProfileManager.ChangeSecondNameAsync(userProfile, model.SecondName);
             }
 
-            if (model.Description != string.Empty)
-            {
-                await _userProfileManager.ChangeDescriptionAsync(userProfile, model.Description);
-            }
-
             if (file != null)
             {
                 await _userProfileManager.ChangeUserProfilePhotoAsync(userProfile, file, _environment.WebRootPath);
@@ -115,17 +108,17 @@ namespace xManik.Controllers
             if (result != null)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //    var newOrdersNum = _context.Orders.Where(o => o.ProviderId == userId && !o.IsRead).Count();
+                //    var newOrdersNum = _context.Orders.Where(o => o.BloggerId == userId && !o.IsRead).Count();
                 // result.ViewData["newMsgs"] = newOrdersNum;
             }
         }
 
         [HttpGet]
-        [Authorize(Roles = "Provider")]
+        [Authorize(Roles = "Blogger")]
         public IActionResult Orders()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<Order> orders = null; // _context.Orders.Where(o => o.ProviderId == userId);
+            List<Chanel> orders = null; // _context.Orders.Where(o => o.BloggerId == userId);
 
             //orders = orders.OrderBy(o => o.IsRead);
 
@@ -133,7 +126,7 @@ namespace xManik.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Provider")]
+        [Authorize(Roles = "Blogger")]
         public async Task<IActionResult> OrderDetails(string orderId)
         {
             //var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
@@ -168,11 +161,11 @@ namespace xManik.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Provider")]
+        [Authorize(Roles = "Blogger")]
         public async Task<IActionResult> Portfolio()
         {
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            //var provider = await _context.Bloggers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
 
             //if (provider == null)
             //{
@@ -190,7 +183,7 @@ namespace xManik.Controllers
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Provider")]
+        //[Authorize(Roles = "Blogger")]
         //public async Task<IActionResult> Portfolio(PortfolioViewModel model, IFormFile file)
         //{
         //    if (!ModelState.IsValid || file == null)
@@ -199,7 +192,7 @@ namespace xManik.Controllers
         //    }
 
         //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var provider = await _context.Providers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+        //    var provider = await _context.Bloggers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
 
         //    if (provider == null)
         //    {
@@ -228,12 +221,12 @@ namespace xManik.Controllers
         //}
 
         //[HttpGet]
-        //[Authorize(Roles = "Provider")]
+        //[Authorize(Roles = "Blogger")]
         //public async Task<IActionResult> EditPortfolioItem(string id)
         //{
         //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
-        //    if (image.Provider.Id != userId)
+        //    var image = await _context.Artworks.Include(p => p.Blogger).Where(p => p.Id == id).FirstOrDefaultAsync();
+        //    if (image.Blogger.Id != userId)
         //    {
         //        return NotFound();
         //    }
@@ -242,7 +235,7 @@ namespace xManik.Controllers
         //}
 
         //[HttpPost]
-        //[Authorize(Roles = "Provider")]
+        //[Authorize(Roles = "Blogger")]
         //public async Task<IActionResult> EditPortfolioItem(Artwork model, IFormFile file)
         //{
         //    if (file != null)
@@ -260,12 +253,12 @@ namespace xManik.Controllers
         //}
 
         //[HttpGet]
-        //[Authorize(Roles = "Provider")]
+        //[Authorize(Roles = "Blogger")]
         //public async Task<IActionResult> RemovePortfolioImage(string id)
         //{
         //    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var image = await _context.Artworks.Include(p => p.Provider).Where(p => p.Id == id).FirstOrDefaultAsync();
-        //    if (image.Provider.Id != userId)
+        //    var image = await _context.Artworks.Include(p => p.Blogger).Where(p => p.Id == id).FirstOrDefaultAsync();
+        //    if (image.Blogger.Id != userId)
         //    {
         //        return NotFound();
         //    }
@@ -275,35 +268,6 @@ namespace xManik.Controllers
         //    return RedirectToAction(nameof(Portfolio));
         //}
 
-
-        [HttpGet]
-        [Authorize(Roles = "Provider")]
-        public IActionResult UserProfileDescription()
-        {
-            var user = _userProfileManager.GetUserProfile(User);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{user.Id}'.");
-            }
-
-            DescriptionViewModel model = new DescriptionViewModel()
-            {
-                StatusMessage = StatusMessage,
-                Description = user.Description
-            };
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Provider")]
-        public async Task<IActionResult> UserProfileDescription(DescriptionViewModel model)
-        {
-            await _userProfileManager.ChangeDescriptionAsync(User, model.Description);
-            StatusMessage = "Your UserProfile has been updated";
-
-            return RedirectToAction(nameof(UserProfileDescription));
-        }
 
 
     }

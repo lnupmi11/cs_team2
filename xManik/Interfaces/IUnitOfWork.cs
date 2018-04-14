@@ -6,10 +6,8 @@ namespace xManik.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Service> Services { get; }
-        IRepository<Order> Orders { get; }
-        IRepository<PortfolioItem> PortfolioItems { get; }
-        IRepository<Comment> Comments { get; }
+        IRepository<Assigment> Assigments { get; }
+        IRepository<Chanel> Chanels { get; }
         IRepository<UserProfile> UserProfiles { get; }
         Task SaveAsync();
     }

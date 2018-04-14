@@ -227,7 +227,7 @@ namespace xManik.Controllers
                     // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
                     // determine which role register
-                    await _userManager.AddToRoleAsync(user, "Provider");
+                    await _userManager.AddToRoleAsync(user, "Blogger");
                     //
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
@@ -291,7 +291,7 @@ namespace xManik.Controllers
             {
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = info.LoginProvider;
+                ViewData["LoginBlogger"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
             }

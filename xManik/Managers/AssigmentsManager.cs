@@ -7,41 +7,41 @@ using xManik.Repositories;
 
 namespace xManik.Managers
 {
-    public class ServicesManager<TService> : IDisposable where TService : class
+    public class AssigmentsManager<TAssigment> : IDisposable where TAssigment : class
     {
         private readonly WorkContext _context;
 
-        public ServicesManager(WorkContext context)
+        public AssigmentsManager(WorkContext context)
         {
             _context = context;
         }
 
-        public async Task CreateAsync(Service service)
+        public async Task CreateAsync(Assigment service)
         {
-            _context.Services.Create(service);
+            _context.Assigments.Create(service);
             await _context.SaveAsync();
         }
 
-        public Service Find(string id)
+        public Assigment Find(string id)
         {
-            return _context.Services.Find(id);
+            return _context.Assigments.Find(id);
         }
 
-        public async Task UpdateAsync(Service service)
+        public async Task UpdateAsync(Assigment service)
         {
-            _context.Services.Update(service);
+            _context.Assigments.Update(service);
             await _context.SaveAsync();
         }
 
-        public async Task RemoveAsync(Service service)
+        public async Task RemoveAsync(Assigment service)
         {
-            _context.Services.Remove(service);
+            _context.Assigments.Remove(service);
             await _context.SaveAsync();
         }
 
-        public bool IsServiceExists(string id)
+        public bool IsAssigmentExists(string id)
         {
-            return _context.Services.Any(e => e.Id == id);
+            return _context.Assigments.Any(e => e.AssigmentId == id);
         }
 
         #region IDisposable Support

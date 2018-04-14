@@ -37,13 +37,13 @@ namespace xManik
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
             services.AddMvc();
 
-            //CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
+            //CreateRolesAndUsersAsync(services.BuildServiceBlogger()).Wait();
         }
 
-        private async Task CreateRolesAndUsersAsync(IServiceProvider serviceProvider)
+        private async Task CreateRolesAndUsersAsync(IServiceProvider serviceBlogger)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceBlogger.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceBlogger.GetRequiredService<UserManager<ApplicationUser>>();
 
             if (!(await roleManager.RoleExistsAsync("Admin")))
             {
@@ -77,11 +77,11 @@ namespace xManik
                 await roleManager.CreateAsync(role);
             }
 
-            if (!(await roleManager.RoleExistsAsync("Provider")))
+            if (!(await roleManager.RoleExistsAsync("Blogger")))
             {
                 var role = new IdentityRole
                 {
-                    Name = "Provider"
+                    Name = "Blogger"
                 };
                 await roleManager.CreateAsync(role);
             }

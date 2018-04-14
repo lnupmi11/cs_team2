@@ -22,28 +22,40 @@ namespace xManik.Managers
             _context = context;
         }
 
-        #region Services management
+        #region Assigments management
 
-        public async Task AddServiceAsync(ClaimsPrincipal principal, Service service)
+        public async Task AddAssigmentAsync(ClaimsPrincipal principal, Assigment assigment)
         {
             var userProfile = GetUserProfile(principal);
-            userProfile.Services.Add(service);
+            userProfile.Assigments.Add(assigment);
             await UpdateSaveAsync(userProfile);
         }
 
-        public IEnumerable<Service> GetAllServices(ClaimsPrincipal principal)
+        public IEnumerable<Assigment> GetAllAssigments(ClaimsPrincipal principal)
         {
-            return GetUserProfile(principal).Services;
+            return GetUserProfile(principal).Assigments;
         }
 
         #endregion
 
-        public IEnumerable<Comment> GetAllComments(ClaimsPrincipal principal)
+
+        #region Chanels management
+
+        public async Task AddChanelsAsync(ClaimsPrincipal principal, Chanel chanel)
         {
-            return GetUserProfile(principal).Comments;
+            var userProfile = GetUserProfile(principal);
+            userProfile.Chanels.Add(chanel);
+            await UpdateSaveAsync(userProfile);
         }
 
-         #region UserProfile entities management
+        public IEnumerable<Chanel> GetAllChanels(ClaimsPrincipal principal)
+        {
+            return GetUserProfile(principal).Chanels;
+        }
+
+        #endregion
+
+        #region UserProfile entities management
 
         public async Task ChangeFirstNameAsync(UserProfile user, string firstName)
         {
@@ -69,19 +81,6 @@ namespace xManik.Managers
         {
             var user = GetUserProfile(principal);
             await ChangeSecondNameAsync(user, secondName);
-        }
-
-        public async Task ChangeDescriptionAsync(UserProfile user, string description)
-        {
-            user.Description = description;
-            _context.UserProfiles.Update(user);
-            await _context.SaveAsync();
-        }
-
-        public async Task ChangeDescriptionAsync(ClaimsPrincipal principal, string description)
-        {
-            var user = GetUserProfile(principal);
-            await ChangeDescriptionAsync(user, description);
         }
 
         public async Task<bool> ChangeUserProfilePhotoAsync(UserProfile user, IFormFile file, string webRootPath)

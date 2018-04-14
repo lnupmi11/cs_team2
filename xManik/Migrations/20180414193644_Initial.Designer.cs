@@ -7,12 +7,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using xManik.EF;
+using xManik.Models;
 
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180414135253_fk2")]
-    partial class fk2
+    [Migration("20180414193644_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,94 +181,64 @@ namespace xManik.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("xManik.Models.Comment", b =>
+            modelBuilder.Entity("xManik.Models.Assigment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<string>("AssigmentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId");
+                    b.Property<string>("ClientId");
 
-                    b.Property<DateTime>("DatePosted");
+                    b.Property<string>("ClientProfileId");
 
-                    b.Property<string>("Message");
+                    b.Property<DateTime>("Deadline");
 
-                    b.Property<string>("RecipentId");
+                    b.Property<string>("DetailedDescription");
 
-                    b.Property<string>("UserProfileId");
+                    b.Property<int>("Format");
 
-                    b.HasKey("CommentId");
+                    b.Property<long>("MaxBudget");
 
-                    b.HasIndex("AuthorId");
+                    b.Property<int>("Network");
 
-                    b.HasIndex("RecipentId");
+                    b.Property<string>("ShortDescription");
 
-                    b.HasIndex("UserProfileId");
+                    b.Property<int>("Type");
 
-                    b.ToTable("Comments");
+                    b.HasKey("AssigmentId");
+
+                    b.HasIndex("ClientProfileId");
+
+                    b.ToTable("Assigments");
                 });
 
-            modelBuilder.Entity("xManik.Models.Order", b =>
+            modelBuilder.Entity("xManik.Models.Chanel", b =>
                 {
-                    b.Property<string>("OrderId")
+                    b.Property<string>("ChanelId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CustomerId");
+                    b.Property<long>("AvgLikeNum");
 
-                    b.Property<string>("Details");
+                    b.Property<long>("AvgViewNum");
 
-                    b.Property<DateTime>("OrderTime");
+                    b.Property<string>("BloggerId");
 
-                    b.Property<string>("ServiceId");
+                    b.Property<string>("BloggerProfileId");
 
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("xManik.Models.PortfolioItem", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Category");
 
                     b.Property<string>("Description");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<double>("LocalRank");
 
-                    b.Property<string>("ProviderId");
+                    b.Property<int>("Network");
 
-                    b.Property<string>("UserProfileId");
+                    b.Property<long>("SubscribersNum");
 
-                    b.HasKey("Id");
+                    b.HasKey("ChanelId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("BloggerProfileId");
 
-                    b.ToTable("PortfolioItems");
-                });
-
-            modelBuilder.Entity("xManik.Models.Service", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DatePublished");
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("Duration");
-
-                    b.Property<bool>("IsPromoted");
-
-                    b.Property<double>("Price");
-
-                    b.Property<string>("UserProfileId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserProfileId");
-
-                    b.ToTable("Services");
+                    b.ToTable("Chanels");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>
@@ -276,13 +247,9 @@ namespace xManik.Migrations
 
                     b.Property<DateTime>("DateRegistered");
 
-                    b.Property<string>("Description");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("ImageName");
-
-                    b.Property<double>("Rate");
 
                     b.Property<string>("SecondName");
 
@@ -336,40 +303,18 @@ namespace xManik.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("xManik.Models.Comment", b =>
+            modelBuilder.Entity("xManik.Models.Assigment", b =>
                 {
-                    b.HasOne("xManik.Models.ApplicationUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("xManik.Models.ApplicationUser", "Recipent")
-                        .WithMany()
-                        .HasForeignKey("RecipentId");
-
-                    b.HasOne("xManik.Models.UserProfile")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserProfileId");
+                    b.HasOne("xManik.Models.UserProfile", "ClientProfile")
+                        .WithMany("Assigments")
+                        .HasForeignKey("ClientProfileId");
                 });
 
-            modelBuilder.Entity("xManik.Models.Order", b =>
+            modelBuilder.Entity("xManik.Models.Chanel", b =>
                 {
-                    b.HasOne("xManik.Models.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
-                });
-
-            modelBuilder.Entity("xManik.Models.PortfolioItem", b =>
-                {
-                    b.HasOne("xManik.Models.UserProfile")
-                        .WithMany("Portfolio")
-                        .HasForeignKey("UserProfileId");
-                });
-
-            modelBuilder.Entity("xManik.Models.Service", b =>
-                {
-                    b.HasOne("xManik.Models.UserProfile", "UserProfile")
-                        .WithMany("Services")
-                        .HasForeignKey("UserProfileId");
+                    b.HasOne("xManik.Models.UserProfile", "BloggerProfile")
+                        .WithMany("Chanels")
+                        .HasForeignKey("BloggerProfileId");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

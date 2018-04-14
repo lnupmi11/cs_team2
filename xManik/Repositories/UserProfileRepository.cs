@@ -45,17 +45,17 @@ namespace xManik.Repositories
 
         public IEnumerable<UserProfile> GetAllWhere(Func<UserProfile, bool> predicate)
         {
-            return _context.UserProfiles.Include( p => p.ApplicationUser).Include(p=> p.Services).Where(predicate);
+            return _context.UserProfiles.Include( p => p.ApplicationUser).Include(p=> p.Assigments).Where(predicate);
         }
 
         public UserProfile Find(Func<UserProfile,bool> predicate)
         {
-            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Services).Where(predicate).FirstOrDefault();
+            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Assigments).Where(predicate).FirstOrDefault();
         }
 
         public UserProfile Find(string id)
         {
-            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Services).SingleOrDefault(p => p.Id == id);
+            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Assigments).SingleOrDefault(p => p.Id == id);
         }
 
         public IEnumerable<UserProfile> GetAll()
@@ -70,7 +70,7 @@ namespace xManik.Repositories
 
         public UserProfile SingleOrDefault(Func<UserProfile, bool> predicate)
         {
-            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Services).SingleOrDefault(predicate);
+            return _context.UserProfiles.Include(p => p.ApplicationUser).Include(p => p.Assigments).SingleOrDefault(predicate);
         }
 
         public void Update(UserProfile item)
