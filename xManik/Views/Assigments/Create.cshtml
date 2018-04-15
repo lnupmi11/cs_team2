@@ -1,0 +1,75 @@
+﻿@model xManik.Models.Assigment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Assigment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ClientProfileId" class="control-label"></label>
+                <input asp-for="ClientProfileId" class="form-control" asp-items="ViewBag.ClientProfileId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Network" class="control-label"></label>
+                @foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
+                {
+                    <input asp-for="Network" type="radio" value="@item" /> @Enum.GetName(typeof(SocialNetworks), item)
+                }
+                <span asp-validation-for="Network" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                @foreach (var item in Enum.GetValues(typeof(AdTypes)))
+                {
+                    <input asp-for="Type" type="radio" value="@item" /> @Enum.GetName(typeof(AdTypes), item)
+                    <br>
+                }
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Format" class="control-label"></label>
+                @foreach (var item in Enum.GetValues(typeof(AdFormat)))
+                {
+                    <input asp-for="Format" type="radio" value="@item" /> @Enum.GetName(typeof(AdFormat), item)
+                    <br>
+                }
+                <span asp-validation-for="Format" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetailedDescription" class="control-label"></label>
+                <input asp-for="DetailedDescription" class="form-control" />
+                <span asp-validation-for="DetailedDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxBudget" class="control-label"></label>
+                <input asp-for="MaxBudget" class="form-control" />
+                <span asp-validation-for="MaxBudget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deadline" class="control-label"></label>
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

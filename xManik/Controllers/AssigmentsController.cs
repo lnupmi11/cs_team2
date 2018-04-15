@@ -27,10 +27,10 @@ namespace xManik.Controllers
         // GET: Assigments
         public IActionResult Index()
         {
-            return View(_context.Assigments.GetAll());
+            return View(_assigmentsManager.GetAllAssigments());
         }
 
-        [Authorize(Roles = "Blogger")]
+        [Authorize(Roles = "Client")]
         public IActionResult UserAssigments()
         {
             return View(_userProfileManager.GetAllAssigments(User));
@@ -54,7 +54,7 @@ namespace xManik.Controllers
         }
 
         // GET: Assigments/Create
-        [Authorize(Roles = "Blogger")]
+        [Authorize(Roles = "Client")]
         public IActionResult Create()
         {
             return View();
@@ -65,8 +65,8 @@ namespace xManik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> Create([Bind("AssigmentId,ClientId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline,Orders")] Assigment assigment)
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Create([Bind("AssigmentId,ClientProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace xManik.Controllers
         }
 
         // GET: Assigments/Edit/5
-        [Authorize(Roles = "Blogger")]
+        [Authorize(Roles = "Client")]
         public IActionResult Edit(string id)
         {
             if (id == null)
@@ -88,7 +88,7 @@ namespace xManik.Controllers
             }
 
             var assigment = _assigmentsManager.Find(id);
-            if (assigment == null)
+            if (assigment == null || !_userProfileManager.IsUserHasAssigments(User, assigment))
             {
                 return NotFound();
             }
@@ -100,10 +100,10 @@ namespace xManik.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> Edit(string id, [Bind("AssigmentId,ClientId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline,Orders")] Assigment assigment)
+        [Authorize(Roles = "Client")]
+        public async Task<IActionResult> Edit(string id, [Bind("AssigmentId,ClientProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
         {
-            if (id != assigment.AssigmentId)
+            if (id != assigment.AssigmentId || !_userProfileManager.IsUserHasAssigments(User, assigment))
             {
                 return NotFound();
             }
@@ -131,7 +131,7 @@ namespace xManik.Controllers
         }
 
         // GET: Assigments/Delete/5
-        [Authorize(Roles = "Blogger")]
+        [Authorize(Roles = "Client")]
         public IActionResult Delete(string id)
         {
             if (id == null)
@@ -140,7 +140,7 @@ namespace xManik.Controllers
             }
 
             var assigment = _assigmentsManager.Find(id);
-            if (assigment == null)
+            if (assigment == null || !_userProfileManager.IsUserHasAssigments(User, assigment))
             {
                 return NotFound();
             }
@@ -151,10 +151,14 @@ namespace xManik.Controllers
         // POST: Assigments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Blogger")]
+        [Authorize(Roles = "Client")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var assigment = _assigmentsManager.Find(id);
+            if (assigment == null || !_userProfileManager.IsUserHasAssigments(User, assigment))
+            {
+                return NotFound();
+            }
             await _assigmentsManager.RemoveAsync(assigment);
 
             return RedirectToAction(nameof(Index));
