@@ -184,7 +184,7 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> EditChanel(string id, [Bind("Network,Category,Description")] Chanel chanel)
+        public async Task<IActionResult> EditChanel(string id, [Bind("ChanelId,UserProfileId,Network,Category,Description")] Chanel chanel)
         {
             if (id != chanel.ChanelId)
             {

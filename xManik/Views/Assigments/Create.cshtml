@@ -13,33 +13,18 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserProfileId" class="control-label"></label>
-                <input asp-for="UserProfileId" class="form-control" asp-items="ViewBag.UserProfileId" />
-            </div>
-            <div class="form-group">
                 <label asp-for="Network" class="control-label"></label>
-                @foreach (var item in Enum.GetValues(typeof(SocialNetworks)))
-                {
-                    <input asp-for="Network" type="radio" value="@item" /> @Enum.GetName(typeof(SocialNetworks), item)
-                }
+                <select asp-for="Network" asp-items="@(new SelectList(Enum.GetValues(typeof(SocialNetworks)).Cast<SocialNetworks>()))" class="form-control"></select>
                 <span asp-validation-for="Network" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                @foreach (var item in Enum.GetValues(typeof(AdTypes)))
-                {
-                    <input asp-for="Type" type="radio" value="@item" /> @Enum.GetName(typeof(AdTypes), item)
-                    <br>
-                }
+                <select asp-for="Type" asp-items="@(new SelectList(Enum.GetValues(typeof(AdTypes)).Cast<AdTypes>()))" class="form-control"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Format" class="control-label"></label>
-                @foreach (var item in Enum.GetValues(typeof(AdFormat)))
-                {
-                    <input asp-for="Format" type="radio" value="@item" /> @Enum.GetName(typeof(AdFormat), item)
-                    <br>
-                }
+                <select asp-for="Format" asp-items="@(new SelectList(Enum.GetValues(typeof(AdFormat)).Cast<AdFormat>()))" class="form-control"></select>
                 <span asp-validation-for="Format" class="text-danger"></span>
             </div>
             <div class="form-group">
