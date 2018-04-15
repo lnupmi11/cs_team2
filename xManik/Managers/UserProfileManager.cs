@@ -37,8 +37,12 @@ namespace xManik.Managers
             return GetUserProfile(principal).Assigments;
         }
 
-        #endregion
+        public bool IsUserHasAssigments(ClaimsPrincipal principal, Assigment assigment)
+        {
+            return GetUserProfileId(principal) == assigment.ClientProfileId; // GetAllAssigments(principal).Any(p => p.ClientProfileId == assigment.ClientProfileId);
+        }
 
+        #endregion
 
         #region Chanels management
 

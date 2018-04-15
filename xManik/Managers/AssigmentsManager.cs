@@ -16,6 +16,11 @@ namespace xManik.Managers
             _context = context;
         }
 
+        public IEnumerable<Assigment> GetAllAssigments()
+        {
+            return _context.Assigments.GetAll();
+        }
+
         public async Task CreateAsync(Assigment service)
         {
             _context.Assigments.Create(service);
