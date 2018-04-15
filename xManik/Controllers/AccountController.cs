@@ -231,7 +231,7 @@ namespace xManik.Controllers
                     // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
                     // determine which role register
-                    await _userManager.AddToRoleAsync(user, "Client");
+                    await _userManager.AddToRoleAsync(user, model.Role.ToString());
                     //
                     await _signInManager.SignInAsync(user, isPersistent: false);
 

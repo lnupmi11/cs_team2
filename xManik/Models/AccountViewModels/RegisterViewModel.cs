@@ -23,5 +23,9 @@ namespace xManik.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name="Role")]
+        public Roles Role { get; set; }
     }
 }

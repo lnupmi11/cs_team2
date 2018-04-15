@@ -40,10 +40,10 @@ namespace xManik
             CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
         }
 
-        private async Task CreateRolesAndUsersAsync(IServiceProvider serviceBlogger)
+        private async Task CreateRolesAndUsersAsync(IServiceProvider serviceProvider)
         {
-            var roleManager = serviceBlogger.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceBlogger.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             if (!(await roleManager.RoleExistsAsync("Admin")))
             {
