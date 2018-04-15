@@ -7,7 +7,7 @@ namespace xManik.Models
     {
         public string ChanelId { get; set; }
         [ForeignKey("UserProfile")]
-        public string BloggerProfileId { get; set; }
+        public string UserProfileId { get; set; }
 
         public SocialNetworks Network { get; set; }
         public Categories Category { get; set; }
@@ -17,6 +17,6 @@ namespace xManik.Models
         public long AvgLikeNum { get; set; }
         public double LocalRank { get; set; }
 
-        public virtual UserProfile BloggerProfile { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }

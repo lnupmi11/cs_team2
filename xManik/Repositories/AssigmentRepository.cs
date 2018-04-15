@@ -45,7 +45,7 @@ namespace xManik.Repositories
 
         public Assigment Find(Func<Assigment, bool> predicate)
         {
-            return _context.Assigments.Include(p => p.ClientProfile).FirstOrDefault();
+            return _context.Assigments.Include(p => p.UserProfile).FirstOrDefault();
         }
 
         public void Delete(string id)

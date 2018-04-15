@@ -37,7 +37,7 @@ namespace xManik
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
             services.AddMvc();
 
-            CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
+           // CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
         }
 
         private async Task CreateRolesAndUsersAsync(IServiceProvider serviceProvider)

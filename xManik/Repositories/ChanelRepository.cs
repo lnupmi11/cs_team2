@@ -20,7 +20,7 @@ namespace xManik.Repositories
 
         public IEnumerable<Chanel> GetAll()
         {
-            return _context.Chanels.Include(o => o.BloggerProfile);
+            return _context.Chanels.Include(o => o.UserProfile);
         }
 
         public Chanel Find(string id)
@@ -45,7 +45,7 @@ namespace xManik.Repositories
 
         public IEnumerable<Chanel> GetAllWhere(Func<Chanel, Boolean> predicate)
         {
-            return _context.Chanels.Include(o => o.BloggerProfile).Where(predicate).ToList();
+            return _context.Chanels.Include(o => o.UserProfile).Where(predicate).ToList();
         }
 
         public void Delete(string id)

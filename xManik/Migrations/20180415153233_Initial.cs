@@ -180,22 +180,21 @@ namespace xManik.Migrations
                 columns: table => new
                 {
                     AssigmentId = table.Column<string>(nullable: false),
-                    ClientId = table.Column<string>(nullable: true),
-                    ClientProfileId = table.Column<string>(nullable: true),
                     Deadline = table.Column<DateTime>(nullable: false),
                     DetailedDescription = table.Column<string>(nullable: true),
                     Format = table.Column<int>(nullable: false),
                     MaxBudget = table.Column<long>(nullable: false),
                     Network = table.Column<int>(nullable: false),
                     ShortDescription = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false)
+                    Type = table.Column<int>(nullable: false),
+                    UserProfileId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assigments", x => x.AssigmentId);
                     table.ForeignKey(
-                        name: "FK_Assigments_UserProfiles_ClientProfileId",
-                        column: x => x.ClientProfileId,
+                        name: "FK_Assigments_UserProfiles_UserProfileId",
+                        column: x => x.UserProfileId,
                         principalTable: "UserProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -208,20 +207,19 @@ namespace xManik.Migrations
                     ChanelId = table.Column<string>(nullable: false),
                     AvgLikeNum = table.Column<long>(nullable: false),
                     AvgViewNum = table.Column<long>(nullable: false),
-                    BloggerId = table.Column<string>(nullable: true),
-                    BloggerProfileId = table.Column<string>(nullable: true),
                     Category = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     LocalRank = table.Column<double>(nullable: false),
                     Network = table.Column<int>(nullable: false),
-                    SubscribersNum = table.Column<long>(nullable: false)
+                    SubscribersNum = table.Column<long>(nullable: false),
+                    UserProfileId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chanels", x => x.ChanelId);
                     table.ForeignKey(
-                        name: "FK_Chanels_UserProfiles_BloggerProfileId",
-                        column: x => x.BloggerProfileId,
+                        name: "FK_Chanels_UserProfiles_UserProfileId",
+                        column: x => x.UserProfileId,
                         principalTable: "UserProfiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -267,14 +265,14 @@ namespace xManik.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assigments_ClientProfileId",
+                name: "IX_Assigments_UserProfileId",
                 table: "Assigments",
-                column: "ClientProfileId");
+                column: "UserProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chanels_BloggerProfileId",
+                name: "IX_Chanels_UserProfileId",
                 table: "Chanels",
-                column: "BloggerProfileId");
+                column: "UserProfileId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

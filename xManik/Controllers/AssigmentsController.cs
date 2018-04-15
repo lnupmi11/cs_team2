@@ -66,11 +66,11 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Client")]
-        public async Task<IActionResult> Create([Bind("AssigmentId,ClientProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
+        public async Task<IActionResult> Create([Bind("AssigmentId,UserProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
         {
             if (ModelState.IsValid)
             {
-                assigment.ClientProfileId = _userProfileManager.GetUserProfileId(User);
+                assigment.UserProfileId = _userProfileManager.GetUserProfileId(User);
                 await _assigmentsManager.CreateAsync(assigment);
 
                 return RedirectToAction(nameof(Index));
@@ -101,7 +101,7 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Client")]
-        public async Task<IActionResult> Edit(string id, [Bind("AssigmentId,ClientProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
+        public async Task<IActionResult> Edit(string id, [Bind("AssigmentId,UserProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
         {
             if (id != assigment.AssigmentId || !_userProfileManager.IsUserHasAssigments(User, assigment))
             {

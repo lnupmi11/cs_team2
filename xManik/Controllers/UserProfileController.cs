@@ -153,7 +153,7 @@ namespace xManik.Controllers
         {
             if (ModelState.IsValid)
             {
-                chanel.BloggerProfileId = _userProfileManager.GetUserProfileId(User);
+                chanel.UserProfileId = _userProfileManager.GetUserProfileId(User);
                 await _chanelsManager.CreateAsync(chanel);
 
                 return RedirectToAction(nameof(Index));

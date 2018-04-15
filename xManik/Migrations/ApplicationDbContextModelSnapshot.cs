@@ -185,8 +185,6 @@ namespace xManik.Migrations
                     b.Property<string>("AssigmentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClientProfileId");
-
                     b.Property<DateTime>("Deadline");
 
                     b.Property<string>("DetailedDescription");
@@ -201,9 +199,11 @@ namespace xManik.Migrations
 
                     b.Property<int>("Type");
 
+                    b.Property<string>("UserProfileId");
+
                     b.HasKey("AssigmentId");
 
-                    b.HasIndex("ClientProfileId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Assigments");
                 });
@@ -217,8 +217,6 @@ namespace xManik.Migrations
 
                     b.Property<long>("AvgViewNum");
 
-                    b.Property<string>("BloggerProfileId");
-
                     b.Property<int>("Category");
 
                     b.Property<string>("Description");
@@ -229,9 +227,11 @@ namespace xManik.Migrations
 
                     b.Property<long>("SubscribersNum");
 
+                    b.Property<string>("UserProfileId");
+
                     b.HasKey("ChanelId");
 
-                    b.HasIndex("BloggerProfileId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Chanels");
                 });
@@ -300,16 +300,16 @@ namespace xManik.Migrations
 
             modelBuilder.Entity("xManik.Models.Assigment", b =>
                 {
-                    b.HasOne("xManik.Models.UserProfile", "ClientProfile")
+                    b.HasOne("xManik.Models.UserProfile", "UserProfile")
                         .WithMany("Assigments")
-                        .HasForeignKey("ClientProfileId");
+                        .HasForeignKey("UserProfileId");
                 });
 
             modelBuilder.Entity("xManik.Models.Chanel", b =>
                 {
-                    b.HasOne("xManik.Models.UserProfile", "BloggerProfile")
+                    b.HasOne("xManik.Models.UserProfile", "UserProfile")
                         .WithMany("Chanels")
-                        .HasForeignKey("BloggerProfileId");
+                        .HasForeignKey("UserProfileId");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

@@ -39,7 +39,7 @@ namespace xManik.Managers
 
         public bool IsUserHasAssigments(ClaimsPrincipal principal, Assigment assigment)
         {
-            return GetUserProfileId(principal) == assigment.ClientProfileId; // GetAllAssigments(principal).Any(p => p.ClientProfileId == assigment.ClientProfileId);
+            return GetUserProfileId(principal) == assigment.UserProfileId; // GetAllAssigments(principal).Any(p => p.UserProfileId == assigment.UserProfileId);
         }
 
         #endregion
