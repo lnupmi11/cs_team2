@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "UserProfile";
+    ViewData["RootPath"] = "\\Storage\\UserProfileImages\\";
     ViewData.AddActivePage(UserProfileNavPages.Index);
 }
 
@@ -19,10 +20,6 @@
                 <input asp-for="SecondName" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Description"></label>
-                <input asp-for="Description" class="form-control" />
-                <label asp-for="Rate"></label>
-                <input asp-for="Rate" class="form-control" disabled />
                 <label asp-for="DateRegistered"></label>
                 <input asp-for="DateRegistered" class="form-control" disabled />
             </div>
@@ -37,7 +34,8 @@
         <p>Current Photo</p>
         @if (Model.UserProfileImagePath != string.Empty)
         {
-            <img src="@Model.UserProfileImagePath" class="img-rounded img-responsive" />
+            string imagePath = ViewData["RootPath"] + Model.UserProfileImagePath;
+            <img src= "@imagePath" class="img-rounded img-responsive" />
         }
         else
         {

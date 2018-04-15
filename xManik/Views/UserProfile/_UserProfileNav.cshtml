@@ -5,12 +5,18 @@
 @using System.Security.Claims;
 
 <ul class="nav nav-pills nav-stacked">
-    <li class="@UserProfileNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">UserProfile</a></li>
-    @if (User.IsInRole("Provider"))
+    <li class="@UserProfileNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
+    @if (User.IsInRole("Client"))
     {
-        <li class="@UserProfileNavPages.UserProfileNavClass(ViewContext)"><a asp-action="Details" asp-controller="Providers" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">View my UserProfile as others see it</a></li>
-        <li class="@UserProfileNavPages.IndexPortfolioNavClass(ViewContext)"><a asp-action="Portfolio">Portfolio</a></li>
-        <li class="@UserProfileNavPages.UserProfileDescriptionNavClass(ViewContext)"><a asp-action="UserProfileDescription">UserProfileDescription</a></li>
-        <li class="@UserProfileNavPages.IndexOrdersNavClass(ViewContext)"><a asp-action="Orders">Orders <span class="badge badge-primary badge-pill pull-right">@ViewData["newMsgs"]</span></a></li>
+        <li class="@UserProfileNavPages.SearchBloggersNavClass(ViewContext)"><a asp-action="???">Search Bloggers</a></li>
+        <li class="@UserProfileNavPages.AddAssigmentNavClass(ViewContext)"><a asp-action="???">Add assigment</a></li>
+        <li class="@UserProfileNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-action="??">My assigments</a></li>
+    }
+
+    @if (User.IsInRole("Blogger"))
+    {
+        <li class="@UserProfileNavPages.SearchBloggersNavClass(ViewContext)"><a asp-action="???">Assigments</a></li>
+        <li class="@UserProfileNavPages.AddAssigmentNavClass(ViewContext)"><a asp-action="???">Add chanel</a></li>
+        <li class="@UserProfileNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-action="??">My chanels</a></li>
     }
 </ul>

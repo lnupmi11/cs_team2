@@ -36,6 +36,8 @@ namespace xManik.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
+        # region Login
+        
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -193,6 +195,8 @@ namespace xManik.Controllers
             }
         }
 
+        #endregion
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
@@ -227,7 +231,7 @@ namespace xManik.Controllers
                     // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
                     // determine which role register
-                    await _userManager.AddToRoleAsync(user, "Blogger");
+                    await _userManager.AddToRoleAsync(user, "Client");
                     //
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
