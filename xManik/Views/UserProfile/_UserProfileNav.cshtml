@@ -16,7 +16,7 @@
     @if (User.IsInRole("Blogger"))
     {
         <li class="@UserProfileNavPages.SearchBloggersNavClass(ViewContext)"><a asp-action="???">Assigments</a></li>
-        <li class="@UserProfileNavPages.AddAssigmentNavClass(ViewContext)"><a asp-action="???">Add chanel</a></li>
-        <li class="@UserProfileNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-action="??">My chanels</a></li>
+        <li class="@UserProfileNavPages.AddAssigmentNavClass(ViewContext)"><a asp-action="CreateChanel">Add chanel</a></li>
+        <li class="@UserProfileNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-action="UserChanels">My chanels</a></li>
     }
 </ul>

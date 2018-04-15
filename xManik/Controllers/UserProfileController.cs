@@ -15,6 +15,7 @@ using xManik.Models;
 using xManik.Repositories;
 using xManik.Managers;
 using xManik.Models.UserProfileViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace xManik.Controllers
 {
@@ -26,6 +27,7 @@ namespace xManik.Controllers
         private readonly WorkContext _context;
         private readonly UserProfileManager<UserProfile> _userProfileManager;
         private readonly IHostingEnvironment _environment;
+        private readonly ChanelsManager<Chanel> _chanelsManager;
 
         public UserProfileController(
               UserManager<ApplicationUser> userManager,
@@ -38,12 +40,13 @@ namespace xManik.Controllers
             _context = new WorkContext(context);
             _userProfileManager = new UserProfileManager<UserProfile>(_context);
             _environment = environment;
+            _chanelsManager = new ChanelsManager<Chanel>(_context);
         }
 
         [TempData]
         public string StatusMessage { get; set; }
 
-
+        #region Profile managment
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -100,175 +103,146 @@ namespace xManik.Controllers
             StatusMessage = "Your UserProfile has been updated";
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-        public override void OnActionExecuted(ActionExecutedContext context)
+        #region Chanels managment
+
+        [Authorize(Roles = "Blogger")]
+        public IActionResult UserChanels()
         {
-            base.OnActionExecuted(context);
-            var result = context.Result as ViewResult;
-            if (result != null)
+            return View(_userProfileManager.GetAllChanels(User));
+        }
+
+        // GET: Chanels/DetailsChanel/5
+        public IActionResult DetailsChanel(string id)
+        {
+            if (id == null)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //    var newOrdersNum = _context.Orders.Where(o => o.BloggerId == userId && !o.IsRead).Count();
-                // result.ViewData["newMsgs"] = newOrdersNum;
+                return NotFound();
             }
+
+            var chanel = _chanelsManager.Find(id);
+            if (chanel == null)
+            {
+                return NotFound();
+            }
+
+            return View(chanel);
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Blogger")]
-        public IActionResult Orders()
+        // GET: Chanels/DetailsChanel/5
+        public ActionResult DetailsChanel(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<Chanel> orders = null; // _context.Orders.Where(o => o.BloggerId == userId);
-
-            //orders = orders.OrderBy(o => o.IsRead);
-
-            return View(orders);
+            return View(_context.Chanels.Find(id.ToString()));
         }
 
-        [HttpGet]
+        // GET: Chanels/CreateChanel
         [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> OrderDetails(string orderId)
+        public IActionResult CreateChanel()
         {
-            //var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
-            //var customer = await _context.Users.FirstOrDefaultAsync(u => u.Id == order.CustomerId);
-            //var service = await _context.Services.FirstOrDefaultAsync(s => s.Id == order.ServiceId);
-
-            //if (order == null || customer == null || service == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (!order.IsRead)
-            //{
-            //    order.IsRead = true;
-            //    await _context.SaveChangesAsync();
-            //}
-
-            //OrderDetailsViewModel orderDetail = new OrderDetailsViewModel
-            //{
-            //    CustomerName = customer.UserName,
-            //    CustomerEmail = customer.Email,
-            //    CustomerRegistered = customer.DateRegistered,
-            //    ServiceDescription = service.Description,
-            //    ServicePrice = service.Price,
-            //    ServicePosted = service.DatePublished,
-            //    AdditionalServiceInfo = order.AdditionalInfo,
-            //    ServiceStartTime = order.StartTime,
-            //    ServiceEndTime = order.EndTime
-            //};
-
             return View();
         }
 
-        [HttpGet]
+        // POST: Chanels/CreateChanel
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> Portfolio()
+        public async Task<IActionResult> CreateChanel([Bind("Network,Category,Description")] Chanel chanel)
         {
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var provider = await _context.Bloggers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            if (ModelState.IsValid)
+            {
+                chanel.BloggerProfileId = _userProfileManager.GetUserProfileId(User);
+                await _chanelsManager.CreateAsync(chanel);
 
-            //if (provider == null)
-            //{
-            //    throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            //}
-
-            //var model = new PortfolioViewModel
-            //{
-            //    StatusMessage = StatusMessage,
-            //    Images = provider.Portfolio
-            //};
-
-            return View();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(chanel);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Blogger")]
-        //public async Task<IActionResult> Portfolio(PortfolioViewModel model, IFormFile file)
-        //{
-        //    if (!ModelState.IsValid || file == null)
-        //    {
-        //        return RedirectToAction(nameof(Portfolio));
-        //    }
+        // GET: Chanels/EditChanel/5
+        [Authorize(Roles = "Blogger")]
+        public IActionResult EditChanel(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var provider = await _context.Bloggers.Include(p => p.User).Include(p => p.Portfolio).Where(p => p.Id == userId).FirstOrDefaultAsync();
+            var chanel = _chanelsManager.Find(id);
+            if (chanel == null)
+            {
+                return NotFound();
+            }
+            return View(chanel);
+        }
 
-        //    if (provider == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-        //    }
+        // POST: Chanels/EditChanel/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Blogger")]
+        public async Task<IActionResult> EditChanel(string id, [Bind("Network,Category,Description")] Chanel chanel)
+        {
+            if (id != chanel.ChanelId)
+            {
+                return NotFound();
+            }
 
-        //    if (file != null)
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            await file.CopyToAsync(memoryStream);
-        //            var item = new Artwork
-        //            {
-        //                Description = model.Description,
-        //                Image = memoryStream.ToArray()
-        //            };
-        //            provider.Portfolio.Add(item);
-        //            _context.Update(provider);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //    }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _chanelsManager.UpdateAsync(chanel);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_chanelsManager.IsChanelExists(chanel.ChanelId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(chanel);
+        }
 
-        //    StatusMessage = "Your UserProfile has been updated";
+        // GET: Chanels/DeleteChanel/5
+        [Authorize(Roles = "Blogger")]
+        public IActionResult DeleteChanel(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    return RedirectToAction(nameof(Portfolio));
-        //}
+            var chanel = _chanelsManager.Find(id);
+            if (chanel == null)
+            {
+                return NotFound();
+            }
 
-        //[HttpGet]
-        //[Authorize(Roles = "Blogger")]
-        //public async Task<IActionResult> EditPortfolioItem(string id)
-        //{
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var image = await _context.Artworks.Include(p => p.Blogger).Where(p => p.Id == id).FirstOrDefaultAsync();
-        //    if (image.Blogger.Id != userId)
-        //    {
-        //        return NotFound();
-        //    }
+            return View(chanel);
+        }
 
-        //    return View(image);
-        //}
+        // POST: Chanels/DeleteChanel/5
+        [HttpPost, ActionName("DeleteChanel")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Blogger")]
+        public async Task<IActionResult> DeleteChanelConfirmed(string id)
+        {
+            var chanel = _chanelsManager.Find(id);
+            await _chanelsManager.RemoveAsync(chanel);
 
-        //[HttpPost]
-        //[Authorize(Roles = "Blogger")]
-        //public async Task<IActionResult> EditPortfolioItem(Artwork model, IFormFile file)
-        //{
-        //    if (file != null)
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            await file.CopyToAsync(memoryStream);
-        //            model.Image = memoryStream.ToArray();
-        //        }
-        //    }
-        //    _context.Update(model);
-        //    await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-        //    return RedirectToAction(nameof(Portfolio));
-        //}
-
-        //[HttpGet]
-        //[Authorize(Roles = "Blogger")]
-        //public async Task<IActionResult> RemovePortfolioImage(string id)
-        //{
-        //    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var image = await _context.Artworks.Include(p => p.Blogger).Where(p => p.Id == id).FirstOrDefaultAsync();
-        //    if (image.Blogger.Id != userId)
-        //    {
-        //        return NotFound();
-        //    }
-        //    _context.Remove(image);
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Portfolio));
-        //}
-
-
-
+        #endregion
     }
 }

@@ -204,6 +204,8 @@ namespace xManik.Controllers
             return View();
         }
 
+        #region Registration
+
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -221,7 +223,7 @@ namespace xManik.Controllers
             if (ModelState.IsValid)
             {
                 var userProfile = new UserProfile();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UserProfile = userProfile };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UserProfile = userProfile, EmailConfirmed = true };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -244,6 +246,8 @@ namespace xManik.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        #endregion
 
         [HttpPost]
         [ValidateAntiForgeryToken]
