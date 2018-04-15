@@ -7,7 +7,7 @@ namespace xManik.Models
     {
         public string ChanelId { get; set; }
         [ForeignKey("UserProfile")]
-        public string BloggerId { get; set; }
+        public string BloggerProfileId { get; set; }
 
         public SocialNetworks Network { get; set; }
         public Categories Category { get; set; }

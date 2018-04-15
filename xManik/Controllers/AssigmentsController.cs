@@ -70,7 +70,7 @@ namespace xManik.Controllers
         {
             if (ModelState.IsValid)
             {
-                assigment.ClientId = _userProfileManager.GetUserProfileId(User);
+                assigment.ClientProfileId = _userProfileManager.GetUserProfileId(User);
                 await _assigmentsManager.CreateAsync(assigment);
 
                 return RedirectToAction(nameof(Index));

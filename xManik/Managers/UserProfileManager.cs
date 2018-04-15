@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using xManik.Models;
 using xManik.Repositories;
 using xManik.Extensions.IdentityExtensions;
+using Microsoft.AspNetCore.Hosting;
 
 namespace xManik.Managers
 {

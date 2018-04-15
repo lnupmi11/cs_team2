@@ -8,7 +8,7 @@ namespace xManik.Models
     {
         public string AssigmentId { get; set; }
         [ForeignKey("UserProfile")]
-        public string ClientId { get; set; }
+        public string ClientProfileId { get; set; }
 
         public SocialNetworks Network { get; set; }
         public AdTypes Type { get; set; }
@@ -17,7 +17,7 @@ namespace xManik.Models
         public string DetailedDescription { get; set; }
         public long MaxBudget { get; set; }
         public DateTime Deadline { get; set; }
-        ICollection<Chanel> Orders { get; set; }
+        ICollection<Chanel> Chanels { get; set; }
 
         public virtual UserProfile ClientProfile { get; set; }
     }
