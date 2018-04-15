@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,32 +12,31 @@ using xManik.Repositories;
 
 namespace xManik.Controllers
 {
-    public class AssigmentsController : Controller
+    public class ChanelController : Controller
     {
         private readonly WorkContext _context;
         private readonly UserProfileManager<UserProfile> _userProfileManager;
-        private readonly AssigmentsManager<Assigment> _assigmentsManager;
+        private readonly ChanelsManager<Chanel> _chanelsManager;
 
-        public AssigmentsController(ApplicationDbContext context)
+        public ChanelController(ApplicationDbContext context)
         {
             _context = new WorkContext(context);
             _userProfileManager = new UserProfileManager<UserProfile>(_context);
-            _assigmentsManager = new AssigmentsManager<Assigment>(_context);
-        }
+            _chanelsManager = new ChanelsManager<Chanel>(_context);
+       }
 
-        // GET: Assigments
         public IActionResult Index()
         {
-            return View(_assigmentsManager.GetAllAssigments());
+            return View(_chanelsManager.GetAll());
         }
 
-        [Authorize(Roles = "Client")]
-        public IActionResult UserAssigments()
+        [Authorize(Roles = "Blogger")]
+        public IActionResult UserChanels()
         {
-            return View(_userProfileManager.GetAllAssigments(User));
+            return View(_userProfileManager.GetAllChanels(User));
         }
 
-        // GET: Assigments/Details/5
+        // GET: Chanels/Details/5
         public IActionResult Details(string id)
         {
             if (id == null)
@@ -44,42 +44,42 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var assigment = _assigmentsManager.Find(id);
-            if (assigment == null)
+            var chanel = _chanelsManager.Find(id);
+            if (chanel == null)
             {
                 return NotFound();
             }
 
-            return View(assigment);
+            return View(chanel);
         }
-
-        // GET: Assigments/Create
-        [Authorize(Roles = "Client")]
+               
+        // GET: Chanels/Create
+        [Authorize(Roles = "Blogger")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Assigments/Create
+        // POST: Chanels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Client")]
-        public async Task<IActionResult> Create([Bind("AssigmentId,UserProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
+        [Authorize(Roles = "Blogger")]
+        public async Task<IActionResult> Create([Bind("Network,Category,Description")] Chanel chanel)
         {
             if (ModelState.IsValid)
             {
-                assigment.UserProfileId = _userProfileManager.GetUserProfileId(User);
-                await _assigmentsManager.CreateAsync(assigment);
+                chanel.UserProfileId = _userProfileManager.GetUserProfileId(User);
+                await _chanelsManager.CreateAsync(chanel);
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(assigment);
+            return View(chanel);
         }
 
-        // GET: Assigments/Edit/5
-        [Authorize(Roles = "Client")]
+        // GET: Chanels/Edit/5
+        [Authorize(Roles = "Blogger")]
         public IActionResult Edit(string id)
         {
             if (id == null)
@@ -87,23 +87,23 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var assigment = _assigmentsManager.Find(id);
-            if (assigment == null || !_userProfileManager.IsUserHasAssigments(User, assigment))
+            var chanel = _chanelsManager.Find(id);
+            if (chanel == null)
             {
                 return NotFound();
             }
-            return View(assigment);
+            return View(chanel);
         }
 
-        // POST: Assigments/Edit/5
+        // POST: Chanels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Client")]
-        public async Task<IActionResult> Edit(string id, [Bind("AssigmentId,UserProfileId,Network,Type,Format,ShortDescription,DetailedDescription,MaxBudget,Deadline")] Assigment assigment)
+        [Authorize(Roles = "Blogger")]
+        public async Task<IActionResult> Edit(string id, [Bind("ChanelId,UserProfileId,Network,Category,Description")] Chanel chanel)
         {
-            if (id != assigment.AssigmentId || !_userProfileManager.IsUserHasAssigments(User, assigment))
+            if (id != chanel.ChanelId)
             {
                 return NotFound();
             }
@@ -112,11 +112,11 @@ namespace xManik.Controllers
             {
                 try
                 {
-                    await _assigmentsManager.UpdateAsync(assigment);
+                    await _chanelsManager.UpdateAsync(chanel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_assigmentsManager.IsAssigmentExists(assigment.AssigmentId))
+                    if (!_chanelsManager.IsChanelExists(chanel.ChanelId))
                     {
                         return NotFound();
                     }
@@ -127,11 +127,11 @@ namespace xManik.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(assigment);
+            return View(chanel);
         }
 
-        // GET: Assigments/Delete/5
-        [Authorize(Roles = "Client")]
+        // GET: Chanels/Delete/5
+        [Authorize(Roles = "Blogger")]
         public IActionResult Delete(string id)
         {
             if (id == null)
@@ -139,29 +139,26 @@ namespace xManik.Controllers
                 return NotFound();
             }
 
-            var assigment = _assigmentsManager.Find(id);
-            if (assigment == null || !_userProfileManager.IsUserHasAssigments(User, assigment))
+            var chanel = _chanelsManager.Find(id);
+            if (chanel == null)
             {
                 return NotFound();
             }
 
-            return View(assigment);
+            return View(chanel);
         }
 
-        // POST: Assigments/Delete/5
+        // POST: Chanels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Client")]
+        [Authorize(Roles = "Blogger")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var assigment = _assigmentsManager.Find(id);
-            if (assigment == null || !_userProfileManager.IsUserHasAssigments(User, assigment))
-            {
-                return NotFound();
-            }
-            await _assigmentsManager.RemoveAsync(assigment);
+            var chanel = _chanelsManager.Find(id);
+            await _chanelsManager.RemoveAsync(chanel);
 
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

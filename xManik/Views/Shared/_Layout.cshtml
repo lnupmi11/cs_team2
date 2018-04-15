@@ -38,14 +38,29 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - xManik</p>
-        </footer>
-    </div>
-
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="container-fluid">
+            <div class="row container-fluid">
+                <div class="col col-sm-3 col-md-2">
+                    @await Html.PartialAsync("_UserProfileMenuPartial")
+                </div>
+                <div class="col col-sm-9 col-md-10">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; 2018 - xManik</p>
+            </footer>
+        </div>
+    }
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

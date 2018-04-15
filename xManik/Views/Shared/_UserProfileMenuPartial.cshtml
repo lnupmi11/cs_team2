@@ -1,0 +1,20 @@
+﻿
+
+<nav class="navbar navbar-default navbar-fixed-side">
+    <ul class="nav nav-pills nav-stacked">
+        @if (User.IsInRole("Client"))
+        {
+            <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="??" asp-action="??">Search Bloggers</a></li>
+            <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Create">Add assigment</a></li>
+            <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments">My assigments</a></li>
+        }
+
+        @if (User.IsInRole("Blogger"))
+        {
+            <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Index">Assigments</a></li>
+            <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Create">Add chanel</a></li>
+            <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="UserChanels">My chanels</a></li>
+        }
+    </ul>
+</nav>
+

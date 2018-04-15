@@ -33,6 +33,6 @@ namespace xManik.Views.Manage
             return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
         }
 
-        public static void AddActivePage(this ViewDataDictionary viewData, string activePage) => viewData[ActivePageKey] = activePage;
+        public static void AddActivePageManage(this ViewDataDictionary viewData, string activePage) => viewData[ActivePageKey] = activePage;
     }
 }

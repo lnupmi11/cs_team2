@@ -17,6 +17,11 @@ namespace xManik.Managers
             _context = context;
         }
 
+        public IEnumerable<Chanel> GetAll()
+        {
+            return _context.Chanels.GetAll();
+        }
+
         public async Task CreateAsync(Chanel service)
         {
             _context.Chanels.Create(service);

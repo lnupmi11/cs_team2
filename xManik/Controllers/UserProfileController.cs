@@ -47,6 +47,7 @@ namespace xManik.Controllers
         public string StatusMessage { get; set; }
 
         #region Profile managment
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -103,146 +104,8 @@ namespace xManik.Controllers
             StatusMessage = "Your UserProfile has been updated";
             return RedirectToAction(nameof(Index));
         }
-        #endregion
 
-        #region Chanels managment
-
-        [Authorize(Roles = "Blogger")]
-        public IActionResult UserChanels()
-        {
-            return View(_userProfileManager.GetAllChanels(User));
-        }
-
-        // GET: Chanels/DetailsChanel/5
-        public IActionResult DetailsChanel(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var chanel = _chanelsManager.Find(id);
-            if (chanel == null)
-            {
-                return NotFound();
-            }
-
-            return View(chanel);
-        }
-
-        // GET: Chanels/DetailsChanel/5
-        public ActionResult DetailsChanel(int id)
-        {
-            return View(_context.Chanels.Find(id.ToString()));
-        }
-
-        // GET: Chanels/CreateChanel
-        [Authorize(Roles = "Blogger")]
-        public IActionResult CreateChanel()
-        {
-            return View();
-        }
-
-        // POST: Chanels/CreateChanel
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> CreateChanel([Bind("Network,Category,Description")] Chanel chanel)
-        {
-            if (ModelState.IsValid)
-            {
-                chanel.UserProfileId = _userProfileManager.GetUserProfileId(User);
-                await _chanelsManager.CreateAsync(chanel);
-
-                return RedirectToAction(nameof(Index));
-            }
-            return View(chanel);
-        }
-
-        // GET: Chanels/EditChanel/5
-        [Authorize(Roles = "Blogger")]
-        public IActionResult EditChanel(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var chanel = _chanelsManager.Find(id);
-            if (chanel == null)
-            {
-                return NotFound();
-            }
-            return View(chanel);
-        }
-
-        // POST: Chanels/EditChanel/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> EditChanel(string id, [Bind("ChanelId,UserProfileId,Network,Category,Description")] Chanel chanel)
-        {
-            if (id != chanel.ChanelId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _chanelsManager.UpdateAsync(chanel);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!_chanelsManager.IsChanelExists(chanel.ChanelId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(chanel);
-        }
-
-        // GET: Chanels/DeleteChanel/5
-        [Authorize(Roles = "Blogger")]
-        public IActionResult DeleteChanel(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var chanel = _chanelsManager.Find(id);
-            if (chanel == null)
-            {
-                return NotFound();
-            }
-
-            return View(chanel);
-        }
-
-        // POST: Chanels/DeleteChanel/5
-        [HttpPost, ActionName("DeleteChanel")]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> DeleteChanelConfirmed(string id)
-        {
-            var chanel = _chanelsManager.Find(id);
-            await _chanelsManager.RemoveAsync(chanel);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        #endregion
+        #endregion    
+        
     }
 }
