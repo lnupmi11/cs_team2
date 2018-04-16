@@ -15,7 +15,6 @@ using xManik.Models;
 using xManik.Repositories;
 using xManik.Managers;
 using xManik.Models.UserProfileViewModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace xManik.Controllers
 {

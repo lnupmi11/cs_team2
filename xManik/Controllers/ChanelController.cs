@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,7 +85,7 @@ namespace xManik.Controllers
             }
 
             var chanel = _chanelsManager.Find(id);
-            if (chanel == null)
+            if (chanel == null || !_userProfileManager.IsUserHasChnael(User,chanel))
             {
                 return NotFound();
             }
@@ -103,7 +100,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Blogger")]
         public async Task<IActionResult> Edit(string id, [Bind("ChanelId,UserProfileId,Network,Category,Description")] Chanel chanel)
         {
-            if (id != chanel.ChanelId)
+            if (id != chanel.ChanelId || !_userProfileManager.IsUserHasChnael(User, chanel))
             {
                 return NotFound();
             }
@@ -140,7 +137,7 @@ namespace xManik.Controllers
             }
 
             var chanel = _chanelsManager.Find(id);
-            if (chanel == null)
+            if (chanel == null || !_userProfileManager.IsUserHasChnael(User, chanel))
             {
                 return NotFound();
             }
@@ -155,8 +152,11 @@ namespace xManik.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var chanel = _chanelsManager.Find(id);
+            if(chanel == null || !_userProfileManager.IsUserHasChnael(User, chanel))
+            {
+                return NotFound();
+            }
             await _chanelsManager.RemoveAsync(chanel);
-
             return RedirectToAction(nameof(Index));
         }
 

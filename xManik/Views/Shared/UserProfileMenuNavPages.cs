@@ -11,7 +11,7 @@ namespace xManik.Views.Shared
     {
         public static string ActivePageKey => "ActivePage";
 
-        public static string Index => "Index";
+        public static string Home => "Index";
 
         public static string SearchBloggers => "SearchBloggers";
 
@@ -25,7 +25,9 @@ namespace xManik.Views.Shared
 
         public static string UserChanels => "UserChanels";
 
-        public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+        public static string ManageAccount => "ManageAccount";
+
+        public static string UserProfile => "UserProfile";
 
         public static string SearchBloggersNavClass(ViewContext viewContext) => PageNavClass(viewContext, SearchBloggers);
 
@@ -38,6 +40,13 @@ namespace xManik.Views.Shared
         public static string AddChanelNavClass(ViewContext viewContext) => PageNavClass(viewContext, AddChanel);
 
         public static string UserChanelsNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserChanels);
+
+        public static string ManageAccountNavClass(ViewContext viewContext) => PageNavClass(viewContext, ManageAccount);
+
+        public static string UserProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserProfile);
+
+        public static string HomeNavClass(ViewContext viewContext) => PageNavClass(viewContext, Home);
+
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using xManik.Models;
 using xManik.Repositories;
 using xManik.Extensions.IdentityExtensions;
-using Microsoft.AspNetCore.Hosting;
 
 namespace xManik.Managers
 {
@@ -56,6 +55,11 @@ namespace xManik.Managers
         public IEnumerable<Chanel> GetAllChanels(ClaimsPrincipal principal)
         {
             return GetUserProfile(principal).Chanels;
+        }
+
+        public bool IsUserHasChnael(ClaimsPrincipal principal, Chanel chanel)
+        {
+            return GetUserProfileId(principal) == chanel.UserProfileId;
         }
 
         #endregion
@@ -129,7 +133,6 @@ namespace xManik.Managers
 
             return true;
         }
-        #endregion
 
         public UserProfile GetUserProfile(ClaimsPrincipal principal)
         {
@@ -147,6 +150,8 @@ namespace xManik.Managers
             _context.UserProfiles.Update(user);
             await _context.SaveAsync();
         }
+
+        #endregion
 
         #region IDisposable Support
         private bool disposedValue = false;

@@ -1,20 +1,46 @@
-﻿
+﻿@using xManik.Extensions.IdentityExtensions
 
-<nav class="navbar navbar-default navbar-fixed-side">
-    <ul class="nav nav-pills nav-stacked">
-        @if (User.IsInRole("Client"))
-        {
-            <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="??" asp-action="??">Search Bloggers</a></li>
-            <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Create">Add assigment</a></li>
-            <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments">My assigments</a></li>
-        }
+<div class="navbar navbar-default navbar-left">
+    <div class="profile-sidebar">
+        <div class="profile-userpic">
+            <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
+        </div>
+        <div class="profile-usertitle">
+            <div class="profile-usertitle-name">
+                <p class="small">
+                    @User.GetUserName()
+                </p>
+            </div>
+            <div class="profile-usertitle-job">
+                @User.GetUserRole()
+            </div>
+        </div>
+        <div class="profile-usermenu">
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
 
-        @if (User.IsInRole("Blogger"))
-        {
-            <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Index">Assigments</a></li>
-            <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Create">Add chanel</a></li>
-            <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="UserChanels">My chanels</a></li>
-        }
-    </ul>
-</nav>
+                <ul class="nav">
+                    <li class="@UserProfileMenuNavPages.HomeNavClass(ViewContext)"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="@UserProfileMenuNavPages.ManageAccountNavClass(ViewContext)"><a asp-controller="Manage" asp-action="Index">Manage account</a></li>
+                    <li class="@UserProfileMenuNavPages.UserProfileNavClass(ViewContext)"><a asp-controller="UserProfile" asp-action="Index">User profile</a></li>
 
+                    @if (User.IsInRole("Client"))
+                    {
+                        <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="??" asp-action="??">Search Bloggers</a></li>
+                        <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Create">Add assigment</a></li>
+                        <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments">My assigments</a></li>
+                    }
+
+                    @if (User.IsInRole("Blogger"))
+                    {
+                        <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Index">Assigments</a></li>
+                        <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Create">Add chanel</a></li>
+                        <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="UserChanels">My chanels</a></li>
+                    }
+
+                    <li><button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button></li>
+                </ul>
+            </form>
+
+        </div>
+    </div>
+</div>
