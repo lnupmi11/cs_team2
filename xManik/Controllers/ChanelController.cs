@@ -85,7 +85,7 @@ namespace xManik.Controllers
             }
 
             var chanel = _chanelsManager.Find(id);
-            if (chanel == null || !_userProfileManager.IsUserHasChnael(User,chanel))
+            if (chanel == null || !_userProfileManager.IsUserHasChanel(User,chanel))
             {
                 return NotFound();
             }
@@ -100,7 +100,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Blogger")]
         public async Task<IActionResult> Edit(string id, [Bind("ChanelId,UserProfileId,Network,Category,Description")] Chanel chanel)
         {
-            if (id != chanel.ChanelId || !_userProfileManager.IsUserHasChnael(User, chanel))
+            if (id != chanel.ChanelId || !_userProfileManager.IsUserHasChanel(User, chanel))
             {
                 return NotFound();
             }
@@ -137,7 +137,7 @@ namespace xManik.Controllers
             }
 
             var chanel = _chanelsManager.Find(id);
-            if (chanel == null || !_userProfileManager.IsUserHasChnael(User, chanel))
+            if (chanel == null || !_userProfileManager.IsUserHasChanel(User, chanel))
             {
                 return NotFound();
             }
@@ -152,7 +152,7 @@ namespace xManik.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var chanel = _chanelsManager.Find(id);
-            if(chanel == null || !_userProfileManager.IsUserHasChnael(User, chanel))
+            if(chanel == null || !_userProfileManager.IsUserHasChanel(User, chanel))
             {
                 return NotFound();
             }

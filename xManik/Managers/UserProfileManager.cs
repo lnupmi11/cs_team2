@@ -57,7 +57,7 @@ namespace xManik.Managers
             return GetUserProfile(principal).Chanels;
         }
 
-        public bool IsUserHasChnael(ClaimsPrincipal principal, Chanel chanel)
+        public bool IsUserHasChanel(ClaimsPrincipal principal, Chanel chanel)
         {
             return GetUserProfileId(principal) == chanel.UserProfileId;
         }
