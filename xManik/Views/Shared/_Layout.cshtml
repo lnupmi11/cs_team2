@@ -16,57 +16,6 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-</head>
-<body>
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">xManik</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    </ul>
-                    @await Html.PartialAsync("_LoginPartial")
-                </div>
-            </div>
-        </nav>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; 2018 - xManik</p>
-            </footer>
-        </div>
-    }
-    else
-    {
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 col-md-3 col-lg-2">
-                    <nav class="navbar navbar-default navbar-fixed-side">
-                        @await Html.PartialAsync("_UserProfileMenuPartial.cshtml")
-                    </nav>
-                </div>
-                <div class="col-sm-9 col-md-9 col-lg-10 paddingTop">
-                    <div class="body-content">
-                        @RenderBody()
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -87,6 +36,58 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+</head>
+<body>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <nav id="header" class="navbar navbar-default navbar-fixed-top">
+            <div id="header-container" class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="brand" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">xManik</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
+            </div>
+        </nav>
+        <div id="content-block" class="container body-content content-padding-md">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; 2018 - xManik</p>
+            </footer>
+        </div>
+    }
+    else
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-3 col-lg-2">
+                    <nav class="navbar navbar-default navbar-fixed-side">
+                        @await Html.PartialAsync("_UserProfileMenuPartial.cshtml")
+                    </nav>
+                </div>
+                <div class="col-sm-9 col-md-9 col-lg-10">
+                    <div class="body-content">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
 
     @RenderSection("Scripts", required: false)
 </body>

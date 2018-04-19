@@ -153,6 +153,19 @@ namespace xManik.Managers
 
         #endregion
 
+        #region Roles management
+        
+        public IEnumerable<UserProfile> GetAllBloggers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<UserProfile> GetAllClients()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region IDisposable Support
         private bool disposedValue = false;
 
