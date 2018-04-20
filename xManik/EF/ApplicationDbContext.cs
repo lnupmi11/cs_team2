@@ -30,6 +30,5 @@ namespace xManik.EF
         public DbSet<Assigment> Assigments { get; set; }
         public DbSet<Chanel> Chanels { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
-        public DbSet<xManik.Models.BloggerViewModels.BloggerViewModel> BloggerViewModel { get; set; }
     }
 }
