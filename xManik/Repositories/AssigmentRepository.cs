@@ -81,5 +81,10 @@ namespace xManik.Repositories
         {
             return _context.Assigments.Any(predicate);
         }
+
+        public IEnumerable<Assigment> GetAllByIds(IEnumerable<string> ids)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

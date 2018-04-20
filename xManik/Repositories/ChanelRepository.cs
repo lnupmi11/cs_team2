@@ -81,5 +81,10 @@ namespace xManik.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Chanel> GetAllByIds(IEnumerable<string> ids)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

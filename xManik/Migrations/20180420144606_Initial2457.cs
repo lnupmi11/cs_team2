@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace xManik.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial2457 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

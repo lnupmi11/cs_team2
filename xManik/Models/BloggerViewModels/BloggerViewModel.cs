@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace xManik.Models.BloggerViewModels
 {
-    public class BloggerViewModels
+    public class BloggerViewModel
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

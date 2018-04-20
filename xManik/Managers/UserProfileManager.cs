@@ -16,6 +16,8 @@ namespace xManik.Managers
     public class UserProfileManager<TUserProfile> : IDisposable where TUserProfile : class
     {
         private readonly WorkContext _context;
+        private const string IMAGESDIRECTORYPATH = @"\Storage\UserProfileImages";
+        private const string FOLDERSSTRUCTURE = @"Storage\UserProfileImages\";
 
         public UserProfileManager(WorkContext context)
         {
@@ -100,11 +102,11 @@ namespace xManik.Managers
             }
 
             string filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            string filePath = Path.Combine(webRootPath, "Storage\\UserProfileImages\\" + filename);
+            string filePath = Path.Combine(webRootPath, FOLDERSSTRUCTURE + filename);
 
-            if (!Directory.Exists(webRootPath + "\\Storage\\UserProfileImages"))
+            if (!Directory.Exists(webRootPath + IMAGESDIRECTORYPATH))
             {
-                Directory.CreateDirectory(webRootPath + "\\Storage\\UserProfileImages");
+                Directory.CreateDirectory(webRootPath + IMAGESDIRECTORYPATH);
             }
 
             using (FileStream fs = File.Create(filePath))
@@ -151,19 +153,6 @@ namespace xManik.Managers
             await _context.SaveAsync();
         }
 
-        #endregion
-
-        #region Roles management
-        
-        public IEnumerable<UserProfile> GetAllBloggers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<UserProfile> GetAllClients()
-        {
-            throw new NotImplementedException();
-        }
         #endregion
 
         #region IDisposable Support

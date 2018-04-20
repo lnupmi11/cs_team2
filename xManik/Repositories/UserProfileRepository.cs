@@ -77,5 +77,11 @@ namespace xManik.Repositories
         {
             _context.UserProfiles.Update(item);
         }
+
+        public IEnumerable<UserProfile> GetAllByIds(IEnumerable<string> ids)
+        {
+            HashSet<string> usersId = new HashSet<string>(ids);
+            return _context.UserProfiles.Where(p => usersId.Contains(p.Id)).Include(p => p.Assigments).Include(p => p.Chanels);
+        }
     }
 }

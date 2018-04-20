@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using xManik.Models;
 using xManik.Models.BloggerViewModels;
 using xManik.Repositories;
 
@@ -16,16 +18,11 @@ namespace xManik.Managers
             _context = context;
         }
 
-        public IEnumerable<BloggerViewModels> GetAllBloggers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<BloggerViewModels> GetAllClients()
-        {
-            throw new NotImplementedException();
-        }
-
+        //public IEnumerable<BloggerViewModel> GetAllBloggers()
+        //{
+        //    IEnumerable<BloggerViewModel> bloggers = new IEnumerable<BloggerViewModel>();
+        //}
+          
         #region IDisposable Support
         private bool disposedValue = false;
 
