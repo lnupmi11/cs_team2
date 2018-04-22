@@ -265,3 +265,6 @@ __pycache__/
 *.jpeg
 *.png
 *.gif
+
+#Secrets
+secrets.json

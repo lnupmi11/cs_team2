@@ -69,6 +69,7 @@ namespace xManik.Controllers
             {
                 chanel.UserProfileId = _userProfileManager.GetUserProfileId(User);
                 await _chanelsManager.CreateAsync(chanel);
+                await _chanelsManager.ConfirmChanel(chanel);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -159,6 +160,5 @@ namespace xManik.Controllers
             await _chanelsManager.RemoveAsync(chanel);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

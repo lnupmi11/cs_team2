@@ -14,6 +14,8 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth.Mvc" Version="1.32.2" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.32.2.1198" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.1" />
