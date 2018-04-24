@@ -9,6 +9,7 @@ namespace xManik.Interfaces
         IRepository<Assigment> Assigments { get; }
         IRepository<Chanel> Chanels { get; }
         IRepository<UserProfile> UserProfiles { get; }
+        IRepository<Deal> Deals { get; }
         Task SaveAsync();
     }
 }
