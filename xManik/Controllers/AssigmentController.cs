@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xManik.EF;
+using xManik.Extensions;
 using xManik.Managers;
 using xManik.Models;
 using xManik.Repositories;
@@ -21,11 +24,61 @@ namespace xManik.Controllers
             _userProfileManager = new UserProfileManager<UserProfile>(_context);
             _assigmentsManager = new AssigmentsManager<Assigment>(_context);
         }
-
-        // GET: Assigments
-        public IActionResult Index()
+     
+        public IActionResult AllAssigments(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(_assigmentsManager.GetAllAssigments());
+            const int pageSize = 5;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "date_desc" ? "date_asc" : "date_desc";
+            ViewData["CurrentFilter"] = searchString;
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var assigments = _context.Assigments.GetAll();
+
+            if (assigments.Count() == 0)
+            {
+               return RedirectToAction(nameof(DefaultEmptyPage));
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.Trim().ToLower();
+                assigments = assigments.Where(s => s.ShortDescription.ToLower().Contains(searchString));
+            }
+           
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    assigments = assigments.OrderByDescending(p => p.MaxBudget);
+                    break;
+                case "date_asc":
+                    assigments = assigments.OrderBy(p => p.Deadline);
+                    break;
+                case "date_desc":
+                    assigments = assigments.OrderByDescending(p => p.Deadline);
+                    break;               
+                default:
+                    assigments = assigments.OrderBy(p => p.Deadline);
+                    break;
+            }
+
+            return View(PaginatedList<Assigment>.Create(assigments.AsQueryable(), page ?? 1, pageSize));
+        }
+
+        public IActionResult DefaultEmptyPage()
+        {
+            return View();
         }
 
         [Authorize(Roles = "Client")]
@@ -71,7 +124,7 @@ namespace xManik.Controllers
                 assigment.UserProfileId = _userProfileManager.GetUserProfileId(User);
                 await _assigmentsManager.CreateAsync(assigment);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(UserAssigments));
             }
             return View(assigment);
         }
@@ -123,7 +176,7 @@ namespace xManik.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(UserAssigments));
             }
             return View(assigment);
         }
@@ -159,7 +212,7 @@ namespace xManik.Controllers
             }
             await _assigmentsManager.RemoveAsync(assigment);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserAssigments));
         }
     }
 }

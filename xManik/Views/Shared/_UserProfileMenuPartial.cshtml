@@ -22,6 +22,8 @@
                     <li class="@UserProfileMenuNavPages.HomeNavClass(ViewContext)"><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="@UserProfileMenuNavPages.ManageAccountNavClass(ViewContext)"><a asp-controller="Manage" asp-action="Index">Manage account</a></li>
                     <li class="@UserProfileMenuNavPages.UserProfileNavClass(ViewContext)"><a asp-controller="UserProfile" asp-action="Index">User profile</a></li>
+                    <li class="@UserProfileMenuNavPages.AllAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="AllAssigments">Assigments</a></li>
+
 
                     @if (User.IsInRole("Client"))
                     {
@@ -32,7 +34,6 @@
 
                     @if (User.IsInRole("Blogger"))
                     {
-                        <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Index">Assigments</a></li>
                         <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Create">Add chanel</a></li>
                         <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="UserChanels">My chanels</a></li>
                     }
