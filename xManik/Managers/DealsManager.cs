@@ -28,6 +28,11 @@ namespace xManik.Managers
             await _context.SaveAsync();
         }
 
+        public int GetUnreadDealsNum(string userId)
+        {
+            return _context.Deals.GetAllWhere(o => o.ClientId == userId).ToList().Count;
+        }
+
 
         #region IDisposable Support
         private bool disposedValue = false;

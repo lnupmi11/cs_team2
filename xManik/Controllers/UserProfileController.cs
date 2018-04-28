@@ -27,6 +27,7 @@ namespace xManik.Controllers
         private readonly UserProfileManager<UserProfile> _userProfileManager;
         private readonly IHostingEnvironment _environment;
         private readonly ChanelsManager<Chanel> _chanelsManager;
+        private readonly DealsManager<Deal> _dealsManager;
 
         public UserProfileController(
               UserManager<ApplicationUser> userManager,
@@ -40,6 +41,7 @@ namespace xManik.Controllers
             _userProfileManager = new UserProfileManager<UserProfile>(_context);
             _environment = environment;
             _chanelsManager = new ChanelsManager<Chanel>(_context);
+            _dealsManager = new DealsManager<Deal>(_context);
         }
 
         [TempData]
@@ -104,7 +106,30 @@ namespace xManik.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        #endregion    
-        
+        #endregion
+
+        [HttpGet]
+        public IActionResult UserProfile(string id)
+        {
+            UserProfile userProfile = null;
+            if(id == null)
+            {
+                userProfile = _userProfileManager.GetUserProfile(User);
+            }
+            else
+            {
+                userProfile = _userProfileManager.GetUserProfileById(id);
+            }
+
+            var model = new IndexViewModel
+            {
+                FirstName = userProfile.FirstName,
+                SecondName = userProfile.SecondName,
+                UserProfileImagePath = userProfile.ImageName,
+                DateRegistered = userProfile.DateRegistered
+            };
+
+            return View(model);
+        }
     }
 }

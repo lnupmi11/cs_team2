@@ -1,0 +1,45 @@
+﻿@model xManik.Models.Deal
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Deal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Client:
+        </dt>
+        <dd>
+            <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@Model.ClientId">Client</a>
+        </dd>
+        <dt>
+            Blogger:
+        </dt>
+        <dd>
+            <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@Model.BloggerId">Blogger</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsConfirmed)
+        </dt>
+        <dd>
+            @if(Model.IsConfirmed)
+            {
+                @:Yes
+            }
+            else
+            {
+                @:No
+            }
+        </dd>
+        <dt>
+            Assigment:
+        </dt>
+        <dd>
+            <a asp-controller="Assigment" asp-action="Assigment" asp-route-id="@Model.AssigmentId">Assigment</a>
+        </dd>
+    </dl>
+</div>

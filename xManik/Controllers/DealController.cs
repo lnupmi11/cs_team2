@@ -36,22 +36,50 @@ namespace xManik.Controllers
         {
             if(id == null)
             {
-                throw new ArgumentNullException("Null id");
+                NotFound();
             }
             var userId = _userProfileManager.GetUserProfileId(User);
             var assigment = _context.Assigments.Find(id);
             if(assigment == null)
             {
-                throw new EntryPointNotFoundException("No assgiments found with such id " + assigment.AssigmentId);
+                NotFound();
             }
             Deal deal = new Deal
             {
                 AssigmentId = id,
                 BloggerId = userId,
-                ClientId = assigment.UserProfileId
+                ClientId = assigment.UserProfileId,
+                IsReadByBlogger = true
             };
 
             await _dealsManager.AddDealAsync(deal);
+
+            Redirect("Index");
+        }
+
+        public IActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                NotFound();
+            }
+
+            var deal = _context.Deals.Find(id);
+
+            if (deal == null)
+            {
+                NotFound();
+            }
+
+            //var assigment = _context.Assigments.Find(deal.AssigmentId);
+            //var ClientProfile = _context.UserProfiles.Find(deal.ClientId);
+            //var BloggerProfile = _context.UserProfiles.Find(deal.BloggerId);
+
+            deal.IsReadByClient = true;
+
+            _context.Deals.Update(deal);
+
+            return View(deal);
         }
     }
 }

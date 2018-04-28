@@ -12,9 +12,10 @@ using xManik.Models;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180428050344_Deals2")]
+    partial class Deals2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,11 +248,7 @@ namespace xManik.Migrations
 
                     b.Property<string>("ClientId");
 
-                    b.Property<bool>("IsConfirmed");
-
-                    b.Property<bool>("IsReadByBlogger");
-
-                    b.Property<bool>("IsReadByClient");
+                    b.Property<bool>("IsRead");
 
                     b.HasKey("DealId");
 

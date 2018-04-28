@@ -25,7 +25,7 @@
 
                     @if (User.IsInRole("Client"))
                     {
-                        <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="??" asp-action="??">Search Bloggers</a></li>
+                        <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="Blogger" asp-action="Index">Search Bloggers</a></li>
                         <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Create">Add assigment</a></li>
                         <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments">My assigments</a></li>
                     }
@@ -37,7 +37,7 @@
                         <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="UserChanels">My chanels</a></li>
                     }
 
-                    <li class="@UserProfileMenuNavPages.UserDealsNavClass(ViewContext)"><a asp-controller="Deal" asp-action="Index">My deals</a></li>
+                    <li class="@UserProfileMenuNavPages.UserDealsNavClass(ViewContext)"><a asp-controller="Deal" asp-action="Index">My deals<span style="float:right;" class="badge">@ViewData["newDeals"]</span></a></li>
                     <li><button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button></li>
                 </ul>
             </form>

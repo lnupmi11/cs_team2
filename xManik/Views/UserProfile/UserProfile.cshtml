@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "UserProfile";
+}
+
+<h2>UserProfile</h2>
+
+@model xManik.Models.UserProfileViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "UserProfile";
+    ViewData["RootPath"] = "\\Storage\\UserProfileImages\\";
+}
+UserProfile @Model.UserProfileImagePath
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

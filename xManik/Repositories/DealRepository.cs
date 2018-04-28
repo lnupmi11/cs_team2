@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using xManik.EF;
 using xManik.Interfaces;
 using xManik.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace xManik.Repositories
 {
@@ -19,7 +20,7 @@ namespace xManik.Repositories
 
             public IEnumerable<Deal> GetAll()
             {
-                return _context.Deals;
+                return _context.Deals.Include(o => o.Assigment).Include(o => o.Assigment);
             }
 
             public Deal Find(string id)
@@ -39,12 +40,12 @@ namespace xManik.Repositories
 
             public IEnumerable<Deal> GetAllWhere(Func<Deal, Boolean> predicate)
             {
-                return _context.Deals.Where(predicate);
+                return _context.Deals.Include(o => o.Assigment).Where(predicate);
             }
 
             public Deal Find(Func<Deal, bool> predicate)
             {
-                return _context.Deals.FirstOrDefault();
+                return _context.Deals.Include(o => o.Assigment).FirstOrDefault();
             }
 
             public void Delete(string id)
@@ -73,12 +74,12 @@ namespace xManik.Repositories
 
             public Deal SingleOrDefault(Func<Deal, bool> predicate)
             {
-                return _context.Deals.SingleOrDefault(predicate);
+                return _context.Deals.Include(o => o.Assigment).SingleOrDefault(predicate);
             }
 
             public bool Any(Func<Deal, bool> predicate)
             {
-                return _context.Deals.Any(predicate);
+                return _context.Deals.Include(o => o.Assigment).Any(predicate);
             }
 
             public IEnumerable<Deal> GetAllByIds(IEnumerable<string> ids)

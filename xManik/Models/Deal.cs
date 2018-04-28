@@ -11,6 +11,10 @@ namespace xManik.Models
         public string AssigmentId { get; set; }
         public string ClientId { get; set; }
         public string BloggerId { get; set; }
-        public bool IsRead { get; set; }
+        public bool IsReadByBlogger { get; set; }
+        public bool IsReadByClient { get; set; }
+        public bool IsConfirmed { get; set; }
+
+        public Assigment Assigment { get; set; }
     }
 }
