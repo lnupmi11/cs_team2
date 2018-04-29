@@ -1,29 +1,47 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My deals";
 }
 @model IEnumerable<Deal>
-<h2>Index</h2>
 
+<h1>Deals</h1>
+<hr/>
 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
     @foreach (var item in Model)
     {
-        <div class="well well-sm card">
+        <div class="well well-sm card" style="background-color:
+            @if(item.IsRead)
+            {
+                    @:aquamarine
+            }
+            else
+            {
+                @:cyan
+            }">
             <div class="card-body">
                 <h3 class="card-title">
                    @if(User.IsInRole("Client"))
                    {
                        @:Deal from:
-                        <a asp-controller = "UserProfile" asp-action = "UserProfile" asp-route-id = "@item.BloggerId" > User </a>
+                        <a asp-controller = "UserProfile" asp-action = "UserProfile" asp-route-id = "@item.SenderId" > User </a>
                    }
                    else if(User.IsInRole("Blogger"))
                    {
                         @:Deal for:
-                        <a asp-controller = "UserProfile" asp-action = "UserProfile" asp-route-id = "@item.ClientId" > User </a>
+                        <a asp-controller = "UserProfile" asp-action = "UserProfile" asp-route-id = "@item.RecipientId" > User </a>
                    }
                </h3>
-                <h4>@item.Assigment.DetailedDescription</h4>
-                <h4>@item.Assigment.Network</h4>
-                <h4>@item.Assigment.Type</h4>
+                @if(item.Assigment != null)
+                {
+                    <h4>@item.Assigment.DetailedDescription</h4>
+                    <h4>@item.Assigment.Network</h4>
+                    <h4>@item.Assigment.Type</h4>
+                }
+                else if(item.Chanel != null)
+                {
+                    <h4>@item.Chanel.Network</h4>
+                    <h4>@item.Chanel.Category</h4>
+                    <h4>@item.Chanel.SubscribersNum</h4>
+                }
                 <h5><a asp-controller="Deal" asp-action="Details" asp-route-id="@item.DealId">More details</a></h5>
             </div>
         </div>

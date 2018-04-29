@@ -243,19 +243,21 @@ namespace xManik.Migrations
 
                     b.Property<string>("AssigmentId");
 
-                    b.Property<string>("BloggerId");
-
-                    b.Property<string>("ClientId");
+                    b.Property<string>("ChanelId");
 
                     b.Property<bool>("IsConfirmed");
 
-                    b.Property<bool>("IsReadByBlogger");
+                    b.Property<bool>("IsRead");
 
-                    b.Property<bool>("IsReadByClient");
+                    b.Property<string>("RecipientId");
+
+                    b.Property<string>("SenderId");
 
                     b.HasKey("DealId");
 
                     b.HasIndex("AssigmentId");
+
+                    b.HasIndex("ChanelId");
 
                     b.ToTable("Deals");
                 });
@@ -357,6 +359,10 @@ namespace xManik.Migrations
                     b.HasOne("xManik.Models.Assigment", "Assigment")
                         .WithMany()
                         .HasForeignKey("AssigmentId");
+
+                    b.HasOne("xManik.Models.Chanel", "Chanel")
+                        .WithMany()
+                        .HasForeignKey("ChanelId");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

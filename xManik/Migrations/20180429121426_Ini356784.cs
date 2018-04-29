@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace xManik.Migrations
 {
-    public partial class Initial23 : Migration
+    public partial class Ini356784 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -245,11 +245,11 @@ namespace xManik.Migrations
                 {
                     DealId = table.Column<string>(nullable: false),
                     AssigmentId = table.Column<string>(nullable: true),
-                    BloggerId = table.Column<string>(nullable: true),
-                    ClientId = table.Column<string>(nullable: true),
+                    ChanelId = table.Column<string>(nullable: true),
                     IsConfirmed = table.Column<bool>(nullable: false),
-                    IsReadByBlogger = table.Column<bool>(nullable: false),
-                    IsReadByClient = table.Column<bool>(nullable: false)
+                    IsRead = table.Column<bool>(nullable: false),
+                    RecipientId = table.Column<string>(nullable: true),
+                    SenderId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -259,6 +259,12 @@ namespace xManik.Migrations
                         column: x => x.AssigmentId,
                         principalTable: "Assigments",
                         principalColumn: "AssigmentId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Deals_Chanels_ChanelId",
+                        column: x => x.ChanelId,
+                        principalTable: "Chanels",
+                        principalColumn: "ChanelId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -315,6 +321,11 @@ namespace xManik.Migrations
                 name: "IX_Deals_AssigmentId",
                 table: "Deals",
                 column: "AssigmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Deals_ChanelId",
+                table: "Deals",
+                column: "ChanelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -335,9 +346,6 @@ namespace xManik.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Chanels");
-
-            migrationBuilder.DropTable(
                 name: "Deals");
 
             migrationBuilder.DropTable(
@@ -350,6 +358,9 @@ namespace xManik.Migrations
                 name: "Assigments");
 
             migrationBuilder.DropTable(
+                name: "Chanels");
+
+            migrationBuilder.DropTable(
                 name: "UserProfiles");
 
             migrationBuilder.DropTable(
@@ -357,3 +368,4 @@ namespace xManik.Migrations
         }
     }
 }
+

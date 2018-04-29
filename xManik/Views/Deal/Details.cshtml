@@ -4,42 +4,30 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h4>Deal</h4>
+<hr />
+<div class="class=" well well-sm card">
+    <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@Model.SenderId">Sender</a>
+    @if (Model.Assigment != null)
+    {
+        <h4>@Model.Assigment.DetailedDescription</h4>
+        <h4>@Model.Assigment.Network</h4>
+        <h4>@Model.Assigment.Type</h4>
+        <h4>@Model.Assigment.Deadline</h4>
+        <h4>@Model.Assigment.MaxBudget</h4>
+        <a asp-controller="Assigment" asp-action="Assigment" asp-route-id="@Model.AssigmentId">Assigment</a>
 
-<div>
-    <h4>Deal</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Client:
-        </dt>
-        <dd>
-            <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@Model.ClientId">Client</a>
-        </dd>
-        <dt>
-            Blogger:
-        </dt>
-        <dd>
-            <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@Model.BloggerId">Blogger</a>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsConfirmed)
-        </dt>
-        <dd>
-            @if(Model.IsConfirmed)
-            {
-                @:Yes
-            }
-            else
-            {
-                @:No
-            }
-        </dd>
-        <dt>
-            Assigment:
-        </dt>
-        <dd>
-            <a asp-controller="Assigment" asp-action="Assigment" asp-route-id="@Model.AssigmentId">Assigment</a>
-        </dd>
-    </dl>
+    }
+    else if (Model.Chanel != null)
+    {
+        <h4>@Model.Chanel.Network</h4>
+        <h4>@Model.Chanel.Category</h4>
+        <h4>@Model.Chanel.SubscribersNum</h4>
+        <a asp-controller="Chanel" asp-action="Details" asp-route-id="@Model.AssigmentId">Chanel</a>
+    }
+    <br />
+    @if(!Model.IsConfirmed)
+    {
+        <a asp-controller="Deal" asp-action="ConfirmDeal" asp-route-id="@Model.DealId">Confirm</a>
+    }
 </div>

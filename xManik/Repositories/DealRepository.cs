@@ -20,7 +20,7 @@ namespace xManik.Repositories
 
             public IEnumerable<Deal> GetAll()
             {
-                return _context.Deals.Include(o => o.Assigment).Include(o => o.Assigment);
+                return _context.Deals.Include(o => o.Assigment).Include(o => o.Chanel);
             }
 
             public Deal Find(string id)
@@ -40,12 +40,12 @@ namespace xManik.Repositories
 
             public IEnumerable<Deal> GetAllWhere(Func<Deal, Boolean> predicate)
             {
-                return _context.Deals.Include(o => o.Assigment).Where(predicate);
+                return _context.Deals.Include(o => o.Assigment).Include(o => o.Chanel).Where(predicate);
             }
 
             public Deal Find(Func<Deal, bool> predicate)
             {
-                return _context.Deals.Include(o => o.Assigment).FirstOrDefault();
+                return _context.Deals.Include(o => o.Assigment).Include(o => o.Chanel).FirstOrDefault();
             }
 
             public void Delete(string id)
@@ -74,12 +74,12 @@ namespace xManik.Repositories
 
             public Deal SingleOrDefault(Func<Deal, bool> predicate)
             {
-                return _context.Deals.Include(o => o.Assigment).SingleOrDefault(predicate);
+                return _context.Deals.Include(o => o.Assigment).Include(o => o.Chanel).SingleOrDefault(predicate);
             }
 
             public bool Any(Func<Deal, bool> predicate)
             {
-                return _context.Deals.Include(o => o.Assigment).Any(predicate);
+                return _context.Deals.Include(o => o.Assigment).Include(o => o.Chanel).Any(predicate);
             }
 
             public IEnumerable<Deal> GetAllByIds(IEnumerable<string> ids)

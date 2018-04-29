@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Index";
+    string role = null;
+    if (User.IsInRole(Roles.Blogger.ToString()))
+    {
+        role = Roles.Blogger.ToString();
+    }
+    else if (User.IsInRole(Roles.Client.ToString()))
+    {
+        role = Roles.Client.ToString();
+    }
 }
 
 <h2>Assigments</h2>
@@ -51,6 +60,12 @@
 
 
                     <p class="card-text">@item.DetailedDescription
+                    @if (User.IsInRole(Roles.Blogger.ToString()))
+                    {
+                        var id = "id";
+                        var roleName = "role";
+                        <a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="new Dictionary<string, string> { { id ,item.AssigmentId}, { roleName, role} }">Offer personal site</a>
+                    }
                 </div>
                
             </div>

@@ -27,7 +27,7 @@
 
                     @if (User.IsInRole("Client"))
                     {
-                        <li class="@UserProfileMenuNavPages.SearchBloggersNavClass(ViewContext)"><a asp-controller="Blogger" asp-action="Index">Search Bloggers</a></li>
+                        <li class="@UserProfileMenuNavPages.SearchChannelsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Index">Search Channels</a></li>
                         <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Create">Add assigment</a></li>
                         <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments">My assigments</a></li>
                     }
