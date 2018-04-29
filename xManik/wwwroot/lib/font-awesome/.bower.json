@@ -1,0 +1,28 @@
+{
+  "name": "Font-Awesome",
+  "homepage": "https://github.com/FortAwesome/Font-Awesome",
+  "version": "5.0.10",
+  "_release": "5.0.10",
+  "_resolution": {
+    "type": "version",
+    "tag": "5.0.10",
+    "commit": "85f10f277c33a1d70891f1c8d793d5d9a69d5b3d"
+  },
+  "_source": "https://github.com/FortAwesome/Font-Awesome.git",
+  "_target": "5.0.10"
+}src",
+    "*.yml",
+    "Gemfile",
+    "Gemfile.lock",
+    "*.md"
+  ],
+  "version": "4.7.0",
+  "_release": "4.7.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v4.7.0",
+    "commit": "a3fe90fa5f6fac55d197f9cbd18e3f57dafb716c"
+  },
+  "_source": "https://github.com/FortAwesome/Font-Awesome.git",
+  "_target": "v4.7.0"
+}

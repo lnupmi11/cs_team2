@@ -16,6 +16,7 @@ namespace xManik.Managers
     public class UserProfileManager<TUserProfile> : IDisposable where TUserProfile : class
     {
         private readonly WorkContext _context;
+        public const string PATHTOIMAGESFOLDER = @"\Storage\UserProfileImages\";
         private const string IMAGESDIRECTORYPATH = @"\Storage\UserProfileImages";
         private const string FOLDERSSTRUCTURE = @"Storage\UserProfileImages\";
 

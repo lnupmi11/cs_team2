@@ -105,17 +105,10 @@ namespace xManik.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult UserProfile(string id)
+        public IActionResult UserProfile(string id = null)
         {
-            UserProfile userProfile = null;
-            if(id == null)
-            {
-                userProfile = _userProfileManager.GetUserProfile(User);
-            }
-            else
-            {
-                userProfile = _userProfileManager.GetUserProfileById(id);
-            }
+            UserProfile userProfile = id == null ? _userProfileManager.GetUserProfile(User) :
+                _userProfileManager.GetUserProfileById(id);
 
             var model = new IndexViewModel
             {

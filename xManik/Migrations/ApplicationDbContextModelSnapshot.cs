@@ -236,6 +236,30 @@ namespace xManik.Migrations
                     b.ToTable("Chanels");
                 });
 
+            modelBuilder.Entity("xManik.Models.Deal", b =>
+                {
+                    b.Property<string>("DealId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssigmentId");
+
+                    b.Property<string>("BloggerId");
+
+                    b.Property<string>("ClientId");
+
+                    b.Property<bool>("IsConfirmed");
+
+                    b.Property<bool>("IsReadByBlogger");
+
+                    b.Property<bool>("IsReadByClient");
+
+                    b.HasKey("DealId");
+
+                    b.HasIndex("AssigmentId");
+
+                    b.ToTable("Deals");
+                });
+
             modelBuilder.Entity("xManik.Models.News", b =>
                 {
                     b.Property<string>("Id")
@@ -250,8 +274,6 @@ namespace xManik.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("News");
-           
-                    b.ToTable("Deals");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

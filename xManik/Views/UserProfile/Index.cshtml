@@ -1,9 +1,5 @@
 ﻿@model xManik.Models.UserProfileViewModels.IndexViewModel
-
-@{
-    ViewData["RootPath"] = "\\Storage\\UserProfileImages\\";
-}
-
+@using xManik.Managers
 <h2>Manage your user profile</h2>
 
 <div>
@@ -36,7 +32,7 @@
             <p>Current Photo</p>
             @if (Model.UserProfileImagePath != string.Empty)
             {
-                string imagePath = ViewData["RootPath"] + Model.UserProfileImagePath;
+                string imagePath = UserProfileManager<UserProfile>.PATHTOIMAGESFOLDER + Model.UserProfileImagePath;
                 <img src="@imagePath" class="img-rounded img-responsive" />
             }
             else

@@ -9,12 +9,16 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/navbar-fixed-side.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+              asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
     </environment>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -38,7 +42,24 @@
     </environment>
 </head>
 <body>
-    @if (!User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-3 col-lg-2">
+                    <nav class="navbar navbar-default navbar-fixed-side">
+                        @await Html.PartialAsync("_UserProfileMenuPartial.cshtml")
+                    </nav>
+                </div>
+                <div class="col-sm-9 col-md-9 col-lg-10">
+                    <div class="body-content">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
     {
         <nav id="header" class="navbar navbar-default navbar-fixed-top">
             <div id="header-container" class="container">
@@ -69,25 +90,6 @@
             </footer>
         </div>
     }
-    else
-    {
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 col-md-3 col-lg-2">
-                    <nav class="navbar navbar-default navbar-fixed-side">
-                        @await Html.PartialAsync("_UserProfileMenuPartial.cshtml")
-                    </nav>
-                </div>
-                <div class="col-sm-9 col-md-9 col-lg-10">
-                    <div class="body-content">
-                        @RenderBody()
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
-
 
     @RenderSection("Scripts", required: false)
 </body>
