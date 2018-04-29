@@ -12,9 +12,10 @@ using xManik.Models;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180423145007_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,8 +251,6 @@ namespace xManik.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("News");
-           
-                    b.ToTable("Deals");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>
@@ -328,13 +327,6 @@ namespace xManik.Migrations
                     b.HasOne("xManik.Models.UserProfile", "UserProfile")
                         .WithMany("Chanels")
                         .HasForeignKey("UserProfileId");
-                });
-
-            modelBuilder.Entity("xManik.Models.Deal", b =>
-                {
-                    b.HasOne("xManik.Models.Assigment", "Assigment")
-                        .WithMany()
-                        .HasForeignKey("AssigmentId");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

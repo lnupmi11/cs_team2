@@ -1,9 +1,0 @@
-﻿@inject SignInManager<ApplicationUser> SignInManager
-@{
-    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
-}
-@using System.Security.Claims;
-
-<ul class="nav nav-pills nav-stacked">
-    <li class="@UserProfileNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
-</ul>

@@ -19,6 +19,8 @@ namespace xManik.Views.Shared
 
         public static string UserAssigments => "UsersAsigments";
 
+        public static string AllAssigments => "AllAssigments";
+
         public static string Assigments => "Assigments";
 
         public static string AddChanel => "AddChanel";
@@ -38,6 +40,8 @@ namespace xManik.Views.Shared
         public static string UserAssigmentsNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserAssigments);
 
         public static string AssigmentsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Assigments);
+
+        public static string AllAssigmentsNavClass(ViewContext viewContext) => PageNavClass(viewContext, AllAssigments);
 
         public static string AddChanelNavClass(ViewContext viewContext) => PageNavClass(viewContext, AddChanel);
 

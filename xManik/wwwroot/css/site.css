@@ -544,6 +544,15 @@
     background: linear-gradient(45deg, rgba(255,255,255,1) 0%, rgba(5,193,255,1) 2%, rgba(255,255,255,1) 8%, rgba(255,255,255,1) 31%, rgba(255,255,255,1) 32%, rgba(255,255,255,1) 40%, rgba(255,255,255,1) 92%, rgba(0,0,255,1) 100%); /* w3c */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0000ff', endColorstr='#ffffff',GradientType=1 ); /* ie6-9 */
 }
+
+.bg-blue-purpure {
+    background: -moz-linear-gradient(45deg, rgba(189,36,255,1) 0%, rgba(0,128,128,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(189,36,255,1)), color-stop(100%, rgba(0,128,128,1))); /* safari4+,chrome */
+    background: -webkit-linear-gradient(45deg, rgba(189,36,255,1) 0%, rgba(0,128,128,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(45deg, rgba(189,36,255,1) 0%, rgba(0,128,128,1) 100%); /* opera 11.10+ */
+    background: linear-gradient(45deg, rgba(189,36,255,1) 0%, rgba(0,128,128,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008080', endColorstr='#BD24FF',GradientType=1 ); /* ie6-9 */
+}
 /* --  background image section  -- */
 
 .bg-img {
@@ -635,6 +644,10 @@
         z-index: -1;
         -webkit-transition: 0.2s width;
         transition: 0.2s width;
+    }
+
+    .about:hover{
+        color:#FFF;
     }
 
     .about:hover:after {
@@ -786,6 +799,11 @@
         z-index: -1;
         -webkit-transition: 0.2s width;
         transition: 0.2s width;
+    }
+
+
+    .service:hover {
+        color: #FFF;
     }
 
     .service:hover:after {
@@ -1488,7 +1506,8 @@
 
 /* Profile sidebar */
 .profile-sidebar {
-    padding: 20px 0 10px 0;
+    overflow-x: hidden;
+    padding: 10px 0 10px 0;
     background: #fff;
 }
 
