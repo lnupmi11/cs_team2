@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using xManik.EF;
@@ -11,6 +8,7 @@ using xManik.Repositories;
 
 namespace xManik.Controllers
 {
+    [Authorize]
     public class DealController : Controller
     {
         private readonly WorkContext _context;
@@ -31,16 +29,16 @@ namespace xManik.Controllers
             return View(userDeals);
         }
 
-        [Authorize(Roles="Blogger")]
+        [Authorize(Roles = "Blogger")]
         public async Task AddDeal(string id)
         {
-            if(id == null)
+            if (id == null)
             {
                 NotFound();
             }
             var userId = _userProfileManager.GetUserProfileId(User);
             var assigment = _context.Assigments.Find(id);
-            if(assigment == null)
+            if (assigment == null)
             {
                 NotFound();
             }
@@ -54,7 +52,7 @@ namespace xManik.Controllers
 
             await _dealsManager.AddDealAsync(deal);
 
-            Redirect("Index");
+            RedirectToAction("Assigment", nameof(Index));
         }
 
         public IActionResult Details(string id)
@@ -65,7 +63,6 @@ namespace xManik.Controllers
             }
 
             var deal = _context.Deals.Find(id);
-
             if (deal == null)
             {
                 NotFound();
@@ -76,9 +73,7 @@ namespace xManik.Controllers
             //var BloggerProfile = _context.UserProfiles.Find(deal.BloggerId);
 
             deal.IsReadByClient = true;
-
             _context.Deals.Update(deal);
-
             return View(deal);
         }
     }
