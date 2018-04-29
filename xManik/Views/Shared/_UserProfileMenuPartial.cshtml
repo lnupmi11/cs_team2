@@ -23,7 +23,7 @@
                     <li class="@UserProfileMenuNavPages.ManageAccountNavClass(ViewContext)"><a asp-controller="Manage" asp-action="Index">Manage account</a></li>
                     <li class="@UserProfileMenuNavPages.UserProfileNavClass(ViewContext)"><a asp-controller="UserProfile" asp-action="Index">User profile</a></li>
                     <li class="@UserProfileMenuNavPages.AllAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="AllAssigments">Assigments</a></li>
-                    <li class=""><a asp-controller="News" asp-action="Index">News</a></li>
+                    <li class="@UserProfileMenuNavPages.NewsNavClass(ViewContext)"><a asp-controller="News" asp-action="AllNews">News</a></li>
 
                     @if (User.IsInRole("Client"))
                     {

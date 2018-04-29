@@ -29,7 +29,7 @@ namespace xManik.Views.Shared
 
         public static string ManageAccount => "ManageAccount";
 
-        public static string News => "News";
+        public static string News => "AllNews";
 
         public static string UserProfile => "UserProfile";
 

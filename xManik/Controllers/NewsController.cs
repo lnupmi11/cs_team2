@@ -23,7 +23,7 @@ namespace xManik.Controllers
         }
 
         // GET: News
-        public IActionResult Index(int? page)
+        public IActionResult AllNews(int? page)
         {
             int pageSize = 3;
             return View(PaginatedList<News>.Create(_newsManager.GetAll().AsQueryable(), page ?? 1, pageSize));
@@ -64,7 +64,7 @@ namespace xManik.Controllers
             if (ModelState.IsValid)
             {
                 await _newsManager.CreateAsync(news);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AllNews));
             }
             return View(news);
         }
@@ -116,7 +116,7 @@ namespace xManik.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AllNews));
             }
             return View(news);
         }
@@ -146,7 +146,7 @@ namespace xManik.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             await _newsManager.RemoveAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllNews));
         }
 
         private bool NewsExists(string id)
