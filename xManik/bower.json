@@ -2,7 +2,7 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "Font-Awesome": "5.0.10",
+    "Font-Awesome": "fontawesome#5.0.10",
     "angular": "1.6.10"
   }
 }
