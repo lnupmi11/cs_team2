@@ -12,25 +12,17 @@
         <div class="well well-sm card" style="background-color:
             @if(item.IsRead)
             {
-                    @:aquamarine
+                    @:white
             }
-            else
-            {
-                @:cyan
-            }">
+            ">
+           <h3 class="card-title">
+                @if (User.IsInRole("Client"))
+                {
+                    @:Deal from:
+                    <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@item.SenderId"> User </a>
+                }
+            </h3>
             <div class="card-body">
-                <h3 class="card-title">
-                    @if (User.IsInRole("Client"))
-                    {
-                        @:Deal from:
-                        <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@item.SenderId"> User </a>
-                    }
-                    else if (User.IsInRole("Blogger"))
-                    {
-                        @:Deal for:
-                        <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@item.RecipientId"> User </a>
-                    }
-                </h3>
                 @if (item.Assigment != null)
                 {
                     <h4>@item.Assigment.DetailedDescription</h4>
@@ -45,6 +37,7 @@
                 }
                 <h5><a asp-controller="Deal" asp-action="Details" asp-route-id="@item.DealId">More details</a></h5>
             </div>
+
         </div>
     }
 </div>
