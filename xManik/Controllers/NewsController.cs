@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xManik.EF;
+using xManik.Extensions;
 using xManik.Managers;
 using xManik.Models;
 using xManik.Repositories;
@@ -21,9 +23,10 @@ namespace xManik.Controllers
         }
 
         // GET: News
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            return View(_newsManager.GetAll());
+            int pageSize = 3;
+            return View(PaginatedList<News>.Create(_newsManager.GetAll().AsQueryable(), page ?? 1, pageSize));
         }
 
         // GET: News/Details/5

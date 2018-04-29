@@ -4,33 +4,24 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h1 class="mt-4">@Model.Title</h1>
+
+<p class="lead">Posted by <a href="#">Admin</a></p>
+<hr>
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+}
+
+<p>Posted on @Model.DatePublished</p>
+<hr>
+
+<img class="img-fluid rounded img-responsive" src="http://placehold.it/900x300" alt="">
+<hr>
+
+<p class="lead">@Model.Text</p>
+<hr>
 
 <div>
-    <h4>News</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DatePublished)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DatePublished)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

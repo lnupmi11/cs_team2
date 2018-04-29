@@ -29,6 +29,8 @@ namespace xManik.Views.Shared
 
         public static string ManageAccount => "ManageAccount";
 
+        public static string News => "News";
+
         public static string UserProfile => "UserProfile";
 
         public static string Deals => "UserDeals";
@@ -48,6 +50,8 @@ namespace xManik.Views.Shared
         public static string UserChanelsNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserChanels);
 
         public static string ManageAccountNavClass(ViewContext viewContext) => PageNavClass(viewContext, ManageAccount);
+
+        public static string NewsNavClass(ViewContext viewContext) => PageNavClass(viewContext, News);
 
         public static string UserProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserProfile);
 

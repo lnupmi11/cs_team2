@@ -37,13 +37,27 @@ namespace xManik
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AppKeys"));
             services.AddMvc();
 
-           //CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
+            CreateRolesAndUsersAsync(services.BuildServiceProvider()).Wait();
         }
 
         private async Task CreateRolesAndUsersAsync(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            var user = new ApplicationUser
+            {
+                UserName = Configuration.GetSection("UserSettings")["UserEmail"],
+                Email = Configuration.GetSection("UserSettings")["UserEmail"]
+            };
+
+            string userPassword = Configuration.GetSection("UserSettings")["UserPassword"];
+
+            var result = await userManager.CreateAsync(user, userPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
 
             if (!(await roleManager.RoleExistsAsync("Admin")))
             {
@@ -52,20 +66,6 @@ namespace xManik
                     Name = "Admin"
                 };
                 await roleManager.CreateAsync(role);
-
-                var user = new ApplicationUser
-                {
-                    UserName = Configuration.GetSection("UserSettings")["UserEmail"],
-                    Email = Configuration.GetSection("UserSettings")["UserEmail"]
-                };
-
-                string userPassword = Configuration.GetSection("UserSettings")["UserPassword"];
-
-                var result = await userManager.CreateAsync(user, userPassword);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(user, "Admin");
-                }
             }
 
             if (!(await roleManager.RoleExistsAsync("Client")))
