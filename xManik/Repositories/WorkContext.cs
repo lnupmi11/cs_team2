@@ -13,6 +13,7 @@ namespace xManik.Repositories
         private ChanelRepository _orderRepository;
         private UserProfileRepository _userProfileRepositiry;
         private NewsRepository _newsRepository;
+        private DealRepository _dealsRepository;
 
         public WorkContext(ApplicationDbContext context)
         {
@@ -56,6 +57,15 @@ namespace xManik.Repositories
                 if (_newsRepository == null)
                     _newsRepository = new NewsRepository(_context);
                 return _newsRepository;
+             }
+         }
+        public IRepository<Deal> Deals
+        {
+            get
+            {
+                if (_dealsRepository == null)
+                    _dealsRepository = new DealRepository(_context);
+                return _dealsRepository;
             }
         }
 

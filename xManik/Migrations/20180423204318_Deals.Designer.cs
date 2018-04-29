@@ -12,9 +12,10 @@ using xManik.Models;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180423204318_Deals")]
+    partial class Deals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,21 +237,21 @@ namespace xManik.Migrations
                     b.ToTable("Chanels");
                 });
 
-            modelBuilder.Entity("xManik.Models.News", b =>
+            modelBuilder.Entity("xManik.Models.Deal", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("DealId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DatePublished");
+                    b.Property<string>("AssigmentId");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("BloggerId");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("ClientId");
 
-                    b.HasKey("Id");
+                    b.Property<bool>("IsRead");
 
-                    b.ToTable("News");
-           
+                    b.HasKey("DealId");
+
                     b.ToTable("Deals");
                 });
 
@@ -328,13 +329,6 @@ namespace xManik.Migrations
                     b.HasOne("xManik.Models.UserProfile", "UserProfile")
                         .WithMany("Chanels")
                         .HasForeignKey("UserProfileId");
-                });
-
-            modelBuilder.Entity("xManik.Models.Deal", b =>
-                {
-                    b.HasOne("xManik.Models.Assigment", "Assigment")
-                        .WithMany()
-                        .HasForeignKey("AssigmentId");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

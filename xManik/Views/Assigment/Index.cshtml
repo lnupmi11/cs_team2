@@ -25,6 +25,10 @@
 
                 <p class="card-text">@item.DetailedDescription</p>
             </div>
+            @if (User.IsInRole("Blogger"))
+            {
+                <a asp-controller="Deal" asp-action="AddDeal" asp-route-id="@item.AssigmentId">Offer personal site</a>
+            }
         </div>
     }
 </div>

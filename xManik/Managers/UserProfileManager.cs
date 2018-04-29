@@ -142,6 +142,12 @@ namespace xManik.Managers
             return userProfile;
         }
 
+        public UserProfile GetUserProfileById(string id)
+        {
+            UserProfile userProfile = _context.UserProfiles.Find(id);
+            return userProfile;
+        }
+
         public string GetUserProfileId(ClaimsPrincipal principal)
         {
             return principal.GetUserId();

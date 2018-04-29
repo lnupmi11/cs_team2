@@ -214,5 +214,22 @@ namespace xManik.Controllers
 
             return RedirectToAction(nameof(UserAssigments));
         }
+
+        // GET: Assigments/Assigment/5
+        public IActionResult Assigment(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var assigment = _assigmentsManager.Find(id);
+            if (assigment == null)
+            {
+                return NotFound();
+            }
+
+            return View(assigment);
+        }
     }
 }
