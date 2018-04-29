@@ -1,7 +1,8 @@
 ﻿@model xManik.Extensions.PaginatedList<Assigment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AllAssigments";
+    ViewData.AddActivePage(UserProfileMenuNavPages.AllAssigments);
     string role = null;
     if (User.IsInRole(Roles.Blogger.ToString()))
     {

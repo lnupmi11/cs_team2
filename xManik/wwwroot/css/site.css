@@ -217,9 +217,6 @@
 }
 
 
-
-
-
 .blockquote-box {
     border-right: 5px solid #E6E6E6;
     margin-bottom: 25px
@@ -487,6 +484,10 @@
     padding-bottom: 40px;
 }
 
+.xs-padding {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
 
 /* --  background section  -- */
 
@@ -576,10 +577,6 @@
         opacity: .8;
         background: #1C1D21;
     }
-
-
-
-
 
 /* Index page jumbotron*/
 
@@ -1540,42 +1537,3 @@
     font-weight: 600;
     margin-bottom: 15px;
 }
-
-.profile-usermenu {
-    margin-top: 30px;
-}
-
-    .profile-usermenu ul li {
-        border-bottom: 1px solid #f0f4f7;
-    }
-
-        .profile-usermenu ul li:last-child {
-            border-bottom: none;
-        }
-
-        .profile-usermenu ul li a {
-            color: #93a3b5;
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-            .profile-usermenu ul li a i {
-                margin-right: 8px;
-                font-size: 14px;
-            }
-
-            .profile-usermenu ul li a:hover {
-                background-color: #fafcfd;
-                color: #5b9bd1;
-            }
-
-        .profile-usermenu ul li.active {
-            border-bottom: none;
-        }
-
-            .profile-usermenu ul li.active a {
-                color: #5b9bd1;
-                background-color: #f6f9fb;
-                border-left: 2px solid #5b9bd1;
-                margin-left: -2px;
-            }

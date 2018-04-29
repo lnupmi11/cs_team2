@@ -34,9 +34,13 @@ namespace xManik.Extensions.IdentityExtensions
             {
                 role = "Bolgger";
             }
-            if (user.IsInRole(Enum.GetName(typeof(Roles), Roles.Client)))
+            else if (user.IsInRole(Enum.GetName(typeof(Roles), Roles.Client)))
             {
                 role = "Client";
+            }
+            else
+            {
+                role = "Admin";
             }
             return role;
         }

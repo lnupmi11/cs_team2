@@ -23,7 +23,7 @@ namespace xManik.Controllers
             _dealsManager = new DealsManager<Deal>(_context);
         }
 
-        public IActionResult Index()
+        public IActionResult AllDeals()
         {
             var userId = _userProfileManager.GetUserProfileId(User);
             var userDeals = _dealsManager.GetUserDeals(userId);
@@ -112,7 +112,7 @@ namespace xManik.Controllers
             deal.IsConfirmed = true;
             _context.Deals.Update(deal);
             await _context.SaveAsync();
-            RedirectToAction("Index");
+            RedirectToAction(nameof(AllDeals));
         }
     }
 }

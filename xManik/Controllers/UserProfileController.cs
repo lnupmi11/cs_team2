@@ -46,7 +46,7 @@ namespace xManik.Controllers
         #region Profile managment
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ManageUserProfile()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -69,7 +69,7 @@ namespace xManik.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model, IFormFile file)
+        public async Task<IActionResult> ManageUserProfile(IndexViewModel model, IFormFile file)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace xManik.Controllers
             }
 
             StatusMessage = "Your UserProfile has been updated";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ManageUserProfile));
         }
 
         #endregion
