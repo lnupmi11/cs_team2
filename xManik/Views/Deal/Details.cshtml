@@ -6,28 +6,30 @@
 
 <h4>Deal</h4>
 <hr />
-<div class="class=" well well-sm card">
-    <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@Model.SenderId">Sender</a>
-    @if (Model.Assigment != null)
-    {
-        <h4>@Model.Assigment.DetailedDescription</h4>
-        <h4>@Model.Assigment.Network</h4>
-        <h4>@Model.Assigment.Type</h4>
-        <h4>@Model.Assigment.Deadline</h4>
-        <h4>@Model.Assigment.MaxBudget</h4>
-        <a asp-controller="Assigment" asp-action="Assigment" asp-route-id="@Model.AssigmentId">Assigment</a>
+<div class="well well-sm card">
+    <div class="card-body">
+        @if (Model.Assigment != null)
+        {
+            <strong>Detailed descritption: </strong><h4>@Model.Assigment.DetailedDescription</h4>
+            <strong>Network: </strong><h4>@Model.Assigment.Network</h4>
+            <strong>Ad type: </strong><h4>@Model.Assigment.Type</h4>
+            <strong>Deadline: </strong><h4>@Model.Assigment.Deadline</h4>
+            <strong>Max budget: </strong><h4>@Model.Assigment.MaxBudget</h4>
+            <a asp-controller="Assigment" asp-action="Assigment" asp-route-id="@Model.AssigmentId">Assigment</a>
+        }
+        else if (Model.Chanel != null)
+        {
+            <strong>Network: </strong><h4>@Model.Chanel.Network</h4>
+            <strong>Channel category: </strong><h4>@Model.Chanel.Category</h4>
+            <strong>Subscribers:</strong>
+            <h4>@Model.Chanel.SubscribersNum</h4>
+            <a asp-controller="Chanel" asp-action="Details" asp-route-id="@Model.AssigmentId">Chanel</a>
+        }
+        <hr>
+        <div class="card-footer">
+            <a asp-controller="Deal" asp-action="ConfirmDeal" asp-route-id="@Model.DealId" class="btn btn-primary">Confirm</a>
+            <a asp-controller="Deal" asp-action="DeclineDeal" asp-route-id="@Model.DealId" class="btn btn-danger">Decline</a>
+        </div>
+    </div>
 
-    }
-    else if (Model.Chanel != null)
-    {
-        <h4>@Model.Chanel.Network</h4>
-        <h4>@Model.Chanel.Category</h4>
-        <h4>@Model.Chanel.SubscribersNum</h4>
-        <a asp-controller="Chanel" asp-action="Details" asp-route-id="@Model.AssigmentId">Chanel</a>
-    }
-    <br />
-    @if(!Model.IsConfirmed)
-    {
-        <a asp-controller="Deal" asp-action="ConfirmDeal" asp-route-id="@Model.DealId">Confirm</a>
-    }
 </div>
