@@ -87,7 +87,7 @@ namespace xManik.Managers
                     await YouTubeConfirm(chanel);
                     break;
                 default:
-                    throw new InvalidDataException("Unsupported social network");
+                    break;
             }
 
             await _context.SaveAsync();

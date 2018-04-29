@@ -9,12 +9,12 @@ namespace xManik.Models
     {
         public string DealId { get; set; }
         public string AssigmentId { get; set; }
-        public string ClientId { get; set; }
-        public string BloggerId { get; set; }
-        public bool IsReadByBlogger { get; set; }
-        public bool IsReadByClient { get; set; }
-        public bool IsConfirmed { get; set; }
-
         public Assigment Assigment { get; set; }
+        public string ChanelId { get; set; }
+        public Chanel Chanel { get; set; }
+        public string RecipientId { get; set; }
+        public string SenderId { get; set; }
+        public bool IsConfirmed { get; set; }
+        public bool IsRead { get; set; }
     }
 }

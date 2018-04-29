@@ -13,7 +13,7 @@ namespace xManik.Views.Shared
 
         public static string Home => "Index";
 
-        public static string SearchBloggers => "SearchBloggers";
+        public static string SearchChannels => "SearchChannels";
 
         public static string AddAssigment => "AddAssigment";
 
@@ -33,7 +33,7 @@ namespace xManik.Views.Shared
 
         public static string Deals => "UserDeals";
 
-        public static string SearchBloggersNavClass(ViewContext viewContext) => PageNavClass(viewContext, SearchBloggers);
+        public static string SearchChannelsNavClass(ViewContext viewContext) => PageNavClass(viewContext, SearchChannels);
 
         public static string AddAssigmentNavClass(ViewContext viewContext) => PageNavClass(viewContext, AddAssigment);
 

@@ -12,8 +12,8 @@ using xManik.Models;
 namespace xManik.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180429065517_Initial28")]
-    partial class Initial28
+    [Migration("20180429121426_Ini356784")]
+    partial class Ini356784
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -244,19 +244,21 @@ namespace xManik.Migrations
 
                     b.Property<string>("AssigmentId");
 
-                    b.Property<string>("BloggerId");
-
-                    b.Property<string>("ClientId");
+                    b.Property<string>("ChanelId");
 
                     b.Property<bool>("IsConfirmed");
 
-                    b.Property<bool>("IsReadByBlogger");
+                    b.Property<bool>("IsRead");
 
-                    b.Property<bool>("IsReadByClient");
+                    b.Property<string>("RecipientId");
+
+                    b.Property<string>("SenderId");
 
                     b.HasKey("DealId");
 
                     b.HasIndex("AssigmentId");
+
+                    b.HasIndex("ChanelId");
 
                     b.ToTable("Deals");
                 });
@@ -358,6 +360,10 @@ namespace xManik.Migrations
                     b.HasOne("xManik.Models.Assigment", "Assigment")
                         .WithMany()
                         .HasForeignKey("AssigmentId");
+
+                    b.HasOne("xManik.Models.Chanel", "Chanel")
+                        .WithMany()
+                        .HasForeignKey("ChanelId");
                 });
 
             modelBuilder.Entity("xManik.Models.UserProfile", b =>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using xManik.Extensions.IdentityExtensions;
 using xManik.Models;
 using xManik.Repositories;
 
@@ -19,7 +20,7 @@ namespace xManik.Managers
 
         public IEnumerable<Deal> GetUserDeals(string userId)
         {
-            return _context.Deals.GetAllWhere(p => p.ClientId == userId || p.BloggerId == userId);
+            return _context.Deals.GetAllWhere(p => p.RecipientId == userId).OrderBy(o => !o.IsRead);
         }
 
         public async Task AddDealAsync(Deal deal)
@@ -28,9 +29,9 @@ namespace xManik.Managers
             await _context.SaveAsync();
         }
 
-        public int GetUnreadDealsNum(string userId)
+        public int GetUnreadDealsNum(ClaimsPrincipal principal)
         {
-            return _context.Deals.GetAllWhere(o => o.ClientId == userId).ToList().Count;
+            return _context.Deals.GetAllWhere(o => o.RecipientId == principal.GetUserId()).Count();
         }
 
 

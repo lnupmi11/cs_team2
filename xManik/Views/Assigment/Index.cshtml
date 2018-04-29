@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+
 }
 
 <h2>Assigments list</h2>
@@ -15,6 +16,7 @@
     }
     @foreach (var item in Model)
     {
+        var data = new Dictionary<string, string> { { item.AssigmentId, role } };
         <div class="well well-sm card">
             <a asp-action="Details" asp-route-id="@item.AssigmentId">More Details</a>
             <div class="card-body">
@@ -25,10 +27,6 @@
 
                 <p class="card-text">@item.DetailedDescription</p>
             </div>
-            @if (User.IsInRole("Blogger"))
-            {
-                <a asp-controller="Deal" asp-action="AddDeal" asp-route-id="@item.AssigmentId">Offer personal site</a>
-            }
         </div>
     }
 </div>
