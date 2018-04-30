@@ -2,9 +2,6 @@
 
 <div class="navbar navbar-default navbar-left">
     <div class="profile-sidebar">
-        <div class="profile-userpic">
-            <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
-        </div>
         <div class="profile-usertitle">
             <div class="profile-usertitle-name">
                 <p class="small">
@@ -20,12 +17,12 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="@UserProfileMenuNavPages.MainNavClass(ViewContext)"><a asp-controller="Home" asp-action="Main">Home</a></li>
                 <li class="@UserProfileMenuNavPages.ManageAccountNavClass(ViewContext)"><a asp-controller="Manage" asp-action="Index">Manage account</a></li>
-                <li class="@UserProfileMenuNavPages.UserProfileNavClass(ViewContext)"><a asp-controller="UserProfile" asp-action="ManageUserProfile">Manage User profile</a></li>
                 <li class="@UserProfileMenuNavPages.AllAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="AllAssigments">Assigments</a></li>
                 <li class="@UserProfileMenuNavPages.NewsNavClass(ViewContext)"><a asp-controller="News" asp-action="AllNews">News</a></li>
 
                 @if (User.IsInRole("Client") || User.IsInRole("Blogger"))
                 {
+                    <li class="@UserProfileMenuNavPages.UserProfileNavClass(ViewContext)"><a asp-controller="UserProfile" asp-action="ManageUserProfile">Manage User profile</a></li>
                     <li class="@UserProfileMenuNavPages.UserDealsNavClass(ViewContext)"><a asp-controller="Deal" asp-action="AllDeals">My deals<span style="float:right;" class="badge">@ViewData["newDeals"]</span></a></li>
                 }
                 @if (User.IsInRole("Client"))

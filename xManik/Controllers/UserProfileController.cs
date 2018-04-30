@@ -14,7 +14,7 @@ using xManik.Models.UserProfileViewModels;
 
 namespace xManik.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Blogger,Client")]
     public class UserProfileController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -49,12 +49,13 @@ namespace xManik.Controllers
         public async Task<IActionResult> ManageUserProfile()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var userProfile = _userProfileManager.GetUserProfile(User);
+
+            if (userProfile == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var userProfile = _userProfileManager.GetUserProfile(User);
             var model = new IndexViewModel
             {
                 FirstName = userProfile.FirstName,
