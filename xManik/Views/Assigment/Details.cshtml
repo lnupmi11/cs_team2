@@ -7,54 +7,50 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Assigment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Network)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model =>  model.Network)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Format)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Format)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DetailedDescription)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DetailedDescription)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxBudget)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MaxBudget)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Deadline)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.AssigmentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @{
+        var logoPath = "/images/";
+        switch (Model.Network)
+        {
+            case SocialNetworks.YouTube:
+                logoPath += "youtube.png";
+                break;
+            case SocialNetworks.Instagram:
+                logoPath += "instagram.png";
+                break;
+            case SocialNetworks.Facebook:
+                logoPath += "facebook.png";
+                break;
+            case SocialNetworks.Telegram:
+                logoPath += "telegram.png";
+                break;
+        }
+    }
+        
+    <div class="well well-sm card bg-light-aqua">
+        <div class="card-title">
+            <h3 style="margin-top:0;">Facebook</h3>
+            <img src=@logoPath
+                 alt="icon" class="img-responsive"
+                 style="max-height: 50px; max-width: 50px;">
+            <hr />
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Ad type: </strong>@Model.Type
+            </h4>
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Ad format: </strong>@Model.Format
+            </h4>
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Deadline: </strong>@Model.Deadline
+            </h4>
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Budget: </strong>@Model.MaxBudget
+            </h4>
+        </div>
+        <hr />
+        <div class="card-body">
+            <h3 class="card-title">@Model.ShortDescription</h3>
+            <h4 class="card-text">@Model.DetailedDescription</h4>
+        </div>
+
+    </div>
 </div>
