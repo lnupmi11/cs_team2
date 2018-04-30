@@ -5,77 +5,66 @@
 }
 
 
-<div class="sm-padding">
-    <div class="col-md-8">
+<div class="xs-padding">
+    <h2>Recent news</h2>
 
-        <h2 class="my-4">Recent news</h2>
+    @if (User.IsInRole("Admin"))
+    {
+        <p><a asp-action="Create">Create New</a></p>
+    }
 
-        @if (User.IsInRole("Admin"))
-        {
-            <p><a asp-action="Create">Create New</a></p>
-        }
-        <!-- Blog Post -->
+    <div class="row">
         @foreach (var item in Model)
         {
-            <div class="card mb-4">
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
-                <img class="card-img-top img-responsive" src="http://placehold.it/750x300" alt="Card image cap">
-                <div class="card-body">
-                    <h2 class="card-title">@item.Title</h2>
-                    <p class="card-text">@item.Text</p>
-                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id">Details &rarr;</a>
-                </div>
-                <div class="card-footer text-muted">
-                    Posted on January 1, 2017 by
-                    <a href="#">Start Bootstrap</a>
+            <div class="col-xs-10 col-sm-10 col-md-5">
+                <div>
+                    <div class="news-title">
+                        <h2 class="text-center">@item.Title</h2>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit" style="font-size:16px"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" style="font-size:16px"></i></a>
+                        }
+                    </div>
+                    <div class="hovereffect">
+                        <p>
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                            fdsfh wjkehrjkwehrk hwerk hwek
+                        </p>
+                        <div class="news-image">
+                            <img class="img-responsive" src="@(NewsManager.PATHTOIMAGESFOLDER + item.Image )" alt="">
+                        </div>
+                        <div class="overlay">
+                            <div class="price-btn">
+                                <button class="outline-btn" style="vertical-align: middle">Purchase now</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
-        <br /><br />
-        <div class="center-block text-center">
-            @{
-                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-            }
-
-            <a asp-action="AllAssigments"
-               asp-route-page="@(Model.PageIndex - 1)"
-               class="btn btn-default @prevDisabled">
-                Previous
-            </a>
-            <a asp-action="AllAssigments"
-               asp-route-page="@(Model.PageIndex + 1)"
-               class="btn btn-default @nextDisabled">
-                Next
-            </a>
-        </div>
     </div>
+    <br /><br />
+    <div class="center-block text-center">
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
 
-
-    <!-- Sidebar Widgets Column -->
-    <div class="col-md-4">
-        <!-- Search Widget -->
-        <div class="card my-4">
-            <h5 class="card-header">Search</h5>
-            <div class="card-body">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-secondary" type="button">Go!</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <!-- Side Widget -->
-        <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-                You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-            </div>
-        </div>
+        <a asp-action="AllAssigments"
+           asp-route-page="@(Model.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="AllAssigments"
+           asp-route-page="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
     </div>
 </div>
