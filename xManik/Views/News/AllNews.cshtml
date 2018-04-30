@@ -14,36 +14,28 @@
     }
 
     <div class="row">
+
         @foreach (var item in Model)
         {
-            <div class="col-xs-10 col-sm-10 col-md-5">
-                <div>
-                    <div class="news-title">
-                        <h2 class="text-center">@item.Title</h2>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit" style="font-size:16px"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" style="font-size:16px"></i></a>
-                        }
+            <div class="col-xs-10 col-sm-9 col-md-5 col-sm-offset-1 well">
+                <div class="news-title">
+                    <h2 class="text-center">@item.Title</h2>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit" style="font-size:16px"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" style="font-size:16px"></i></a>
+                    }
+                </div>
+                <div class="hovereffect">
+                    <p>
+                        @item.Text
+                    </p>
+                    <div class="news-image">
+                        <img class="img-responsive" src="@(NewsManager.PATHTOIMAGESFOLDER + item.Image )" alt="">
                     </div>
-                    <div class="hovereffect">
-                        <p>
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                            fdsfh wjkehrjkwehrk hwerk hwek
-                        </p>
-                        <div class="news-image">
-                            <img class="img-responsive" src="@(NewsManager.PATHTOIMAGESFOLDER + item.Image )" alt="">
-                        </div>
-                        <div class="overlay">
-                            <div class="price-btn">
-                                <button class="outline-btn" style="vertical-align: middle">Purchase now</button>
-                            </div>
-                        </div>
+                    <div class="overlay">
+                        <h3 class="text-center white-text">@item.DatePublished</h3>
+                        <a asp-action="Details" class="btn btn-primary btn-lg active" style="margin-top:80px" asp-route-id="@item.Id">Details &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -56,12 +48,12 @@
             var nextDisabled = !Model.HasNextPage ? "disabled" : "";
         }
 
-        <a asp-action="AllAssigments"
+        <a asp-action="AllNews"
            asp-route-page="@(Model.PageIndex - 1)"
            class="btn btn-default @prevDisabled">
             Previous
         </a>
-        <a asp-action="AllAssigments"
+        <a asp-action="AllNews"
            asp-route-page="@(Model.PageIndex + 1)"
            class="btn btn-default @nextDisabled">
             Next

@@ -21,13 +21,13 @@
         <!--left col-->
         <ul class="list-group">
             <li class="list-group-item text-muted" contenteditable="false">Filters</li>
-            <li class="list-group-item text-center">
+            <li class="list-group-item text-left">
                 <a asp-action="AllAssigments" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().MaxBudget)</a>
             </li>
-            <li class="list-group-item text-center">
+            <li class="list-group-item text-left">
                 <a asp-action="AllAssigments" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FirstOrDefault().Deadline)</a>
             </li>
-            <li class="list-group-item text-center">
+            <li class="list-group-item text-left">
                 <form asp-action="AllAssigments" method="get">
                     <div class="form-group">
                         <label for="inputdefault">Find by description</label>
@@ -50,25 +50,50 @@
         }
         @foreach (var item in Model)
         {
-            <div class="well well-sm card">
+            var logoPath = "/images/";
 
-                <a asp-action="Details" asp-route-id="@item.AssigmentId">More Details</a>
+            switch (item.Network)
+            {
+                case SocialNetworks.YouTube:
+                    logoPath += "youtube.png";
+                    break;
+                case SocialNetworks.Instagram:
+                    logoPath += "instagram.png";
+                    break;
+                case SocialNetworks.Facebook:
+                    logoPath += "facebook.png";
+                    break;
+                case SocialNetworks.Telegram:
+                    logoPath += "telegram.png";
+                    break;
+            }
+            <div class="well well-sm card bg-light-aqua">
+                <div class="card-title text-muted">
+                    <img src=@logoPath
+                         alt="icon" class="img-responsive"
+                         style="max-height: 25px; max-width: 25px;">
+                    <ul class="list-inline">
+                        <li>@item.Network</li>
+                        <li>@item.Type</li>
+                        <li>Deadline: @item.Deadline</li>
+                    </ul>
+                    <a asp-action="Details" asp-route-id="@item.AssigmentId">More Details</a>
+                    <hr />
+                </div>
+
                 <div class="card-body">
-                    <h3 class="card-title">Product Name</h3>
+                    <h3 class="card-title">@item.ShortDescription</h3>
+                    <p class="card-text">@item.DetailedDescription</p>
                     <h4>$@item.MaxBudget</h4>
-                    <h4>@item.Deadline</h4>
-                    <h4>@item.ShortDescription</h4>
 
-
-                    <p class="card-text">@item.DetailedDescription
                     @if (User.IsInRole(Roles.Blogger.ToString()))
                     {
-                        var id = "id";
-                        var roleName = "role";
-                        <a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="new Dictionary<string, string> { { id ,item.AssigmentId}, { roleName, role} }">Offer personal site</a>
+                        <hr />
+                        var data = new Dictionary<string, string> { { "id", item.AssigmentId }, { "role", role } };
+                        <a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="@data" class="btn btn-primary">Offer personal site</a>
                     }
                 </div>
-               
+
             </div>
         }
     </div>

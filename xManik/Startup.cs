@@ -44,7 +44,7 @@ namespace xManik
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                       
+
             if (!(await roleManager.RoleExistsAsync("Admin")))
             {
                 var role = new IdentityRole
@@ -56,7 +56,8 @@ namespace xManik
                 var user = new ApplicationUser
                 {
                     UserName = Configuration.GetSection("UserSettings")["UserEmail"],
-                    Email = Configuration.GetSection("UserSettings")["UserEmail"]
+                    Email = Configuration.GetSection("UserSettings")["UserEmail"],
+                    EmailConfirmed = true
                 };
 
                 string userPassword = Configuration.GetSection("UserSettings")["UserPassword"];
