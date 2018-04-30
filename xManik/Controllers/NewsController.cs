@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xManik.EF;
@@ -15,17 +17,20 @@ namespace xManik.Controllers
     {
         private readonly WorkContext _context;
         private readonly NewsManager _newsManager;
+        private readonly IHostingEnvironment _environment;
 
-        public NewsController(ApplicationDbContext context)
+        public NewsController(ApplicationDbContext context,
+             IHostingEnvironment environment)
         {
             _context = new WorkContext(context);
             _newsManager = new NewsManager(_context);
+            _environment = environment;
         }
 
         // GET: News
         public IActionResult AllNews(int? page)
         {
-            int pageSize = 3;
+            int pageSize = 4;
             return View(PaginatedList<News>.Create(_newsManager.GetAll().AsQueryable(), page ?? 1, pageSize));
         }
 
@@ -47,7 +52,7 @@ namespace xManik.Controllers
         }
 
         // GET: News/Create
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -59,11 +64,11 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Title,Text")] News news)
+        public async Task<IActionResult> Create([Bind("Title,Text")] News news, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                await _newsManager.CreateAsync(news);
+                await _newsManager.CreateAsync(news, file, _environment.WebRootPath);
                 return RedirectToAction(nameof(AllNews));
             }
             return View(news);
@@ -92,7 +97,7 @@ namespace xManik.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Text,DatePublished")] News news)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Title,Text,Image,DatePublished")] News news)
         {
             if (id != news.Id)
             {
@@ -145,7 +150,7 @@ namespace xManik.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            await _newsManager.RemoveAsync(id);
+            await _newsManager.RemoveAsync(id, _environment.WebRootPath);
             return RedirectToAction(nameof(AllNews));
         }
 

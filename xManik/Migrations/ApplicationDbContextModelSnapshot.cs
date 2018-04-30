@@ -269,6 +269,8 @@ namespace xManik.Migrations
 
                     b.Property<DateTime>("DatePublished");
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("Text");
 
                     b.Property<string>("Title");
