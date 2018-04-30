@@ -22,7 +22,7 @@ namespace xManik.Controllers
             _userProfileManager = new UserProfileManager<UserProfile>(_context);
             _dealsManager = new DealsManager<Deal>(_context);
         }
-
+        
         public IActionResult AllDeals()
         {
             var userId = _userProfileManager.GetUserProfileId(User);
