@@ -1,77 +1,65 @@
 ﻿@model IEnumerable<xManik.Models.Assigment>
 
 @{
-    ViewData["Title"] = "UserAssigments";
+    ViewData["Title"] = "My assigments";
 }
 
-<h2>UserAssigments</h2>
+<h2>My assigments</h2>
+    <a asp-action="Create" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add new 
+    </a>
+<hr />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Network)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Format)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ShortDescription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DetailedDescription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MaxBudget)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Deadline)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserProfile)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Network)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Format)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShortDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DetailedDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaxBudget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deadline)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfile.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AssigmentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AssigmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AssigmentId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+        @foreach (var item in Model)
+        {
+            var logoPath = "/images/";
+            switch (item.Network)
+            {
+                case SocialNetworks.YouTube:
+                    logoPath += "youtube.png";
+                    break;
+                case SocialNetworks.Instagram:
+                    logoPath += "instagram.png";
+                    break;
+                case SocialNetworks.Facebook:
+                    logoPath += "facebook.png";
+                    break;
+                case SocialNetworks.Telegram:
+                    logoPath += "telegram.png";
+                    break;
+            }
+
+
+            <div class="well well-sm card bg-light-aqua">
+                <div class="card-title">
+                    <h3 style="margin-top:0px;" class="d-inline-block">@item.Network</h3>
+                    <img src=@logoPath
+                         alt="icon" class="img-responsive d-inline-block"
+                         style="max-height: 50px; max-width: 50px;">
+                    <hr />
+                    <h4 class="text-lowercase">
+                        <strong class="text-capitalize">Ad type: </strong>@item.Type
+                    </h4>
+                    <h4 class="text-lowercase">
+                        <strong class="text-capitalize">Ad format: </strong>@item.Format
+                    </h4>
+                    <h4 class="text-lowercase">
+                        <strong class="text-capitalize">Deadline: </strong>@item.Deadline
+                    </h4>
+                    <h4 class="text-lowercase">
+                        <strong class="text-capitalize">Budget: </strong>@item.MaxBudget
+                    </h4>
+                </div>
+                <hr />
+                <div class="card-body">
+                    <h3 class="card-title">@item.ShortDescription</h3>
+                    <h4 class="card-text">@item.DetailedDescription</h4>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
