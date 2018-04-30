@@ -6,20 +6,18 @@
 
 <h1 class="mt-4">@Model.Title</h1>
 
-<p class="lead">Posted by <a href="#">Admin</a></p>
+<p class="lead">Posted by <a href="#">Admin</a>  on @Model.DatePublished</p>
 <hr>
 @if (User.IsInRole("Admin"))
 {
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
 }
-
-<p>Posted on @Model.DatePublished</p>
+<div class="news-image-details">
+<img  class="img-responsive" src="@(NewsManager.PATHTOIMAGESFOLDER+Model.Image)" alt="">
+</div>
 <hr>
 
-<img class="img-fluid rounded img-responsive" src="http://placehold.it/900x300" alt="">
-<hr>
-
-<p class="lead">@Model.Text</p>
+<p>@Model.Text</p>
 <hr>
 
 <div>
