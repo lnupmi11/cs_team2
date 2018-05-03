@@ -27,10 +27,11 @@ namespace xManik.Controllers
         {
             var userId = _userProfileManager.GetUserProfileId(User);
             var userDeals = _dealsManager.GetUserDeals(userId);
+
             return View(userDeals);
         }
 
-        public async Task AddDeal(string id, string role)
+        public async Task<IActionResult> AddDeal(string id, string role)
         {
             if (id == null)
             {
@@ -74,7 +75,7 @@ namespace xManik.Controllers
 
             await _dealsManager.AddDealAsync(deal);
 
-            RedirectToAction("Index");
+            return View();
         }
 
         public async Task<IActionResult> Details(string id)
@@ -96,7 +97,7 @@ namespace xManik.Controllers
             return View(deal);
         }
 
-        public async Task ConfirmDeal(string id)
+        public async Task<IActionResult> ConfirmDeal(string id)
         {
             if (id == null)
             {
@@ -112,7 +113,28 @@ namespace xManik.Controllers
             deal.IsConfirmed = true;
             _context.Deals.Update(deal);
             await _context.SaveAsync();
-            RedirectToAction(nameof(AllDeals));
+
+            return View();
+        }
+
+        public async Task<IActionResult> DeclineDeal(string id)
+        {
+            if (id == null)
+            {
+                NotFound();
+            }
+
+            var deal = _context.Deals.SingleOrDefault(o => o.DealId == id);
+            if (deal == null)
+            {
+                NotFound();
+            }
+
+            deal.IsConfirmed = false;
+            _context.Deals.Update(deal);
+            await _context.SaveAsync();
+
+            return View();
         }
     }
 }

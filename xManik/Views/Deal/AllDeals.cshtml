@@ -1,12 +1,16 @@
-﻿@{
+﻿@model IEnumerable<Deal>
+@{
     ViewData["Title"] = "My deals";
     ViewData.AddActivePage(UserProfileMenuNavPages.AllDeals);
 }
-@model IEnumerable<Deal>
 
 <h1>Deals</h1>
 <hr />
 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+    @if (Model.Count() == 0)
+    {
+        <h1>You don't have any deals yet</h1>
+    }
     @foreach (var item in Model)
     {
         <div class="well well-sm card bg-light-aqua">
@@ -18,20 +22,20 @@
                         <a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@item.SenderId"> User </a>
                     }
                 </h3>
-                    <ul class="list-inline">
+                <ul class="list-inline">
                     @if (item.Assigment != null)
                     {
                         <li>@item.Assigment.Network</li>
                         <li>@item.Assigment.Type</li>
                         <li>Deadline: @item.Assigment.Deadline</li>
                     }
-                    else if(item.Chanel != null)
+                    else if (item.Chanel != null)
                     {
                         <li>@item.Chanel.Network</li>
                         <li>@item.Chanel.Category</li>
                         <li>@item.Chanel.SubscribersNum</li>
                     }
-                    </ul>
+                </ul>
                 <hr />
             </div>
 

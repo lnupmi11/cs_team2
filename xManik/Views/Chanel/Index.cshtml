@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<xManik.Models.Chanel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData.AddActivePage(UserProfileMenuNavPages.UserChanels);
+    ViewData["Title"] = "All channels";
     string role = null;
     if (User.IsInRole(Roles.Blogger.ToString()))
     {
@@ -13,30 +14,62 @@
     }
 }
 
-<h2>Chanels list</h2>
+<h2>Chanels</h2>
 <hr>
 
 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+    @if (Model.Count() == 0)
+    {
+        <h1>You don't have any channels yet.</h1>
+        <h2><i>@ViewData["CurrentFilter"]</i></h2>
+    }
     @foreach (var item in Model)
-     {
-        var data = new Dictionary<string, string> { { "id", item.ChanelId }, { "role", role} };
-        <div class="well well-sm card">
-            <a asp-action="Details" asp-all-route-data="@data">More Details</a>
-            <div class="card-body">
-                <h3 class="card-title">@item.Network chanel</h3>
-                <h4>@item.SubscribersNum subscribers</h4>
-                <h4>@item.AvgLikeNum likes</h4>
-                <h4>@item.AvgViewNum views</h4>
-                <h4>@item.LocalRank stars</h4>
-                <h4>@item.Category category</h4>
+    {
+        var logoPath = "/images/";
 
-                <p class="card-text">@item.Description</p>
-                <h5><a asp-controller="UserProfile" asp-action="UserProfile" asp-route-id="@item.UserProfileId">Blogger</a></h5>
+        switch (item.Network)
+        {
+            case SocialNetworks.YouTube:
+                logoPath += "youtube.png";
+                break;
+            case SocialNetworks.Instagram:
+                logoPath += "instagram.png";
+                break;
+            case SocialNetworks.Facebook:
+                logoPath += "facebook.png";
+                break;
+            case SocialNetworks.Telegram:
+                logoPath += "telegram.png";
+                break;
+        }
+
+        var data = new Dictionary<string, string> { { "id", item.ChanelId }, { "role", role } };
+        <div class="well well-sm card bg-light-aqua">
+            <div class="card-title">
+                <img src=@logoPath
+                     alt="icon" class="img-responsive pull-left"
+                     style="max-height: 25px; max-width: 25px;">
+                <h3 style="margin:1% 3%;">@item.Network</h3>
+                <ul class="list-inline text-muted">
+                    <li><i class="glyphicon glyphicon-user"></i> @item.SubscribersNum subscribers</li>
+                    <li><i class="glyphicon glyphicon-eye-open"></i> @item.AvgViewNum views</li>
+                    <li><i class="glyphicon glyphicon-heart"></i> @item.AvgLikeNum likes</li>
+                    <li><i class="glyphicon glyphicon-star"></i> @item.LocalRank stars</li>
+                </ul>
+                <div class="text-muted">@item.Category</div>
+                <hr />
             </div>
-            @if (User.IsInRole(Roles.Client.ToString()))
-            {
-                <a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="@data">Offer assigment</a>
-            }
+
+            <div class="card-body">
+                <h4>@item.Description</h4>
+                @if (User.IsInRole(Roles.Client.ToString()))
+                {
+                    <hr />
+                    var data1 = new Dictionary<string, string> { { "id", item.ChanelId }, { "role", role } };
+                    <a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="@data1" class="btn btn-primary">Make deal</a>
+                }
+            </div>
+
         </div>
     }
 </div>
