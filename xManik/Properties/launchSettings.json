@@ -33,10 +33,7 @@
     "xManik": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "https://localhost:44364/",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "launchUrl": "https://localhost:44364/"
     }
   }
 }
