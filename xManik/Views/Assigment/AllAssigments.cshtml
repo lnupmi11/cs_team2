@@ -70,14 +70,13 @@
             <div class="well well-sm card bg-light-aqua">
                 <div class="card-title text-muted">
                     <img src=@logoPath
-                         alt="icon" class="img-responsive"
-                         style="max-height: 25px; max-width: 25px;">
-                    <ul class="list-inline">
+                         alt="icon" class="img-responsive pull-left"
+                         style="max-height: 25px; max-width: 25px; margin:0 1%;">
+                    <ul class="list-inline" style="margin-top:1%;">
                         <li>@item.Network</li>
                         <li>@item.Type</li>
                         <li>Deadline: @item.Deadline</li>
                     </ul>
-                    <a asp-action="Details" asp-route-id="@item.AssigmentId">More Details</a>
                     <hr />
                 </div>
 
@@ -90,7 +89,10 @@
                     {
                         <hr />
                         var data = new Dictionary<string, string> { { "id", item.AssigmentId }, { "role", role } };
-                        <a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="@data" class="btn btn-primary">Offer personal site</a>
+                        <ul class="list-inline">
+                            <li><a asp-controller="Deal" asp-action="AddDeal" asp-all-route-data="@data" class="btn btn-success">Offer personal site</a></li>
+                            <li><a asp-controller="Deal" asp-action="Details" asp-route-id="@item.AssigmentId" class="btn btn-primary">Details</a></li>
+                        </ul>
                     }
                 </div>
 

@@ -1,64 +1,65 @@
 ﻿@model IEnumerable<xManik.Models.Chanel>
-@{ 
+@{
     ViewData.AddActivePage(UserProfileMenuNavPages.UserChanels);
+    ViewData["Title"] = "My channels";
+    string role = "Blogger";
 }
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Network)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SubscribersNum)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AvgViewNum)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AvgLikeNum)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LocalRank)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Network)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubscribersNum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvgViewNum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvgLikeNum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalRank)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ChanelId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ChanelId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ChanelId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<h2>My chanels</h2>
+<hr>
+
+<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+    @if (Model.Count() == 0)
+    {
+        <h1>You don't have any channels yet.</h1>
+        <h2><i>@ViewData["CurrentFilter"]</i></h2>
+    }
+    @foreach (var item in Model)
+    {
+        var logoPath = "/images/";
+
+        switch (item.Network)
+        {
+            case SocialNetworks.YouTube:
+                logoPath += "youtube.png";
+                break;
+            case SocialNetworks.Instagram:
+                logoPath += "instagram.png";
+                break;
+            case SocialNetworks.Facebook:
+                logoPath += "facebook.png";
+                break;
+            case SocialNetworks.Telegram:
+                logoPath += "telegram.png";
+                break;
+        }
+
+            var data = new Dictionary<string, string> { { "id", item.ChanelId }, { "role", role } };
+            <div class="well well-sm card bg-light-aqua">
+                <div class="card-title">
+                    <img src=@logoPath
+                         alt="icon" class="img-responsive pull-left"
+                         style="max-height: 25px; max-width: 25px;">
+                    <h3 style="margin:1% 3%;">@item.Network</h3>
+                    <ul class="list-inline text-muted">
+                        <li><i class="glyphicon glyphicon-user"></i> @item.SubscribersNum subscribers</li>
+                        <li><i class="glyphicon glyphicon-eye-open"></i> @item.AvgViewNum views</li>
+                        <li><i class="glyphicon glyphicon-heart"></i> @item.AvgLikeNum likes</li>
+                        <li><i class="glyphicon glyphicon-star"></i> @item.LocalRank stars</li>
+                    </ul>
+                    <div class="text-muted">@item.Category</div>
+                    <hr />
+                </div>
+
+                <div class="card-body">
+                    <h4>@item.Description</h4>
+                    <hr />
+                    <ul class="list-inline">
+                        <li><a asp-controller="Chanel" asp-action="Edit" asp-route-id="@item.ChanelId" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> Edit</a></li>
+                        <li><a asp-controller="Chanel" asp-action="Delete" asp-route-id="@item.ChanelId" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Remove</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        }
+    </div>
