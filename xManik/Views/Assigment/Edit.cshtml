@@ -1,0 +1,62 @@
+﻿@model xManik.Models.Assigment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Assigment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AssigmentId" />
+            <input type="hidden" asp-for="UserProfileId" />
+            <div class="form-group">
+                <label asp-for="Network" class="control-label"></label>
+                <select asp-for="Network" asp-items="@(new SelectList(Enum.GetValues(typeof(SocialNetworks)).Cast<SocialNetworks>(),Model.Network))" class="form-control"></select>
+                <span asp-validation-for="Network" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" asp-items="@(new SelectList(Enum.GetValues(typeof(AdTypes)).Cast<AdTypes>(),Model.Type))" class="form-control"></select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Format" class="control-label"></label>
+                <select asp-for="Format" asp-items="@(new SelectList(Enum.GetValues(typeof(AdFormat)).Cast<AdFormat>(), Model.Format))" class="form-control"></select>
+                <span asp-validation-for="Format" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetailedDescription" class="control-label"></label>
+                <input asp-for="DetailedDescription" class="form-control" />
+                <span asp-validation-for="DetailedDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxBudget" class="control-label"></label>
+                <input asp-for="MaxBudget" class="form-control" />
+                <span asp-validation-for="MaxBudget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Deadline" class="control-label"></label>
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
