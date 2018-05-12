@@ -1,0 +1,70 @@
+﻿@model xBlogger.Models.Deal
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Deal</h4>
+<hr />
+<div class="well well-sm card bg-info">
+    <div class="card-body">
+        @{
+            SocialNetworks sn = 0;
+            if(Model.Assigment == null)
+            {
+                sn = Model.Chanel.Network;
+
+            }
+            else
+            {
+                sn = Model.Assigment.Network;
+            }
+            var logoPath = "/images/";
+            switch (sn)
+            {
+                case SocialNetworks.YouTube:
+                    logoPath += "youtube.png";
+                    break;
+                case SocialNetworks.Instagram:
+                    logoPath += "instagram.png";
+                    break;
+                case SocialNetworks.Facebook:
+                    logoPath += "facebook.png";
+                    break;
+                case SocialNetworks.Telegram:
+                    logoPath += "telegram.png";
+                    break;
+            }
+        }
+        <img src=@logoPath
+             alt="icon" class="img-responsive"
+             style="max-height: 50px; max-width: 50px;">
+        @if (Model.Assigment != null)
+        {
+        <div class="text-uppercase text-muted">
+            <div>Network:@Model.Assigment.Network</div>
+            <div>Type:@Model.Assigment.Type</div>
+            <div>Deadline: @Model.Assigment.Deadline</div>
+        </div>
+        <hr />
+        <h3>@Model.Assigment.ShortDescription</h3>
+        <h4>@Model.Assigment.DetailedDescription</h4>
+        <a asp-controller="Assigment" asp-action="Assigment" asp-route-id="@Model.AssigmentId">Assigment</a>
+        }
+        else if (Model.Chanel != null)
+        {
+            <div class="text-uppercase text-muted">
+                <div>Network>@Model.Chanel.Network</div>
+                <div>Channel category:@Model.Chanel.Category</div>
+                <div>Subscribers: @Model.Chanel.SubscribersNum</div>
+            </div>
+            <a asp-controller="Chanel" asp-action="Details" asp-route-id="@Model.AssigmentId">Chanel</a>
+        }
+        <hr>
+        <div class="card-footer">
+            <a asp-controller="Deal" asp-action="ConfirmDeal" asp-route-id="@Model.DealId" class="btn btn-primary">Confirm</a>
+            <a asp-controller="Deal" asp-action="DeclineDeal" asp-route-id="@Model.DealId" class="btn btn-danger">Decline</a>
+        </div>
+    </div>
+
+</div>

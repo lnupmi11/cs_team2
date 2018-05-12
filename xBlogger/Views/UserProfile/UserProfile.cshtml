@@ -1,0 +1,46 @@
+﻿@model xBlogger.Models.UserProfileViewModels.IndexViewModel
+@using xBlogger.Managers
+@{
+    ViewData["Title"] = "UserProfile";
+}
+
+<h2>Profile</h2>
+
+<!-- blog author -->
+<div class="blog-author">
+    <div class="media bg-light-dark">
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <img class="media-object img-responsive" style="height:200px;" src="@(UserProfileManager<UserProfile>.PATHTOIMAGESFOLDER + Model.UserProfileImagePath )" alt="">
+            </div>
+            <div class="col-sm-6 col-md-8">
+                <div class="media-heading">
+                    <h3>@Model.FirstName</h3>
+                    <div class="author-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+                <p>@Model.Description</p>
+                <br /><br /><br />
+                <div class="review-block-rate text-center">
+                    <div class="col-xs-6 col-sm-4 col-md-3">
+                        <h4><strong>4</strong></h4>
+                        <p><small>Posts</small></p>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3">
+                        <h4><strong>@Model.DateRegistered.ToString("dd/MM/yyyy")</strong></h4>
+                        <p><small>Joined</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /blog author -->
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

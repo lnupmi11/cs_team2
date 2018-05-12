@@ -1,0 +1,56 @@
+﻿@model xBlogger.Models.Assigment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    @{
+        var logoPath = "/images/";
+        switch (Model.Network)
+        {
+            case SocialNetworks.YouTube:
+                logoPath += "youtube.png";
+                break;
+            case SocialNetworks.Instagram:
+                logoPath += "instagram.png";
+                break;
+            case SocialNetworks.Facebook:
+                logoPath += "facebook.png";
+                break;
+            case SocialNetworks.Telegram:
+                logoPath += "telegram.png";
+                break;
+        }
+    }
+        
+    <div class="well well-sm card bg-light-aqua">
+        <div class="card-title">
+            <h3 style="margin-top:0;">@Model.Network</h3>
+            <img src=@logoPath
+                 alt="icon" class="img-responsive"
+                 style="max-height: 50px; max-width: 50px;">
+            <hr />
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Ad type: </strong>@Model.Type
+            </h4>
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Ad format: </strong>@Model.Format
+            </h4>
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Deadline: </strong>@Model.Deadline
+            </h4>
+            <h4 class="text-lowercase">
+                <strong class="text-capitalize">Budget: </strong>@Model.MaxBudget
+            </h4>
+        </div>
+        <hr />
+        <div class="card-body">
+            <h3 class="card-title">@Model.ShortDescription</h3>
+            <h4 class="card-text">@Model.DetailedDescription</h4>
+        </div>
+
+    </div>
+</div>
