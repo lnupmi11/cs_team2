@@ -36,8 +36,8 @@ namespace xManik.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
-        # region Login
-        
+        #region Login
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -222,7 +222,7 @@ namespace xManik.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var userProfile = new UserProfile();
+                var userProfile = new UserProfile { DateRegistered = DateTime.Now };
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UserProfile = userProfile, EmailConfirmed = true };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -232,9 +232,7 @@ namespace xManik.Controllers
                     // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-                    // determine which role register
                     await _userManager.AddToRoleAsync(user, model.Role.ToString());
-                    //
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     _logger.LogInformation("User created a new account with password.");

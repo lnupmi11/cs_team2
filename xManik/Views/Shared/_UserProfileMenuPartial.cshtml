@@ -15,7 +15,7 @@
             <ul class="nav nav-pills nav-stacked left-side-nav">
                 <li class="@UserProfileMenuNavPages.MainNavClass(ViewContext)"><a asp-controller="Home" asp-action="Main"><i class="fa fa-home" style="font-size:18px;color:white"></i> Home</a></li>
                 <li class="@UserProfileMenuNavPages.AllAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="AllAssigments"><i class="fa fa-book" style="font-size:18px;color:white"></i> Assigments</a></li>
-                <li class="@UserProfileMenuNavPages.NewsNavClass(ViewContext)"><a asp-controller="News" asp-action="AllNews"><i class="fa fa-newspaper" style="font-size:18px;color:white"></i> News</a></li>
+                <li class="@UserProfileMenuNavPages.NewsNavClass(ViewContext)"><a asp-controller="News" asp-action="AllNews"><i class="fa fa-news" style="font-size:18px;color:white"></i> News</a></li>
                 <li class="@UserProfileMenuNavPages.ManageAccountNavClass(ViewContext)"><a asp-controller="Manage" asp-action="Index"><i class="fa fa-cog fa-spin" style="font-size:18px;color:white"></i> Manage account</a></li>
 
                 @if (User.IsInRole("Client") || User.IsInRole("Blogger"))
@@ -27,14 +27,14 @@
                 {
                     <li class="@UserProfileMenuNavPages.SearchChannelsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Index"><i class="glyphicon glyphicon-search"></i> Search Channels</a></li>
                     <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="Create"><i class="fa fa-tasks" style="font-size:18px;color:white"></i> Add assigment</a></li>
-                    <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments"><i class="fa fa-handshake" style="font-size:18px;color:white"></i> My assigments</a></li>
+                    <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Assigment" asp-action="UserAssigments"><i class="fa fa-safari" style="font-size:18px;color:white"></i> My assigments</a></li>
                 }
                 @if (User.IsInRole("Blogger"))
                 {
                     <li class="@UserProfileMenuNavPages.AddAssigmentNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="Create"><i class="fa fa-paper-plane" style="font-size:18px;color:white"></i> Add chanel</a></li>
                     <li class="@UserProfileMenuNavPages.UserAssigmentsNavClass(ViewContext)"><a asp-controller="Chanel" asp-action="UserChanels"><i class="fa fa-tv" style="font-size:18px;color:white"></i> My chanels</a></li>
                 }
-                <li><button type="submit" class="btn btn-link navbar-btn navbar-link"><i class="fa fa-sign-out-alt" style="font-size:18px;color:white"></i> Log out</button></li>
+                <li><button type="submit" class="btn btn-link navbar-btn navbar-link"><i class="fa fa-outdent" style="font-size:18px;color:white"></i> Log out</button></li>
             </ul>
         </form>
     </div>
