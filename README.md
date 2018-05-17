@@ -5,7 +5,7 @@ You can registrate as Client or Blogger.
   Bloger is someone who takes orders from his clients. He could find ads which he could advertise on his blog in lists of assigments. Bloggers could also add all their channels or web pages from social media and social networking services.
   Also Admin of our website manage all data. He could delete assigments or block fake-accounts. He could also post different news from the world of advertisement.
 # Built With
-    - ASP .Net
+    - ASP.NET Core MVC framework
     - Javascript
     - CSS
     - HTML
