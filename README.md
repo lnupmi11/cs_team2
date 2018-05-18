@@ -6,10 +6,10 @@ You can registrate as Client or Blogger.
   Also Admin of our website manage all data. He could delete assigments or block fake-accounts. He could also post different news from the world of advertisement.
 # Built With
     - ASP.NET Core MVC framework
-    - Javascript
+    - JavaScript
     - CSS
     - HTML
-    - MySQL  
+    - MSSQL  
 # Authors
     - Andrii Vaskiv
     - Andrii Dubyk
